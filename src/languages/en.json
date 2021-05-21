@@ -1,0 +1,29 @@
+{
+  "common": {
+    "app_name": "React Native Base",
+    "money": "đ",
+    "cancel": "Huỷ bỏ",
+    "confirm": "Xác nhận",
+    "date_time": {
+      "month": "Tháng",
+      "day": "Ngày",
+      "hour": "giờ",
+      "minute": "phút"
+    }
+  },
+  "login_screen": {
+    "title": "Login Screen",
+    "desc": "Login with email and password",
+    "username": "U s e r n a m e",
+    "password": "P a s s w o r d",
+    "button": "Login",
+    "forgot_password": "Forgot password?"
+  },
+  "home_screen": {
+    "title": "Home Screen",
+    "logout_button": "Logout"
+  },
+  "warning": {
+    "missing_info": "Vui lòng điền đầy đủ thông tin"
+  }
+}

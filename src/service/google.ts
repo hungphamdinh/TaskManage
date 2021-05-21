@@ -1,0 +1,2 @@
+export const ANDROID_CLIENT_ID = '236664760197-mc1o236ks80qviueunrrcaur8lp0n8qd.apps.googleusercontent.com';
+export const IOS_CLIENT_ID = '236664760197-8eehtjh6dav51fo3te9v8il87dashujf.apps.googleusercontent.com';
