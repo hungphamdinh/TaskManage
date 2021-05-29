@@ -17,7 +17,7 @@ import { Colors, Metrics, Images, Fonts, Styles } from "../../themes";
 import { AppText, TextInputForm, AppButton } from "../../components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Google from "expo-google-app-auth";
-import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "../../service/google";
+import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "../../services/google";
 
 const loginValidationSchema = yup.object().shape({
   email: yup
@@ -89,7 +89,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     navigation.navigate("SignUpScreen");
   };
 
-  const _onPressRegister = async () => {
+  const _onPressSignInWithGoogle = async () => {
     const result: any = await signInWithGoogleAsync();
     if (result.error || result.cancelled) {
       setError(result?.toString() as any);
@@ -102,11 +102,11 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     <ScrollView style={Styles.container}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        {/* <Image
+        <Image
           style={styles.logo}
           source={Images.logo}
           resizeMode={"contain"}
-        /> */}
+        />
         <AppText
           bold
           size={Fonts.size.regular}
@@ -174,8 +174,12 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                       disabled={!isValid || values.email === ""}
                     />
                   </View>
-                  <View style={styles.buttonSignUp}>
-                    <TouchableOpacity onPress={_onPressRegister}>
+               
+                </>
+              )}
+            </Formik>
+            <View style={styles.buttonSignUp}>
+                    <TouchableOpacity onPress={_onPressSignInWithGoogle}>
                       <AppText
                         bold
                         color={Colors.appPrimaryColor}
@@ -183,9 +187,6 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                       />
                     </TouchableOpacity>
                   </View>
-                </>
-              )}
-            </Formik>
           </View>
         )}
       </SafeAreaView>

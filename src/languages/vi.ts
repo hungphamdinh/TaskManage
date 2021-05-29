@@ -42,6 +42,9 @@ export default {
       password_required: 'Password is Required',
     }
   },
+  warning_api: {
+    login_failed: 'Đăng nhập thất bại',
+  },
   login_screen: {
     title: 'Manage\nYour task easily',
     sub_title: 'Easy wayt to manage daily task and office management',
