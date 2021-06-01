@@ -1,12 +1,17 @@
 
 import { User } from '../services/model/User';
+import { Task } from '../services/model/Task';
 
 export interface UserState {
   user: User;
   error: string;
 }
-
+export interface TasksState {
+  tasks: Array<Task>;
+  error: string;
+}
 
 export default interface ReduxState {
-  userState: UserState;
+  user: UserState;
+  tasks: TasksState;
 }

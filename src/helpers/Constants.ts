@@ -69,7 +69,11 @@ const TermType = {
   excommunicate: 1,
   additional: 2,
 };
-
+const statusType = {
+  urgent: 0,
+  running: 1,
+  ongoing: 2,
+};
 const ContractType = {
   INDIVIDUAL: 1,
   COMMERCE: 2,
@@ -136,4 +140,5 @@ export {
   TestType,
   mockUserId,
   APIError,
+  statusType,
 };

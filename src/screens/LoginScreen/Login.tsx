@@ -14,6 +14,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Google from "expo-google-app-auth";
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "../../services/google";
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { loginWithEmail } from "../../redux/user/reducer/user";
+import ReduxState from "../../redux/ReduxState";
 
 const config = {
   androidClientId: ANDROID_CLIENT_ID,
@@ -22,9 +25,11 @@ const config = {
 };
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
+  const dispatch = useDispatch();
   const [googleResult, setGoogleResult] = useState(
     (undefined as unknown) as any
   );
+  const {user} = useSelector((state: ReduxState) => state.user);
   const [, setError] = useState("");
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,7 +39,18 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   });
 
   useEffect(() => {
-    fetchUserInfo();
+    if (googleResult) {
+      const { user } = googleResult;
+      dispatch(
+        loginWithEmail({
+          userId: user.id,
+          name: user.name,
+          profile: user.photoUrl,
+          mail: user.email,
+          role: "Developer",
+        })
+      );
+    }
   }, [googleResult]);
 
   const fetchUserInfo = async () => {
@@ -175,7 +191,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Metrics.margin.huge,
     borderRadius: Metrics.borderRadius.regular,
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
     justifyContent: "space-between",
   },
   logoContainer: {
@@ -186,7 +202,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.appBackgroundColor,
     padding: Metrics.margin.regular,
     borderRadius: Metrics.borderRadius.regular,
-  }
+  },
 });
 
 export default LoginScreen;

@@ -53,7 +53,6 @@ const DynamicFormScreen = () => {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values) => {
-        console.log(values);
       alert(JSON.stringify(values, null, 2));
     },
   });

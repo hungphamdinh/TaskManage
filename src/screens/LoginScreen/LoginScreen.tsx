@@ -18,6 +18,8 @@ import { AppText, TextInputForm, AppButton } from "../../components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Google from "expo-google-app-auth";
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "../../services/google";
+import { useSelector } from "react-redux";
+import ReduxState from "../../redux/ReduxState";
 
 const loginValidationSchema = yup.object().shape({
   email: yup
@@ -48,6 +50,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [googleResult, setGoogleResult] = useState(
     (undefined as unknown) as any
   );
+  const {user} = useSelector((state: ReduxState) => state.user);
   const [error, setError] = useState("");
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -68,7 +71,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           headers: { Authorization: `Bearer ${googleResult.accessToken}` },
         }
       );
-      console.log(userInfoResponse);
+      // console.log(userInfoResponse);
     }
   };
   async function signInWithGoogleAsync() {

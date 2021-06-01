@@ -1,8 +1,9 @@
 // Common
-const appPrimaryColor = '#1BADB4';
+const appPrimaryColor = '#5A55CA';
+const appSecondaryColor = '#F0F4FD';
 const appGreen = '#2abb9c';
 const appBackgroundColor = '#F0F4FD';
-const appGrayColor = '#858585';
+const appGrayColor = '#919BB3';
 const appLightGrayColor = '#C2CBCC';
 const appColor = '#E92431';
 const appTextBlack = '#000';
@@ -11,7 +12,7 @@ const appGrayBackground = '#f0f0f0';
 const appWhite = '#fff';
 const appBlue = '#528ffa';
 const appYellow = '#ffc108';
-const sponsoredColor = '#fda23d';
+const sponsoredColor = '#F26950';
 const insuranceIconColor = '#d8eff0';
 const bottomSheetColor = '#353535';
 const purpleColor = '#660082';
@@ -57,7 +58,7 @@ export default {
   insuranceIconColor,
   appDarkBlueColor,
   appGrayBackground,
-
+  appSecondaryColor,
   // Overlay
   overlay1,
   overlay2,

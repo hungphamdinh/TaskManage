@@ -1,10 +1,11 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Images from '../themes/Images';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Images from "../themes/Images";
 import BoardScreen from "../screens/BoardScreen/BoardScreen";
-
-import { Colors } from '../themes';
-import { SafeAreaView, Image, StyleSheet } from 'react-native';
+import SignUpScreen from "../screens/SignUpScreen/SignUpScreen";
+import { LinearGradient } from "expo-linear-gradient";
+import { Colors, Metrics } from "../themes";
+import { SafeAreaView, Image, StyleSheet } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,76 +15,96 @@ function HomeTab() {
       <SafeAreaView
         style={{ flexGrow: 0, backgroundColor: Colors.appPrimaryColor }}
       />
-      <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: Colors.appPrimaryColor,
-          keyboardHidesTabBar: true,
-        }}
-        screenOptions={({ route }: { route: any }) => ({
-          // header: null,
-          tabBarIcon: ({ color, focused }: { color: string; focused: any }) => {
-            let iconName;
-            color = focused ? Colors.appPrimaryColor : Colors.appGrayColor;
-            switch (route.name) {
-              case 'BoardScreen':
-                iconName = Images.icTabDashBoard;
-                break;
-              case 'BoardScreen':
-                iconName = Images.icTabBoard;
-                break;
-              case 'BoardScreen':
-                iconName = Images.icTabTask;
-                break;
-              case 'BoardScreen':
-                iconName = Images.icTabMessage;
-                break;
-
-              default:
-                iconName = Images.icTabPlus;
-
-                break;
-            }
-
-            return (
-              <Image
-                source={iconName}
-                style={styles.icon as any}
-              />
-            );
-          },
-        })}>
-        <Tab.Screen
-          name="BoardScreen"
-          component={BoardScreen}
-          options={{
-            title: 'Trang chủ',
+      <LinearGradient
+        // Background Linear Gradient
+        colors={['#4c669f', '#3b5998', '#192f6a']}
+        style={styles.background}
+      >
+        <Tab.Navigator
+          tabBarOptions={{
+            tabStyle: {
+              height: Metrics.screenHeight / 7,
+              marginTop: -Metrics.screenHeight / 20,
+            },
+            keyboardHidesTabBar: true,
+            inactiveBackgroundColor: Colors.appPrimaryColor,
+            activeBackgroundColor: Colors.appPrimaryColor,
           }}
-        />
-        <Tab.Screen
-          name="BoardScreen"
-          component={BoardScreen}
-          options={{
-            title: 'Tư vấn',
-          }}
-        />
-        <Tab.Screen
-          name="BoardScreen"
-          component={BoardScreen}
-          options={{ title: 'Hợp đồng' }}
-        />
+          screenOptions={({ route }: { route: any }) => ({
+            // header: null,
+            tabBarIcon: ({
+              color,
+              focused,
+            }: {
+              color: string;
+              focused: any;
+            }) => {
+              let iconName;
+              color = focused ? Colors.appWhite : Colors.appLightGrayColor;
+              switch (route.name) {
+                case "DashBoardScreen":
+                  iconName = Images.icTabDashBoard;
+                  break;
+                case "BoardScreen":
+                  iconName = Images.icTabBoard;
+                  break;
+                case "PlusScreen":
+                  iconName = Images.icTabPlus;
+                  break;
+                case "TaskScreen":
+                  iconName = Images.icTabMessage;
+                  break;
 
-        <Tab.Screen
-          name="BoardScreen"
-          component={BoardScreen}
-          options={{ title: 'Tin tức' }}
-        />
-        <Tab.Screen
-          // component={UserDetailScreen}
-          name="BoardScreen"
-          component={BoardScreen}
-          options={{ title: 'Cá nhân' }}
-        />
-      </Tab.Navigator>
+                default:
+                  iconName = Images.icTabMessage;
+
+                  break;
+              }
+
+              return (
+                <Image
+                  source={iconName}
+                  resizeMode={"contain"}
+                  style={[styles.icon as any, { tintColor: color }]}
+                />
+              );
+            },
+          })}
+        >
+          <Tab.Screen
+            name="DashBoardScreen"
+            component={SignUpScreen}
+            options={{
+              title: "",
+            }}
+          />
+          <Tab.Screen
+            name="BoardScreen"
+            component={BoardScreen}
+            options={{
+              title: "",
+            }}
+          />
+          <Tab.Screen
+            name="PlusScreen"
+            component={BoardScreen}
+            options={{ title: "" }}
+          />
+
+          <Tab.Screen
+            name="TaskScreen"
+            component={BoardScreen}
+            options={{ title: "" }}
+          />
+          <Tab.Screen
+            // component={UserDetailScreen}
+            name="MessageScreen"
+            component={BoardScreen}
+            options={{ title: "" }}
+          />
+        </Tab.Navigator>
+      </LinearGradient>
+
       {/* <MessageButton onPressDetail={_onPressMessageButton}/> */}
     </>
   );
@@ -91,6 +112,16 @@ function HomeTab() {
 export default HomeTab;
 const styles = StyleSheet.create({
   icon: {
-    color: Colors.appPrimaryColor,
+    width: 25,
+    height: 25,
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: 'red',
+    // height: 300,
   },
 });

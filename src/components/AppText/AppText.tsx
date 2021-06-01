@@ -7,7 +7,6 @@ export default (props: any) => {
     text,
     style,
     color = Colors.appTextBlack,
-    font = Fonts.type.regular,
     size = Fonts.size.regular,
     bold = false,
     italic = false,
@@ -24,7 +23,6 @@ export default (props: any) => {
         {
           fontSize: size,
           color: color,
-          fontFamily: font,
           fontWeight: bold ? (androidOS ? "bold" : "500") : "400",
           fontStyle: italic ? "italic" : "normal",
           textAlign: center ? "center" : right ? "right" : "left",

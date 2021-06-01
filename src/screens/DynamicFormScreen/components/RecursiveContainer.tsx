@@ -15,7 +15,6 @@ const RecursiveContainer = ({
     individualConfig: any;
     index: number;
   }) => {
-      console.log(formik)
     switch (individualConfig.type) {
       case "text":
         return (

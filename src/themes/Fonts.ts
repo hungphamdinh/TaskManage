@@ -1,10 +1,10 @@
 import { Platform } from 'react-native';
 const isIOS = Platform.OS === 'ios';
-const type = {
-  // Regular font
-  regular: isIOS ? 'Helveticaneue' : 'Roboto',
-  bold: isIOS ? 'Helveticaneue-Bold' : 'Roboto',
-};
+// const type = {
+//   // Regular font
+//   regular: isIOS ? 'Helveticaneue' : 'Roboto',
+//   bold: isIOS ? 'Helveticaneue-Bold' : 'Roboto',
+// };
 
 const size = {
   h1: 38,
@@ -21,21 +21,21 @@ const size = {
 
 const style = {
   regular: {
-    fontFamily: type.regular,
+    // fontFamily: type.regular,
     fontSize: size.regular,
   },
   medium: {
-    fontFamily: type.regular,
+    // fontFamily: type.regular,
     fontSize: size.regular,
   },
   title: {
-    fontFamily: type.bold,
+    // fontFamily: type.bold,
     fontSize: size.large,
   },
 };
 
 export default {
-  type,
+  // type,
   style,
   size,
 };

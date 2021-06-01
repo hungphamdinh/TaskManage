@@ -42,6 +42,11 @@ export default {
       password_required: 'Password is Required',
     }
   },
+  board_screen: {
+    task: 'Task',
+    today: 'Today',
+    add_task: 'Add task',
+  },
   warning_api: {
     login_failed: 'Đăng nhập thất bại',
   },
