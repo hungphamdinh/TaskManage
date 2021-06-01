@@ -18,9 +18,13 @@ const BoardScreen = ({navigation} : {navigation: any}) => {
     return unsubscribe;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const _onPressAdd = () => {
+    navigation.navigate('AddTaskScreen');
+  }
   return (
     <SafeAreaView style={styles.container}>
-      <RecursiveContainer dispatch={dispatch} user={user} />
+      <RecursiveContainer onPressAdd={_onPressAdd} dispatch={dispatch} user={user} />
     </SafeAreaView>
   );
 };

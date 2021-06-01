@@ -44,7 +44,15 @@ week.map(() => {
 });
 const arrayDate = date.reverse();
 
-const BoardForm = ({ user, dispatch }: { user: User; dispatch: any }) => {
+const BoardForm = ({
+  user,
+  dispatch,
+  onPressAdd,
+}: {
+  user: User;
+  dispatch: any;
+  onPressAdd: Function;
+}) => {
   const { tasks } = useSelector((state: ReduxState) => state.tasks);
 
   const _onPress = () => {
@@ -66,6 +74,10 @@ const BoardForm = ({ user, dispatch }: { user: User; dispatch: any }) => {
   const _renderItem = ({ item, index }: { item: Task; index: number }) => (
     <ItemBoard item={item} index={index} />
   );
+
+  const _onPressAdd = () => {
+    onPressAdd();
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -91,7 +103,7 @@ const BoardForm = ({ user, dispatch }: { user: User; dispatch: any }) => {
             size={Fonts.size.h6}
           />
         </View>
-        <TouchableOpacity style={styles.buttonAdd}>
+        <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
           <Ionicons name="add-outline" size={20} color={Colors.appWhite} />
           <AppText
             color={Colors.appWhite}

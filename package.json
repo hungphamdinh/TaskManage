@@ -9,6 +9,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "3.0.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/drawer": "^5.12.5",
@@ -26,6 +27,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-flash-message": "^0.1.23",
     "react-native-gesture-handler": "~1.8.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-keychain": "^7.0.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.9",

@@ -6,4 +6,6 @@ export interface Task  {
   timeCreated: any,
   members: Array<any>,
   description: string,
+  timeEnd: any;
+  timeStart: any;
 }

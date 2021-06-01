@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen/Login";
+import AddTaskScreen from "../screens/AddTaskScreen/AddTaskScreen";
 import SignUpScreen from "../screens/SignUpScreen/SignUpScreen";
 import DynamicFormScreen from "../screens/DynamicFormScreen/DynamicFormScreen";
 import BoardScreen from "../screens/BoardScreen/BoardScreen";
@@ -34,13 +35,17 @@ function MenuNavigatorScreen() {
           component={LoginScreen}
         />
       )}
-
       <MenuNavigator.Screen name="SignUpScreen" component={SignUpScreen} />
       <MenuNavigator.Screen
         name="DynamicFormScreen"
         component={DynamicFormScreen}
       />
       <MenuNavigator.Screen name="BoardScreen" component={BoardScreen} />
+      <MenuNavigator.Screen
+        options={{ headerShown: false }}
+        name="AddTaskScreen"
+        component={AddTaskScreen}
+      />
     </MenuNavigator.Navigator>
   );
 }

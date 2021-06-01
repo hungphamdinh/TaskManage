@@ -9,6 +9,8 @@ const Images = {
   icTabDashBoard: require('../../assets/ic-tab-dashboard.png'),
   icTime: require('../../assets/ic-time.png'),
   icUser: require('../../assets/ic-user.png'),
+  icDate: require('../../assets/ic-date.png'),
+  bg: require('../../assets/bg.png'),
 };
 
 export const IconSize = {
