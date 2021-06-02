@@ -29,7 +29,8 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [googleResult, setGoogleResult] = useState(
     (undefined as unknown) as any
   );
-  const {user} = useSelector((state: ReduxState) => state.user);
+  const { user } = useSelector((state: ReduxState) => state.user);
+  const [isEnableRequest, setIsEnableRequest] = useState(true);
   const [, setError] = useState("");
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -52,6 +53,22 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
       );
     }
   }, [googleResult]);
+
+  useEffect(() => {
+    if (user?.message && isEnableRequest) {
+      const userGoogle = googleResult.user;
+      setIsEnableRequest(false);
+      dispatch(
+        loginWithEmail({
+          userId: userGoogle.id,
+          name: userGoogle.name,
+          profile: userGoogle.profile,
+          mail: userGoogle.email,
+          role: "Admin",
+        })
+      );
+    }
+  }, [user?.message, isEnableRequest]);
 
   const fetchUserInfo = async () => {
     if (googleResult) {

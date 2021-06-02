@@ -5,6 +5,8 @@ export interface User  {
   mail: string,
   role: string,
   profile: string
+  message?: string;
+  members: Array<User>;
 }
 
 export interface UserCredential {

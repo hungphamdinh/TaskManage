@@ -44,13 +44,13 @@ const config = {
   androidClientId: ANDROID_CLIENT_ID,
   iosClientId: IOS_CLIENT_ID,
   scopes: ["profile", "email"],
-}
+};
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [googleResult, setGoogleResult] = useState(
     (undefined as unknown) as any
   );
-  const {user} = useSelector((state: ReduxState) => state.user);
+  const { user } = useSelector((state: ReduxState) => state.user);
   const [error, setError] = useState("");
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -120,7 +120,10 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           <AppButton
             onPress={async () => {
               setGoogleResult(undefined);
-              await Google.logOutAsync({ accessToken: googleResult.accessToken, ...config });
+              await Google.logOutAsync({
+                accessToken: googleResult.accessToken,
+                ...config,
+              });
             }}
             text={"Log Out"}
           />
@@ -177,19 +180,18 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                       disabled={!isValid || values.email === ""}
                     />
                   </View>
-               
                 </>
               )}
             </Formik>
             <View style={styles.buttonSignUp}>
-                    <TouchableOpacity onPress={_onPressSignInWithGoogle}>
-                      <AppText
-                        bold
-                        color={Colors.appPrimaryColor}
-                        text={"Register new Account"}
-                      />
-                    </TouchableOpacity>
-                  </View>
+              <TouchableOpacity onPress={_onPressSignInWithGoogle}>
+                <AppText
+                  bold
+                  color={Colors.appPrimaryColor}
+                  text={"Register new Account"}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       </SafeAreaView>

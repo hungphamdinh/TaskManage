@@ -10,11 +10,20 @@ import { Colors, Images, Metrics, Fonts } from "../../themes";
 import { AppText } from "..";
 import { Ionicons } from "@expo/vector-icons";
 
-const Background = ({ mainComponent }: { mainComponent: any }) => {
+const Background = ({
+  mainComponent,
+  navigation,
+}: {
+  mainComponent: any;
+  navigation: any;
+}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image resizeMode={"contain"} source={Images.bg} style={styles.bg} />
-      <TouchableOpacity style={styles.buttonBack}>
+      <TouchableOpacity
+        style={styles.buttonBack}
+        onPress={() => navigation.goBack()}
+      >
         <Ionicons name="chevron-back" size={30} color={Colors.appWhite} />
         <AppText
           size={Fonts.size.h6}
@@ -23,9 +32,7 @@ const Background = ({ mainComponent }: { mainComponent: any }) => {
           bold
         />
       </TouchableOpacity>
-      <View style={styles.mainContainer}>
-        {mainComponent}
-      </View>
+      <View style={styles.mainContainer}>{mainComponent}</View>
     </SafeAreaView>
   );
 };
@@ -56,5 +63,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     marginTop: 40,
     borderRadius: 40,
-  }
+  },
 });

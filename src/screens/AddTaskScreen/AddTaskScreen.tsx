@@ -22,6 +22,7 @@ const BoardScreen = ({ navigation }: { navigation: any }) => {
   }, []);
   return (
     <Background
+      navigation={navigation}
       mainComponent={<RecursiveContainer dispatch={dispatch} user={user} />}
     />
   );

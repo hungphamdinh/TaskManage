@@ -3,20 +3,22 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
 
 import { Colors } from '../../../themes';
-import { onSuccess, onFailure, ACTION, GetTaskAction } from '../action/tasks';
+import { ACTION, GetMembersAction, onSuccess, onFailure } from '../action/members';
 import { showIndicator, hideIndicator } from '../../app';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
-import { Task } from '../../../services/model/Task';
-import TaskAPI from '../../../services/api/TaskAPI';
+import MemberAPI from '../../../services/api/MemberAPI';
 
-function* getTasksByUserId(action: GetTaskAction) {
+function* getMembers(action: GetMembersAction) {
   try {
     //-------------- Request API
-    // console.log('action')
+    console.log(action);
     yield put(showIndicator(Colors.overlay5));
     yield sleep(1000);
-    const res: Array<Task> = yield TaskAPI.getTaskByUserId(action.params);
+    const res = yield MemberAPI.getMembers(
+      action.params
+    );
+    console.log(res);
     //-------------- Request API Success
     yield put(hideIndicator());
     yield put(onSuccess(res));
@@ -33,7 +35,7 @@ function* getTasksByUserId(action: GetTaskAction) {
 }
 
 export default function* saga() {
-  yield takeEvery(ACTION, getTasksByUserId);
+  yield takeEvery(ACTION, getMembers);
 }
 
 function* sleep(time: Number) {

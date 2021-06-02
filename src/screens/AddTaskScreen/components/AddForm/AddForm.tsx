@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Image } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
@@ -14,9 +14,15 @@ import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 import { statuses } from "../../../../helpers/Constants";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { addTask } from "../../../../redux/task/action/task";
+import { useSelector } from "react-redux";
+import ReduxState from "../../../../redux/ReduxState";
+import { AddTaskRequest } from "../../../../services/model/request/Task";
+import { getMembers } from "../../../../redux/member/action/members";
 
 const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
+  const { members } = useSelector((state: ReduxState) => state.members);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
@@ -26,6 +32,16 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
   const [endTime, setEndTIme] = useState(new Date());
   const [isEndTimeVisible, setIsEndTimeVisible] = useState(false);
   const [boardStatus, setBoardStatus] = useState(statuses);
+  useEffect(() => {
+    if (members.length == 0) {
+      dispatch(
+        getMembers({
+          userId: user.id,
+        })
+      );
+    }
+  }, []);
+  console.log(members);
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
@@ -82,6 +98,20 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
           : { ...value, isActive: false }
       )
     );
+  };
+
+  const _onPressDone = () => {
+    const param: AddTaskRequest = {
+      userId: user?.id,
+      name: name,
+      status: boardStatus.filter((item: any) => item.isActive)[0].id,
+      timeCreated: date,
+      timeStart: startTime,
+      timeEnd: endTime,
+      members: [],
+      description: description,
+    };
+    dispatch(addTask(param));
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -229,7 +259,7 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
         </View>
       </View>
       <View style={styles.buttonDone}>
-        <AppButton text={"Done"} />
+        <AppButton text={"Done"} onPress={_onPressDone} />
       </View>
     </KeyboardAwareScrollView>
   );

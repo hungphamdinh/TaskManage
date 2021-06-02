@@ -3,20 +3,21 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
 
 import { Colors } from '../../../themes';
-import { onSuccess, onFailure, ACTION, GetTaskAction } from '../action/tasks';
 import { showIndicator, hideIndicator } from '../../app';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
 import { Task } from '../../../services/model/Task';
 import TaskAPI from '../../../services/api/TaskAPI';
+import { AddTaskAction, onSuccess, onFailure, ACTION } from '../action/task';
 
-function* getTasksByUserId(action: GetTaskAction) {
+function* addTask(action: AddTaskAction) {
   try {
     //-------------- Request API
-    // console.log('action')
+    // console.log(action)
     yield put(showIndicator(Colors.overlay5));
     yield sleep(1000);
-    const res: Array<Task> = yield TaskAPI.getTaskByUserId(action.params);
+    const res = yield TaskAPI.addTask(action.params);
+    // console.log(res);
     //-------------- Request API Success
     yield put(hideIndicator());
     yield put(onSuccess(res));
@@ -33,7 +34,7 @@ function* getTasksByUserId(action: GetTaskAction) {
 }
 
 export default function* saga() {
-  yield takeEvery(ACTION, getTasksByUserId);
+  yield takeEvery(ACTION, addTask);
 }
 
 function* sleep(time: Number) {
