@@ -13,9 +13,11 @@ import { Ionicons } from "@expo/vector-icons";
 const Background = ({
   mainComponent,
   navigation,
+  title
 }: {
   mainComponent: any;
   navigation: any;
+  title: string;
 }) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +29,7 @@ const Background = ({
         <Ionicons name="chevron-back" size={30} color={Colors.appWhite} />
         <AppText
           size={Fonts.size.h6}
-          text={"Add Tasks"}
+          text={title}
           color={Colors.appWhite}
           bold
         />

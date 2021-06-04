@@ -6,4 +6,5 @@ export interface Member {
     profile: string;
     role: string;
     userId: string;
+    isActive?: boolean;
   }

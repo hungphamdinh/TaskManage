@@ -15,11 +15,14 @@ const styles = StyleSheet.create({
     marginTop: Metrics.margin.regular,
   },
   imageMember: {
-    borderRadius: Metrics.borderRadius.h5,
-    backgroundColor: Colors.appPrimaryColor,
     width: 40,
     height: 40,
     marginRight: Metrics.margin.huge,
+  },
+  profile: {
+    borderRadius: Metrics.borderRadius.h5,
+    width: 40,
+    height: 40,
   },
   buttonAdd: {
     borderRadius: Metrics.borderRadius.h5,

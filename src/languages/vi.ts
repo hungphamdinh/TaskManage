@@ -54,4 +54,8 @@ export default {
     title: 'Manage\nYour task easily',
     sub_title: 'Easy wayt to manage daily task and office management',
   },
+  add_member_screen: {
+    search: 'Search...',
+    title: 'Add team member',
+  },
 };

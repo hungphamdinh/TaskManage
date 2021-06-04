@@ -2,6 +2,7 @@
 import { User } from '../services/model/User';
 import { Task } from '../services/model/Task';
 import { GetMembersRequest } from '../services/model/request/Member';
+import { Member } from '../services/model/Member';
 
 export interface UserState {
   user: User;
@@ -17,7 +18,8 @@ export interface TaskState {
 }
 
 export interface MembersState {
-  members: Array<GetMembersRequest>;
+  members: Array<Member>;
+  membersLocal: Array<Member>;
   error: string;
 }
 export default interface ReduxState {

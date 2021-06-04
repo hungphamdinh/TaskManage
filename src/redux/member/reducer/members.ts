@@ -4,11 +4,15 @@ import {
   ACTION_SUCCESS,
   ACTION_ERROR,
   GetMembersActionType,
+  ACTION_ADD_MEMBER,
+  ACTION_SEARCH_MEMBER,
 } from '../action/members';
+import { Member } from '../../../services/model/Member';
 
 //-------------- Actions
 const initialState: MembersState = {
   members: [],
+  membersLocal: [],
   error: '',
 };
 
@@ -26,7 +30,7 @@ export default (
     case ACTION_SUCCESS:
       return {
         ...state,
-        members: action.payload,
+        members: setIsActive(action.payload),
         error: '',
       };
 
@@ -36,7 +40,50 @@ export default (
         error: action.error,
       };
 
+    case ACTION_SEARCH_MEMBER:
+      return {
+        ...state,
+        membersLocal: findItemData(action.name, state.members)
+      }
+
+    case ACTION_ADD_MEMBER:
+      return {
+        ...state,
+        membersLocal: checkMember(state.members, action.member)
+      }
     default:
       return state;
   }
 };
+const setIsActive = (arr: Array<any>) => {
+  const data: Array<any> = arr.map((item: any) => {
+    item.isActive = false;
+    return item;
+  });
+  return data;
+}
+
+const checkMember = (arr: Array<Member>, member: Member) => {
+  const data = arr.map((item: Member) => {
+    if(item.memberId === member.memberId) {
+      item.isActive = !item.isActive
+    }
+    return item;
+  })
+  return data;
+}
+function escapeRegExp(str: string) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+}
+
+function findItemData(queryItem: string, array: any): Array<Member> {
+  if (array !== undefined || array.length > 0) {
+    if (queryItem === '') {
+      return [];
+    }
+    var regEscape = escapeRegExp(queryItem);
+    const regex = new RegExp(`${regEscape.trim()}`, 'i');
+    return array.filter((item: Member) => item.name.search(regex) >= 0);
+  }
+  return [];
+}

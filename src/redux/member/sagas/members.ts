@@ -12,13 +12,11 @@ import MemberAPI from '../../../services/api/MemberAPI';
 function* getMembers(action: GetMembersAction) {
   try {
     //-------------- Request API
-    console.log(action);
     yield put(showIndicator(Colors.overlay5));
     yield sleep(1000);
     const res = yield MemberAPI.getMembers(
       action.params
     );
-    console.log(res);
     //-------------- Request API Success
     yield put(hideIndicator());
     yield put(onSuccess(res));

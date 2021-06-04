@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen/Login";
@@ -6,57 +6,52 @@ import AddTaskScreen from "../screens/AddTaskScreen/AddTaskScreen";
 import SignUpScreen from "../screens/SignUpScreen/SignUpScreen";
 import DynamicFormScreen from "../screens/DynamicFormScreen/DynamicFormScreen";
 import BoardScreen from "../screens/BoardScreen/BoardScreen";
+import AddMemberScreen from "../screens/AddMemberScreen/AddMemberScreen";
 import HomeTab from "./HomeTabNavigation";
 import { useSelector } from "react-redux";
 import ReduxState from "../redux/ReduxState";
-
-const MenuNavigator = createStackNavigator();
-function MenuNavigatorScreen() {
+const Stack = createStackNavigator();
+function RootNavigation() {
   const { user } = useSelector((state: ReduxState) => state.user);
   return (
-    <MenuNavigator.Navigator
-      initialRouteName="Menu"
-      screenOptions={{
-        headerStyle: { backgroundColor: "#512DA8" },
-        headerTintColor: "#fff",
-        headerTitleStyle: { color: "#fff" },
-      }}
-    >
-      {user ? (
-        <MenuNavigator.Screen
-          name="HomeTabNavigation"
-          component={HomeTab}
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Menu"
+        screenOptions={{
+          headerStyle: { backgroundColor: "#512DA8" },
+          headerTintColor: "#fff",
+          headerTitleStyle: { color: "#fff" },
+        }}
+      >
+        {user ? (
+          <Stack.Screen
+            name="HomeTabNavigation"
+            component={HomeTab}
+            options={{ headerShown: false }}
+          />
+        ) : (
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="LoginScreen"
+            component={LoginScreen}
+          />
+        )}
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen name="DynamicFormScreen" component={DynamicFormScreen} />
+        <Stack.Screen name="BoardScreen" component={BoardScreen} />
+        <Stack.Screen
           options={{ headerShown: false }}
+          name="AddTaskScreen"
+          component={AddTaskScreen}
         />
-      ) : (
-        <MenuNavigator.Screen
+        <Stack.Screen
           options={{ headerShown: false }}
-          name="LoginScreen"
-          component={LoginScreen}
+          name="AddMemberScreen"
+          component={AddMemberScreen}
         />
-      )}
-      <MenuNavigator.Screen name="SignUpScreen" component={SignUpScreen} />
-      <MenuNavigator.Screen
-        name="DynamicFormScreen"
-        component={DynamicFormScreen}
-      />
-      <MenuNavigator.Screen name="BoardScreen" component={BoardScreen} />
-      <MenuNavigator.Screen
-        options={{ headerShown: false }}
-        name="AddTaskScreen"
-        component={AddTaskScreen}
-      />
-    </MenuNavigator.Navigator>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-class Main extends Component {
-  render() {
-    return (
-      <NavigationContainer>
-        <MenuNavigatorScreen />
-      </NavigationContainer>
-    );
-  }
-}
-export default Main;
+export default RootNavigation;

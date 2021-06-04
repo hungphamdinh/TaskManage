@@ -53,7 +53,10 @@ const styles = StyleSheet.create({
     marginTop: -1,
     borderBottomWidth: 1,
   },
-  listContainer: {flexGrow: 1},
+  listContainer: {
+    flexGrow: 1,
+    marginBottom: 100,
+  },
 });
 
 export default styles;

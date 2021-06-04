@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image } from "react-native";
+import { View, Image, ActivityIndicator } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
 import {
@@ -20,9 +20,20 @@ import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
 import { AddTaskRequest } from "../../../../services/model/request/Task";
 import { getMembers } from "../../../../redux/member/action/members";
+import { Member } from "../../../../services/model/Member";
 
-const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
-  const { members } = useSelector((state: ReduxState) => state.members);
+const BoardForm = ({
+  dispatch,
+  user,
+  onNavigate,
+}: {
+  dispatch: any;
+  user: User;
+  onNavigate: Function;
+}) => {
+  const { members, membersLocal } = useSelector(
+    (state: ReduxState) => state.members
+  );
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
@@ -41,7 +52,6 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
       );
     }
   }, []);
-  console.log(members);
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
@@ -108,10 +118,14 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
       timeCreated: date,
       timeStart: startTime,
       timeEnd: endTime,
-      members: [],
+      members: membersLocal,
       description: description,
     };
     dispatch(addTask(param));
+  };
+
+  const _onPressAdd = () => {
+    onNavigate("AddMemberScreen");
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -125,10 +139,19 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
       <View style={styles.inputTask}>
         <AppText text={"TEAM MEMBER"} color={Colors.appGrayColor} />
         <View style={styles.teamContainer}>
-          {[1, 2, 3, 4].map(() => (
-            <View style={styles.imageMember} />
+          {membersLocal.map((item: Member) => (
+            <>
+              {item.isActive ? (
+                <View style={styles.imageMember}>
+                  <Image
+                    style={styles.profile}
+                    source={{ uri: item.profile }}
+                  />
+                </View>
+              ) : null}
+            </>
           ))}
-          <TouchableOpacity style={styles.buttonAdd}>
+          <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
             <Ionicons
               name="add-outline"
               size={30}
