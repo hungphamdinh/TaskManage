@@ -118,7 +118,7 @@ const BoardForm = ({
       timeCreated: date,
       timeStart: startTime,
       timeEnd: endTime,
-      members: membersLocal,
+      members: membersLocal.filter((item: Member) => item.isActive),
       description: description,
     };
     dispatch(addTask(param));

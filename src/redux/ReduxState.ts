@@ -1,7 +1,6 @@
 
 import { User } from '../services/model/User';
-import { Task } from '../services/model/Task';
-import { GetMembersRequest } from '../services/model/request/Member';
+import { Task, TaskDetail, SubTask, SubTaskStatus } from '../services/model/Task';
 import { Member } from '../services/model/Member';
 
 export interface UserState {
@@ -17,14 +16,32 @@ export interface TaskState {
   error: string;
 }
 
+export interface TaskDetailState {
+  taskDetail: TaskDetail;
+  error: string;
+}
+
 export interface MembersState {
   members: Array<Member>;
   membersLocal: Array<Member>;
   error: string;
+}
+
+export interface SubTaskState {
+  response: any
+  error: string
+}
+
+export interface SubTaskStatusState {
+  subTaskResponse: SubTaskStatus
+  error: string
 }
 export default interface ReduxState {
   user: UserState;
   tasks: TasksState;
   task: TaskState;
   members: MembersState;
+  taskDetail: TaskDetailState;
+  subTask: SubTaskState;
+  subTaskStatus: SubTaskStatusState;
 }

@@ -38,7 +38,6 @@ class Main extends Component {
           backdropColor={backDropColor}
           onPressBackDrop={this.handlerPressBackDrop}
         />
-        {isShowIndicator ? <AppText text={'Hello'}/> : null}
         <FlashMessage position="top" />
 
         <RootNavigation />

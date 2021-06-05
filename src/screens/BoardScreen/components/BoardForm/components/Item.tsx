@@ -6,8 +6,9 @@ import styles from "./styles";
 import { Task } from "../../../../../services/model/Task";
 import { statusType } from "../../../../../helpers/Constants";
 import moment from "moment";
+import { TouchableOpacity } from "react-native";
 
-const ItemBoard = ({ item }: { item: Task; index: number }) => {
+const ItemBoard = ({ item, onPressItem }: { item: Task; onPressItem: Function }) => {
   let status = "";
   let color = "";
   switch (item.status) {
@@ -36,8 +37,11 @@ const ItemBoard = ({ item }: { item: Task; index: number }) => {
       marginBottom: Metrics.margin.very_huge,
     };
   };
+  const _onPressItem = () => {
+    onPressItem(item);
+  }
   return (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer} onPress={_onPressItem}>
       <AppText color={color} text={status.toUpperCase()} />
       <View style={styles.marginVertical}>
         <Divider />
@@ -82,7 +86,7 @@ const ItemBoard = ({ item }: { item: Task; index: number }) => {
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default ItemBoard;

@@ -16,7 +16,7 @@ const sponsoredColor = '#F26950';
 const insuranceIconColor = '#d8eff0';
 const bottomSheetColor = '#353535';
 const purpleColor = '#660082';
-
+const buttonIconColor = '#e0dff2';
 // Overlay
 const overlay1 = 'rgba(0,0,0,0.1)';
 const overlay2 = 'rgba(0,0,0,0.2)';
@@ -59,6 +59,7 @@ export default {
   appDarkBlueColor,
   appGrayBackground,
   appSecondaryColor,
+  buttonIconColor,
   // Overlay
   overlay1,
   overlay2,

@@ -58,4 +58,10 @@ export default {
     search: 'Search...',
     title: 'Add team member',
   },
+  detail_screen: {
+    teams: 'Teams',
+    est_date: 'EST DATE',
+    task: 'Task',
+    add_task: 'Add Task',
+  }
 };

@@ -11,3 +11,15 @@ export interface AddTaskRequest {
   members: Array<any>;
   description: string;
 }
+export interface AddSubTaskRequest {
+  name: string;
+  parentId: string;
+  timeCreated: any;
+}
+export interface GetTaskDetailRequest {
+  id: string;
+  userId: string;
+}
+export interface SetDoneSubTaskRequest {
+  id: string;
+}

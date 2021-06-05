@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   },
   container: {
       marginHorizontal: Metrics.margin.large,
+      marginBottom: Metrics.screenHeight / 2,
   },
   profilePicture: {
       borderRadius: 40,
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
   avatar: {
       width: 40,
       height: 40,
+      borderRadius: Metrics.borderRadius.huge,
   },
   marginTopSmall: {
       marginTop: Metrics.margin.small,
@@ -55,7 +57,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flexGrow: 1,
-    marginBottom: 100,
   },
 });
 

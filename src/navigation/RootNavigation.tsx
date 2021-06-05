@@ -7,6 +7,7 @@ import SignUpScreen from "../screens/SignUpScreen/SignUpScreen";
 import DynamicFormScreen from "../screens/DynamicFormScreen/DynamicFormScreen";
 import BoardScreen from "../screens/BoardScreen/BoardScreen";
 import AddMemberScreen from "../screens/AddMemberScreen/AddMemberScreen";
+import TaskDetailScreen from '../screens/TaskDetailScreen/TaskDetailScreen';
 import HomeTab from "./HomeTabNavigation";
 import { useSelector } from "react-redux";
 import ReduxState from "../redux/ReduxState";
@@ -48,6 +49,11 @@ function RootNavigation() {
           options={{ headerShown: false }}
           name="AddMemberScreen"
           component={AddMemberScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TaskDetailScreen"
+          component={TaskDetailScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
