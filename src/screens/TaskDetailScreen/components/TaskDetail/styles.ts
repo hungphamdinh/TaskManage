@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   container: {
       marginHorizontal: Metrics.margin.huge,
       marginBottom: Metrics.screenHeight / 2,
+      flexGrow: 1,
   },
   title: {
     marginVertical: Metrics.margin.large,
@@ -59,6 +60,42 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: Metrics.borderRadius.medium,
+  },
+  footer: {
+    // height: '60%',
+    justifyContent: 'flex-end',
+  },
+  messageContainer: {
+    backgroundColor: Colors.appWhite,
+    padding: Metrics.margin.regular,
+    borderRadius: Metrics.margin.regular,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  icMessage: {
+    width: 25,
+    height: 25,
+  },
+  icContainer: {
+    width: 40,
+    height: 40,
+    backgroundColor: Colors.buttonIconColor,
+    borderRadius: Metrics.borderRadius.regular,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textPlaceHolder: {
+    marginLeft: Metrics.margin.regular,
+  },
+  taskContainer: {
+    // height: '30%',
+  },
+  commentContainer: {
+    // height: '35%',
   }
 });
 

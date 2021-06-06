@@ -8,6 +8,8 @@ import addSubTask from './task/sagas/subTask';
 import getTaskDetail from './task/sagas/taskDetail';
 import getMembers from './member/sagas/members';
 import setDoneSubTask from './task/sagas/subTaskStatus';
+import getComments from './comment/sagas/comments';
+import addComment from './comment/sagas/comment';
 
 export default function* rootSaga() {
   yield all([
@@ -18,5 +20,7 @@ export default function* rootSaga() {
     fork(getTaskDetail),
     fork(addSubTask),
     fork(setDoneSubTask),
+    fork(getComments),
+    fork(addComment),
   ]);
 }

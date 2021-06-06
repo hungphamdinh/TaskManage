@@ -49,6 +49,7 @@ export default {
   },
   warning_api: {
     login_failed: 'Đăng nhập thất bại',
+    check_data: "Request Failed",
   },
   login_screen: {
     title: 'Manage\nYour task easily',
@@ -63,5 +64,6 @@ export default {
     est_date: 'EST DATE',
     task: 'Task',
     add_task: 'Add Task',
+    write_comment: 'Write Comment',
   }
 };

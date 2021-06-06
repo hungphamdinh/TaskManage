@@ -8,6 +8,8 @@ import task from './task/reducer/task';
 import subTask from './task/reducer/subTask';
 import subTaskStatus from './task/reducer/subTaskStatus';
 import members from './member/reducer/members';
+import comment from './comment/reducer/comment';
+import comments from './comment/reducer/comments';
 const rootReducer = combineReducers({
   user,
   tasks,
@@ -17,6 +19,8 @@ const rootReducer = combineReducers({
   taskDetail,
   subTask,
   subTaskStatus,
+  comment,
+  comments
 });
 
 export default rootReducer;

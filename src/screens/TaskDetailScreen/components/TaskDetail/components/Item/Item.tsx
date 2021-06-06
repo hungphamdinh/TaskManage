@@ -23,6 +23,7 @@ const ItemBoard = ({
       ...styles.checkBox,
       backgroundColor:
         item.status === status.inProgress ? Colors.appWhite : Colors.appGreen,
+      borderWidth: item.status === status.inProgress ? 1 : 0,
     };
   };
 
