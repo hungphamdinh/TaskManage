@@ -6,6 +6,7 @@ import {
   GetMembersActionType,
   ACTION_ADD_MEMBER,
   ACTION_SEARCH_MEMBER,
+  ACTION_CLEAR_LOCAL,
 } from '../action/members';
 import { Member } from '../../../services/model/Member';
 
@@ -50,6 +51,13 @@ export default (
       return {
         ...state,
         membersLocal: checkMember(state.members, action.member)
+      }
+
+    case ACTION_CLEAR_LOCAL:
+      return {
+        ...state,
+        membersLocal: [],
+        members: setIsActive(state.members),
       }
     default:
       return state;

@@ -6,10 +6,15 @@ import SignUpScreen from "../screens/SignUpScreen/SignUpScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors, Metrics } from "../themes";
 import { SafeAreaView, Image, StyleSheet } from "react-native";
+import { store } from "../redux/configureStore";
+import { getTasksByUserId } from "../redux/task/action/tasks";
+import { useSelector } from "react-redux";
+import ReduxState from "../redux/ReduxState";
 
 const Tab = createBottomTabNavigator();
 
 function HomeTab() {
+  const { user } = useSelector((state: ReduxState) => state.user);
   return (
     <>
       <SafeAreaView
@@ -17,7 +22,7 @@ function HomeTab() {
       />
       <LinearGradient
         // Background Linear Gradient
-        colors={['#4c669f', '#3b5998', '#192f6a']}
+        colors={["#4c669f", "#3b5998", "#192f6a"]}
         style={styles.background}
       >
         <Tab.Navigator
@@ -80,6 +85,17 @@ function HomeTab() {
           />
           <Tab.Screen
             name="BoardScreen"
+            listeners={{
+              tabPress: () => {
+                // Prevent default action
+                // e.preventDefault();
+                store.dispatch(
+                  getTasksByUserId({
+                    id: user?.id,
+                  })
+                );
+              },
+            }}
             component={BoardScreen}
             options={{
               title: "",
@@ -88,6 +104,17 @@ function HomeTab() {
           <Tab.Screen
             name="PlusScreen"
             component={BoardScreen}
+            listeners={{
+              tabPress: () => {
+                // Prevent default action
+                // e.preventDefault();
+                store.dispatch(
+                  getTasksByUserId({
+                    id: user?.id,
+                  })
+                );
+              },
+            }}
             options={{ title: "" }}
           />
 
@@ -121,7 +148,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     // height: 300,
   },
 });

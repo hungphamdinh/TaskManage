@@ -10,7 +10,7 @@ import getMembers from './member/sagas/members';
 import setDoneSubTask from './task/sagas/subTaskStatus';
 import getComments from './comment/sagas/comments';
 import addComment from './comment/sagas/comment';
-
+import getSubTasks from './task/sagas/subTasks';
 export default function* rootSaga() {
   yield all([
     fork(loginWithEmail),
@@ -22,5 +22,6 @@ export default function* rootSaga() {
     fork(setDoneSubTask),
     fork(getComments),
     fork(addComment),
+    fork(getSubTasks),
   ]);
 }

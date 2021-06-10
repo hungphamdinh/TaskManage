@@ -6,6 +6,7 @@ const ACTION_SUCCESS = 'GET_MEMBERS_SUCCESS';
 const ACTION_ERROR = 'GET_MEMBERS_ERROR';
 const ACTION_ADD_MEMBER = 'ACTION_ADD_MEMBER';
 const ACTION_SEARCH_MEMBER = 'ACTION_SEARCH_MEMBER';
+const ACTION_CLEAR_LOCAL = 'GET_MEMBERS_ACTION_CLEAR_LOCAL';
 interface GetMembersAction {
   type: typeof ACTION;
   params: GetMembersRequest;
@@ -31,11 +32,16 @@ interface SearchMemberAction {
   type: typeof ACTION_SEARCH_MEMBER;
   name: string;
 }
+
+interface ClearMemberLocalAction {
+  type: typeof ACTION_CLEAR_LOCAL;
+}
 type GetMembersActionType =
   | GetMembersAction
   | onSuccessAction
   | AddMemberAction
   | SearchMemberAction
+  | ClearMemberLocalAction
   | onFailureAction;
 
 const getMembers = (params: GetMembersRequest): GetMembersAction => ({
@@ -62,11 +68,16 @@ const searchMember = (name: string): SearchMemberAction => ({
   type: ACTION_SEARCH_MEMBER,
   name,
 })
+
+const clearMemberLocal = (): ClearMemberLocalAction => ({
+  type: ACTION_CLEAR_LOCAL,
+})
 export {
   getMembers,
   onFailure,
   onSuccess,
   addMember,
+  clearMemberLocal,
   searchMember,
   GetMembersAction,
   GetMembersActionType,
@@ -75,4 +86,5 @@ export {
   ACTION_ERROR,
   ACTION_ADD_MEMBER,
   ACTION_SEARCH_MEMBER,
+  ACTION_CLEAR_LOCAL,
 }

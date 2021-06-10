@@ -41,7 +41,10 @@ export interface SubTaskState {
   response: any
   error: string
 }
-
+export interface SubTasksState {
+  subTasks: Array<SubTask>;
+  error: string
+}
 export interface SubTaskStatusState {
   subTaskResponse: SubTaskStatus
   error: string
@@ -56,4 +59,5 @@ export default interface ReduxState {
   subTaskStatus: SubTaskStatusState;
   comment: CommentState;
   comments: CommentsState;
+  subTasks: SubTasksState;
 }

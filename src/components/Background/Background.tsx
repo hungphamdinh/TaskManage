@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 const Background = ({
   mainComponent,
   navigation,
-  title
+  title,
 }: {
   mainComponent: any;
   navigation: any;

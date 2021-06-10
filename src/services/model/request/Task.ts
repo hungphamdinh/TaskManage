@@ -22,4 +22,9 @@ export interface GetTaskDetailRequest {
 }
 export interface SetDoneSubTaskRequest {
   id: string;
+  status: number;
+}
+
+export interface GetSubTaskRequest {
+  id: string;
 }

@@ -4,8 +4,8 @@ import BuildConfig, { Environments } from '../../config/BuildConfig';
 import { _getStorage } from '../../utilities/Utils';
 const api = axios.create({
   baseURL:
-    BuildConfig == Environments.DEVELOPMENT
-      ? 'https://apigs.esure.vn/api/'
+    BuildConfig == Environments.PRODUCTION
+      ? 'https://taskmanage998.herokuapp.com/api'
       : 'http://localhost:8080/api/',
 });
 

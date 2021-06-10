@@ -15,25 +15,26 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 import { statuses } from "../../../../helpers/Constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { addTask } from "../../../../redux/task/action/task";
+import { addTask, clear } from "../../../../redux/task/action/task";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
 import { AddTaskRequest } from "../../../../services/model/request/Task";
-import { getMembers } from "../../../../redux/member/action/members";
+import { getMembers, clearMemberLocal } from "../../../../redux/member/action/members";
 import { Member } from "../../../../services/model/Member";
 
 const BoardForm = ({
   dispatch,
   user,
-  onNavigate,
+  navigation,
 }: {
   dispatch: any;
   user: User;
-  onNavigate: Function;
+  navigation: any;
 }) => {
   const { members, membersLocal } = useSelector(
     (state: ReduxState) => state.members
   );
+  const { response } = useSelector((state: ReduxState) => state.task);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
@@ -51,7 +52,17 @@ const BoardForm = ({
         })
       );
     }
+    return () => {
+      dispatch(clearMemberLocal());
+    }
   }, []);
+
+  useEffect(() => {
+    if(response) {
+      navigation.goBack();
+      dispatch(clear());
+    }
+  }, [response])
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
@@ -77,12 +88,13 @@ const BoardForm = ({
   };
 
   const _onChangeStartTime = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || startTime;
+    console.log(currentDate);
     setStartTime(currentDate);
   };
 
   const _onChangeEndTime = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || endTime;
     setEndTIme(currentDate);
   };
 
@@ -125,7 +137,7 @@ const BoardForm = ({
   };
 
   const _onPressAdd = () => {
-    onNavigate("AddMemberScreen");
+    navigation.navigate("AddMemberScreen");
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -195,7 +207,7 @@ const BoardForm = ({
             style={styles.dateContainer}
             onPress={_onPressStartTImeVisible}
           >
-            <AppText text={moment(date).format("LT").toUpperCase()} />
+            <AppText text={moment(startTime).format("LT").toUpperCase()} />
             <Image
               resizeMode={"contain"}
               style={styles.icDate}
@@ -208,7 +220,6 @@ const BoardForm = ({
                 testID="dateTimePicker"
                 value={startTime}
                 mode={"time"}
-                is24Hour={true}
                 display="default"
                 onChange={_onChangeStartTime}
               />
@@ -223,7 +234,7 @@ const BoardForm = ({
             style={styles.dateContainer}
             onPress={_onPressEndTimeVisible}
           >
-            <AppText text={moment(date).format("LT").toUpperCase()} />
+            <AppText text={moment(endTime).format("LT").toUpperCase()} />
             <Image
               resizeMode={"contain"}
               style={styles.icDate}

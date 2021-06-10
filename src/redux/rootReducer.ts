@@ -10,6 +10,7 @@ import subTaskStatus from './task/reducer/subTaskStatus';
 import members from './member/reducer/members';
 import comment from './comment/reducer/comment';
 import comments from './comment/reducer/comments';
+import subTasks from './task/reducer/subTasks';
 const rootReducer = combineReducers({
   user,
   tasks,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   subTask,
   subTaskStatus,
   comment,
-  comments
+  comments,
+  subTasks
 });
 
 export default rootReducer;

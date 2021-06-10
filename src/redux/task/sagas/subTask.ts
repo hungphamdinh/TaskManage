@@ -6,7 +6,6 @@ import { Colors } from '../../../themes';
 import { showIndicator, hideIndicator } from '../../app';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
-import { Task } from '../../../services/model/Task';
 import TaskAPI from '../../../services/api/TaskAPI';
 import { AddSubTaskAction, onSuccess, onFailure, ACTION } from '../action/subTask';
 

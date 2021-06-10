@@ -3,18 +3,17 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
 
 import { Colors } from '../../../themes';
-import { ACTION, GetMembersAction, onSuccess, onFailure } from '../action/members';
 import { showIndicator, hideIndicator } from '../../app';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
-import MemberAPI from '../../../services/api/MemberAPI';
+import TaskAPI from '../../../services/api/TaskAPI';
+import { GetSubTaskAction, onSuccess, onFailure, ACTION } from '../action/subTasks';
 
-function* getMembers(action: GetMembersAction) {
+function* getSubTasks(action: GetSubTaskAction) {
   try {
     //-------------- Request API
-    const res = yield MemberAPI.getMembers(
-      action.params
-    );
+    const res = yield TaskAPI.getSubTasks(action.params);
+    // console.log(res);
     //-------------- Request API Success
     yield put(onSuccess(res));
   } catch (error) {
@@ -30,7 +29,7 @@ function* getMembers(action: GetMembersAction) {
 }
 
 export default function* saga() {
-  yield takeEvery(ACTION, getMembers);
+  yield takeEvery(ACTION, getSubTasks);
 }
 
 function* sleep(time: Number) {

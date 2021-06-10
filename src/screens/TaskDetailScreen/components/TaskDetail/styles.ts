@@ -7,8 +7,7 @@ const styles = StyleSheet.create({
   },
   container: {
       marginHorizontal: Metrics.margin.huge,
-      marginBottom: Metrics.screenHeight / 2,
-      flexGrow: 1,
+      // backgroundColor: 'red',
   },
   title: {
     marginVertical: Metrics.margin.large,
@@ -62,8 +61,8 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.borderRadius.medium,
   },
   footer: {
-    // height: '60%',
-    justifyContent: 'flex-end',
+    // height: '65%',
+
   },
   messageContainer: {
     backgroundColor: Colors.appWhite,

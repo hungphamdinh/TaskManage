@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AppText } from "../../../../components";
-import { View, Image } from "react-native";
+import { View, Image, Keyboard } from "react-native";
 import { strings } from "../../../../languages";
 import { Fonts, Colors, Images, Metrics } from "../../../../themes";
 import styles from "./styles";
@@ -31,20 +31,27 @@ import {
   clearComment,
 } from "../../../../redux/comment/action/comment";
 import { getComments } from "../../../../redux/comment/action/comments";
-import comments from "../../../../redux/comment/reducer/comments";
 import { Comment } from "../../../../services/model/Comment";
-const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
+import { getSubTask } from "../../../../redux/task/action/subTasks";
+import { androidOS } from "../../../../helpers/Constants";
+const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
   const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const { subTaskResponse } = useSelector(
     (state: ReduxState) => state.subTaskStatus
   );
   const { response } = useSelector((state: ReduxState) => state.subTask);
+  const { subTasks } = useSelector((state: ReduxState) => state.subTasks);
   const commentResponse = useSelector(
     (state: ReduxState) => state.comment.response
   );
   const { comments } = useSelector((state: ReduxState) => state.comments);
   const [isShowModal, setIsShowModal] = useState(false);
   const [message, setMessage] = useState("");
+  const [pushFooter, setPusFooter] = useState(false);
+  const status = {
+    inProgress: 0,
+    done: 1,
+  };
   const _keyExtractor = (item: any) => item.id;
   const _renderItem = ({ item, index }: { item: SubTask; index: number }) => (
     <Item onPressItem={_onPressItemSubTask} item={item} index={index} />
@@ -59,6 +66,34 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
     <ItemComment onPressItem={_onPressItemComment} item={item} index={index} />
   );
   useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      keyboardDidHide
+    );
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      keyboardDidShow
+    );
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  const keyboardDidHide = () => {
+    setPusFooter(false);
+  };
+
+  const keyboardDidShow = () => {
+    setPusFooter(true);
+  };
+
+  const footer = () => {
+    return {
+      marginBottom: pushFooter ? (!androidOS ? Metrics.screenHeight / 2 : 0) : 0,
+    };
+  };
+  useEffect(() => {
     if (commentResponse?.statusCode === 200) {
       dispatch(
         getComments({
@@ -68,20 +103,10 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
       dispatch(clearComment());
     }
   }, [commentResponse]);
-
-  useEffect(() => {
-    dispatch(
-      getComments({
-        taskId: taskDetail?.id,
-      })
-    );
-  }, []);
-
   useEffect(() => {
     if (subTaskResponse?.id || response) {
       dispatch(
-        getTaskDetail({
-          userId: user.id,
+        getSubTask({
           id: taskDetail?.id,
         })
       );
@@ -93,11 +118,12 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
     dispatch(
       doneSubTask({
         id: item.id,
+        status: status.done,
       })
     );
   };
 
-  const _onPressItemComment = (item: Comment) => {};
+  const _onPressItemComment = () => {};
   const _onPressAddSubTask = (name: string) => {
     dispatch(
       addSubTask({
@@ -106,6 +132,7 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
         timeCreated: new Date(),
       })
     );
+    _onChangeModalVisible();
   };
 
   const _onChangeModalVisible = () => {
@@ -128,81 +155,92 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
     setMessage("");
   };
   return taskDetail ? (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <View style={styles.header}>
-        <AppText
-          style={styles.title}
-          text={taskDetail.name}
-          bold
-          size={Fonts.size.h5}
-        />
-        <AppText
-          style={styles.description}
-          text={taskDetail.description}
-          color={Colors.appGrayColor}
-        />
-      </View>
-      <View style={styles.mainInfoContainer}>
-        <View style={styles.team}>
+    <>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+        <View style={styles.header}>
           <AppText
-            text={strings.detail_screen.teams.toUpperCase()}
+            style={styles.title}
+            text={taskDetail.name}
             bold
+            size={Fonts.size.h5}
+          />
+          <AppText
+            style={styles.description}
+            text={taskDetail.description}
             color={Colors.appGrayColor}
           />
-          <View style={styles.teamContainer}>
-            {taskDetail.members.map((item: Member, idx: number) => (
-              <View key={idx.toString()} style={styles.imageMember}>
-                <Image style={styles.profile} source={{ uri: item.profile }} />
-              </View>
-            ))}
+        </View>
+        <View style={styles.mainInfoContainer}>
+          <View style={styles.team}>
+            <AppText
+              text={strings.detail_screen.teams.toUpperCase()}
+              bold
+              color={Colors.appGrayColor}
+            />
+            <View style={styles.teamContainer}>
+              {taskDetail.members.map((item: Member, idx: number) => (
+                <View key={idx.toString()} style={styles.imageMember}>
+                  <Image
+                    style={styles.profile}
+                    source={{ uri: item.profile }}
+                  />
+                </View>
+              ))}
+            </View>
+          </View>
+          <View style={styles.estContainer}>
+            <AppText
+              text={strings.detail_screen.est_date.toUpperCase()}
+              bold
+              color={Colors.appGrayColor}
+            />
+            <AppText
+              size={Fonts.size.large}
+              style={styles.timeCreated}
+              text={moment(taskDetail.timeCreated).format("LL").toUpperCase()}
+            />
           </View>
         </View>
-        <View style={styles.estContainer}>
-          <AppText
-            text={strings.detail_screen.est_date.toUpperCase()}
-            bold
-            color={Colors.appGrayColor}
-          />
+        <View style={styles.addSubTask}>
           <AppText
             size={Fonts.size.large}
-            style={styles.timeCreated}
-            text={moment(taskDetail.timeCreated).format("LL").toUpperCase()}
+            bold
+            style={styles.tasks}
+            text={strings.detail_screen.task}
+          />
+          <TouchableOpacity
+            style={styles.buttonAdd}
+            onPress={_onChangeModalVisible}
+          >
+            <Ionicons
+              name="add-outline"
+              size={20}
+              color={Colors.appPrimaryColor}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.taskContainer}>
+          <FlatList
+            data={subTasks}
+            renderItem={_renderItem}
+            keyExtractor={_keyExtractor}
           />
         </View>
-      </View>
-      <View style={styles.addSubTask}>
-        <AppText
-          size={Fonts.size.large}
-          bold
-          style={styles.tasks}
-          text={strings.detail_screen.task}
-        />
-        <TouchableOpacity
-          style={styles.buttonAdd}
-          onPress={_onChangeModalVisible}
-        >
-          <Ionicons
-            name="add-outline"
-            size={20}
-            color={Colors.appPrimaryColor}
+        <View style={styles.commentContainer}>
+          <FlatList
+            data={comments}
+            renderItem={_renderComment}
+            keyExtractor={_keyExtractor}
           />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.taskContainer}>
-        <FlatList
-          data={taskDetail.subTasks}
-          renderItem={_renderItem}
-          keyExtractor={_keyExtractor}
+        </View>
+
+        <BottomModal
+          visible={isShowModal}
+          onPressOut={_onChangeModalVisible}
+          onPressAdd={_onPressAddSubTask}
         />
-      </View>
-      <View style={styles.commentContainer}>
-        <FlatList
-          data={comments}
-          renderItem={_renderComment}
-          keyExtractor={_keyExtractor}
-        />
-      </View>
-      <View style={styles.footer}>
+      </KeyboardAwareScrollView>
+      <View style={footer()}>
         <View style={styles.messageContainer}>
           <View style={styles.icon}>
             <View style={styles.icContainer}>
@@ -237,13 +275,8 @@ const BoardForm = ({ dispatch, user }: { dispatch: any; user: User }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <BottomModal
-        visible={isShowModal}
-        onPressOut={_onChangeModalVisible}
-        onPressAdd={_onPressAddSubTask}
-      />
-    </KeyboardAwareScrollView>
+    </>
   ) : null;
 };
 
-export default BoardForm;
+export default TaskDetail;

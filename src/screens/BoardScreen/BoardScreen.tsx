@@ -1,25 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RecursiveContainer from "./components/BoardForm/BoardForm";
 import { StyleSheet, SafeAreaView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import ReduxState from "../../redux/ReduxState";
 import { Colors } from "../../themes";
-import { getTasksByUserId } from "../../redux/task/action/tasks";
 import { Task } from "../../services/model/Task";
+import { getMembers } from "../../redux/member/action/members";
 const BoardScreen = ({ navigation }: { navigation: any }) => {
   const { user } = useSelector((state: ReduxState) => state.user);
+  const { members } = useSelector((state: ReduxState) => state.members);
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+  useEffect(() => {
+    if (members.length == 0) {
       dispatch(
-        getTasksByUserId({
-          id: user.id,
+        getMembers({
+          userId: user.id,
         })
       );
-    });
-
-    return unsubscribe;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, []);
 
   const _onNavigate = (value: any, item?: Task) => {
