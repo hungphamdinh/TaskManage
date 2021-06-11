@@ -14,7 +14,6 @@ const ItemBoard = ({
   onPressItem: Function;
 }) => {
   const { user } = item;
-  console.log(item);
   return (
     <View style={styles.itemContainer}>
       <View style={styles.header}>

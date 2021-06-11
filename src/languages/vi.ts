@@ -59,6 +59,10 @@ export default {
     search: 'Search...',
     title: 'Add team member',
   },
+  invite_member_screen: {
+    search: 'Search...',
+    title: 'Invite team member',
+  },
   detail_screen: {
     teams: 'Teams',
     est_date: 'EST DATE',

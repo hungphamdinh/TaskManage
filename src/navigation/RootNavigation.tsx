@@ -3,10 +3,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen/Login";
 import AddTaskScreen from "../screens/AddTaskScreen/AddTaskScreen";
+import EditTaskScreen from "../screens/EditTaskScreen/EditTaskScreen";
 import SignUpScreen from "../screens/SignUpScreen/SignUpScreen";
 import DynamicFormScreen from "../screens/DynamicFormScreen/DynamicFormScreen";
 import BoardScreen from "../screens/BoardScreen/BoardScreen";
 import AddMemberScreen from "../screens/AddMemberScreen/AddMemberScreen";
+import InviteMemberScreen from "../screens/InviteMemberScreen/InviteMemberScreen";
 import TaskDetailScreen from '../screens/TaskDetailScreen/TaskDetailScreen';
 import HomeTab from "./HomeTabNavigation";
 import { useSelector } from "react-redux";
@@ -52,8 +54,18 @@ function RootNavigation() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
+          name="EditTaskScreen"
+          component={EditTaskScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
           name="TaskDetailScreen"
           component={TaskDetailScreen}
+        />
+         <Stack.Screen
+          options={{ headerShown: false }}
+          name="InviteMemberScreen"
+          component={InviteMemberScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

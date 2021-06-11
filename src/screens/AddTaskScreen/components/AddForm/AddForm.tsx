@@ -89,7 +89,6 @@ const BoardForm = ({
 
   const _onChangeStartTime = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || startTime;
-    console.log(currentDate);
     setStartTime(currentDate);
   };
 

@@ -14,26 +14,31 @@ const Background = ({
   mainComponent,
   navigation,
   title,
+  secondaryComponent,
 }: {
   mainComponent: any;
   navigation: any;
   title: string;
+  secondaryComponent?: any;
 }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image resizeMode={"contain"} source={Images.bg} style={styles.bg} />
-      <TouchableOpacity
-        style={styles.buttonBack}
-        onPress={() => navigation.goBack()}
-      >
-        <Ionicons name="chevron-back" size={30} color={Colors.appWhite} />
-        <AppText
-          size={Fonts.size.h6}
-          text={title}
-          color={Colors.appWhite}
-          bold
-        />
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.buttonBack}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="chevron-back" size={30} color={Colors.appWhite} />
+          <AppText
+            size={Fonts.size.h6}
+            text={title}
+            color={Colors.appWhite}
+            bold
+          />
+        </TouchableOpacity>
+        {secondaryComponent}
+      </View>
       <View style={styles.mainContainer}>{mainComponent}</View>
     </SafeAreaView>
   );
@@ -57,13 +62,18 @@ const styles = StyleSheet.create({
   buttonBack: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: Metrics.margin.regular,
-    marginTop: Metrics.margin.large,
   },
   mainContainer: {
     backgroundColor: Colors.appSecondaryColor,
     flexGrow: 1,
     marginTop: 40,
     borderRadius: 40,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: Metrics.margin.regular,
+    marginTop: Metrics.margin.large,
+    alignItems: "center",
   },
 });

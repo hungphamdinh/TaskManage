@@ -84,7 +84,6 @@ const friday = dt6.toString();
 const saturday = dt7.toString();
 const sunday = dt8.toString();
 
-console.log(sunday);
 const arrayDate = date.reverse();
 const BoardForm = ({
   user,
