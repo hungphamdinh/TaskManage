@@ -14,7 +14,7 @@ import { Response } from '../../../services/model/Response';
 function* updateTask(action: UpdateTaskAction) {
   try {
     //-------------- Request API
-    // console.log(action)
+    console.log(action)
     yield put(showIndicator(Colors.overlay5));
     yield sleep(1000);
     const res: Response = yield TaskAPI.updateTask(action.params);
@@ -23,6 +23,7 @@ function* updateTask(action: UpdateTaskAction) {
     yield put(hideIndicator());
     yield put(onSuccess(res));
   } catch (error) {
+    console.log(error);
     //-------------- Request API Failure
       showMessage({
         message: strings.warning_api.login_failed,

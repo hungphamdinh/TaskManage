@@ -17,6 +17,7 @@ const statusType = {
   urgent: 0,
   running: 1,
   ongoing: 2,
+  done: 3,
 };
 
 const statuses = [
@@ -43,6 +44,37 @@ const statuses = [
   }
 ]
 
+const statusesDetail = [
+  {
+    id: statusType.urgent,
+    name: 'Urgent',
+    color: '#fcddd7',
+    textColor: Colors.sponsoredColor,
+    isActive: true,
+  },
+  {
+    id: statusType.running,
+    name: 'Running',
+    color: Colors.appGreen,
+    textColor: Colors.appWhite,
+    isActive: false,
+  },
+  {
+    id: statusType.ongoing,
+    name: 'OnGoing',
+    color: '#d2d1f0',
+    textColor: Colors.appPrimaryColor,
+    isActive: false,
+  },
+  {
+    id: statusType.done,
+    name: 'Done',
+    color: Colors.appWhite,
+    textColor: Colors.appBlue,
+    isActive: false,
+  }
+]
+
 
 export {
   ApiResponseStatusCode,
@@ -51,4 +83,5 @@ export {
   APIError,
   statusType,
   statuses,
+  statusesDetail,
 };

@@ -8,7 +8,13 @@ import { statusType } from "../../../../../helpers/Constants";
 import moment from "moment";
 import { TouchableOpacity } from "react-native";
 
-const ItemBoard = ({ item, onPressItem }: { item: Task; onPressItem: Function }) => {
+const ItemBoard = ({
+  item,
+  onPressItem,
+}: {
+  item: Task;
+  onPressItem: Function;
+}) => {
   let status = "";
   let color = "";
   switch (item.status) {
@@ -26,7 +32,11 @@ const ItemBoard = ({ item, onPressItem }: { item: Task; onPressItem: Function })
       status = "Onggoing";
       color = Colors.appPrimaryColor;
       break;
-
+    
+    case statusType.done:
+      status = "Done";
+      color = Colors.appBlue;
+      break;
     default:
       break;
   }
@@ -39,7 +49,7 @@ const ItemBoard = ({ item, onPressItem }: { item: Task; onPressItem: Function })
   };
   const _onPressItem = () => {
     onPressItem(item);
-  }
+  };
   return (
     <TouchableOpacity style={styles.itemContainer} onPress={_onPressItem}>
       <AppText color={color} text={status.toUpperCase()} />

@@ -36,4 +36,5 @@ export interface UpdateTaskRequest {
   members: Array<Member>;
   description: string;
   name: string;
+  status: number;
 }

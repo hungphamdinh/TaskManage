@@ -3,6 +3,7 @@ import { User } from '../services/model/User';
 import { Task, TaskDetail, SubTask, SubTaskStatus } from '../services/model/Task';
 import { Member } from '../services/model/Member';
 import { Comment } from '../services/model/Comment';
+import { Invitation } from '../services/model/Invitation';
 
 export interface UserState {
   user: User;
@@ -34,6 +35,23 @@ export interface MembersState {
   error: string;
 }
 
+export interface AddInvitationState {
+  response: any;
+  error: string;
+}
+
+export interface AcceptInvitationState {
+  response: any;
+  error: string;
+}
+export interface InvitationByUserIdState {
+  invitations: Array<Invitation>;
+  error: string;
+}
+export interface DeleteInvitationState {
+  response: any;
+  error: string;
+}
 export interface CommentState {
   response: any;
   error: string;
@@ -67,4 +85,8 @@ export default interface ReduxState {
   comments: CommentsState;
   subTasks: SubTasksState;
   taskUpdate: TaskUpdateState;
+  invitationSend: AddInvitationState;
+  invitationsByUserId: InvitationByUserIdState;
+  acceptInvitation: AcceptInvitationState;
+  deleteInvitation: DeleteInvitationState;
 }

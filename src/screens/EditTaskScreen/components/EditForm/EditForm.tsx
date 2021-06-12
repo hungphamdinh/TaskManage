@@ -10,14 +10,14 @@ import {
 import { Colors } from "../../../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { statuses } from "../../../../helpers/Constants";
+import { statusesDetail } from "../../../../helpers/Constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { clear } from "../../../../redux/task/action/task";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
 import { Member } from "../../../../services/model/Member";
-import { updateTask } from "../../../../redux/task/action/taskUpdate";
-import { initialMember } from "../../../../redux/member/action/members";
+import { updateTask, clear } from "../../../../redux/task/action/taskUpdate";
+import { initialMember, clearMemberLocal } from "../../../../redux/member/action/members";
+import { CommonActions } from "@react-navigation/native";
 
 const EditForm = ({
   dispatch,
@@ -33,7 +33,7 @@ const EditForm = ({
   const [name, setName] = useState(taskDetail.name);
   const [description, setDescription] = useState(taskDetail.description);
   const [boardStatus, setBoardStatus] = useState(
-    statuses.map((item: any) =>
+    statusesDetail.map((item: any) =>
       item.id === taskDetail.status
         ? { ...item, isActive: true }
         : { ...item, isActive: false }
@@ -45,8 +45,14 @@ const EditForm = ({
   }, [])
   useEffect(() => {
     if (response) {
-      navigation.goBack();
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: 'HomeTabNavigation' }],
+        }),
+      );
       dispatch(clear());
+      dispatch(clearMemberLocal());
     }
   }, [response]);
 
@@ -68,7 +74,8 @@ const EditForm = ({
   const check = (item: any) => {
     return {
       ...styles.check,
-      backgroundColor: item.isActive ? Colors.appGreen : Colors.appWhite,
+      backgroundColor: item.isActive ? Colors.appGreen : Colors.appSecondaryColor,
+      borderWidth: item.isActive ? 1 : 0,
       zIndex: item.isActive ? 1 : 0,
     };
   };
@@ -88,7 +95,8 @@ const EditForm = ({
       id: taskDetail.id,
       description: description,
       name: name,
-      members: membersLocal,
+      members: membersLocal.filter((item: Member) => item.isActive == true),
+      status: boardStatus.filter((item: any) => item.isActive == true)[0].id,
     }))
   };
 

@@ -12,6 +12,10 @@ import members from './member/reducer/members';
 import comment from './comment/reducer/comment';
 import comments from './comment/reducer/comments';
 import subTasks from './task/reducer/subTasks';
+import invitationSend from './invitation/reducer/invitationSend';
+import invitationsByUserId from './invitation/reducer/invitationsByUserId';
+import invitationAccept from './invitation/reducer/invitationAccept';
+import invitationDelete from './invitation/reducer/invitationDelete';
 const rootReducer = combineReducers({
   user,
   tasks,
@@ -25,6 +29,10 @@ const rootReducer = combineReducers({
   comments,
   subTasks,
   taskUpdate,
+  invitationSend,
+  invitationsByUserId,
+  invitationAccept,
+  invitationDelete,
 });
 
 export default rootReducer;

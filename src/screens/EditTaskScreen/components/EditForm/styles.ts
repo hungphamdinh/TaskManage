@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.appGreen,
     borderRadius: 10,
     borderColor: Colors.appWhite,
-    borderWidth: 1,
+    borderWidth: 0,
     alignSelf: 'flex-end',
     justifyContent: 'center',
     alignItems: 'center',

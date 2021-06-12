@@ -12,6 +12,11 @@ import setDoneSubTask from './task/sagas/subTaskStatus';
 import getComments from './comment/sagas/comments';
 import addComment from './comment/sagas/comment';
 import getSubTasks from './task/sagas/subTasks';
+import sendInvitation from './invitation/sagas/invitationSend';
+import getInvitationsByUserId from './invitation/sagas/invitationByUserId';
+import deleteInvitation from './invitation/sagas/invitationDelete';
+import acceptInvitation from './invitation/sagas/invitationAccept';
+
 export default function* rootSaga() {
   yield all([
     fork(loginWithEmail),
@@ -25,5 +30,9 @@ export default function* rootSaga() {
     fork(addComment),
     fork(getSubTasks),
     fork(updateTask),
+    fork(sendInvitation),
+    fork(getInvitationsByUserId),
+    fork(acceptInvitation),
+    fork(deleteInvitation),
   ]);
 }
