@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, ActivityIndicator } from "react-native";
+import { View, Image } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
 import {
   TextInputForm,
   AppText,
-  Divider,
   AppButton,
 } from "../../../../components";
-import { Colors, Images } from "../../../../themes";
+import { Colors } from "../../../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { statuses } from "../../../../helpers/Constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { addTask, clear } from "../../../../redux/task/action/task";
+import { clear } from "../../../../redux/task/action/task";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
 import { Member } from "../../../../services/model/Member";
+import { updateTask } from "../../../../redux/task/action/taskUpdate";
+import { initialMember } from "../../../../redux/member/action/members";
 
 const EditForm = ({
   dispatch,
-  user,
   navigation,
 }: {
   dispatch: any;
@@ -28,7 +28,8 @@ const EditForm = ({
   navigation: any;
 }) => {
   const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
-  const { response } = useSelector((state: ReduxState) => state.task);
+  const { response } = useSelector((state: ReduxState) => state.taskUpdate);
+  const { membersLocal } = useSelector((state: ReduxState) => state.members);
   const [name, setName] = useState(taskDetail.name);
   const [description, setDescription] = useState(taskDetail.description);
   const [boardStatus, setBoardStatus] = useState(
@@ -40,11 +41,16 @@ const EditForm = ({
   );
 
   useEffect(() => {
+    dispatch(initialMember(taskDetail.members));
+  }, [])
+  useEffect(() => {
     if (response) {
       navigation.goBack();
       dispatch(clear());
     }
   }, [response]);
+
+
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
@@ -77,7 +83,14 @@ const EditForm = ({
     );
   };
 
-  const _onPressDone = () => {};
+  const _onPressDone = () => {
+    dispatch(updateTask({
+      id: taskDetail.id,
+      description: description,
+      name: name,
+      members: membersLocal,
+    }))
+  };
 
   const _onPressAdd = () => {
     navigation.navigate("AddMemberScreen");
@@ -94,7 +107,7 @@ const EditForm = ({
       <View style={styles.inputTask}>
         <AppText text={"TEAM MEMBER"} color={Colors.appGrayColor} />
         <View style={styles.teamContainer}>
-          {taskDetail.members.map((item: Member) => (
+          {membersLocal.map((item: Member) => (
             <>
               {item.isActive ? (
                 <View style={styles.imageMember}>

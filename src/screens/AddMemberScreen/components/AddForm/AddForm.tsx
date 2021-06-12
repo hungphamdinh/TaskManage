@@ -13,7 +13,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
-import { getMembers, addMember, searchMember } from "../../../../redux/member/action/members";
+import {
+  getMembers,
+  addMember,
+  searchMember,
+} from "../../../../redux/member/action/members";
 import { strings } from "../../../../languages";
 import { Member } from "../../../../services/model/Member";
 
@@ -75,7 +79,7 @@ const AddForm = ({
       </View>
       <View style={styles.teamContainer}>
         <FlatList
-          data={name !== '' ? membersLocal : members}
+          data={name !== "" ? membersLocal : members}
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />

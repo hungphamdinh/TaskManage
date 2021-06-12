@@ -4,6 +4,7 @@ import { fork, all } from 'redux-saga/effects';
 import loginWithEmail from './user/sagas/user';
 import getTasksByUserId from './task/sagas/tasks';
 import addTask from './task/sagas/task';
+import updateTask from './task/sagas/taskUpdate';
 import addSubTask from './task/sagas/subTask';
 import getTaskDetail from './task/sagas/taskDetail';
 import getMembers from './member/sagas/members';
@@ -23,5 +24,6 @@ export default function* rootSaga() {
     fork(getComments),
     fork(addComment),
     fork(getSubTasks),
+    fork(updateTask),
   ]);
 }

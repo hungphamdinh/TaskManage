@@ -1,3 +1,5 @@
+import { Member } from "../Member";
+
 export interface GetTasksRequest {
   id: string;
 }
@@ -27,4 +29,11 @@ export interface SetDoneSubTaskRequest {
 
 export interface GetSubTaskRequest {
   id: string;
+}
+
+export interface UpdateTaskRequest {
+  id: string;
+  members: Array<Member>;
+  description: string;
+  name: string;
 }

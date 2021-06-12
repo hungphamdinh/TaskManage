@@ -17,6 +17,12 @@ export interface TaskState {
   error: string;
 }
 
+export interface TaskUpdateState {
+  response: any;
+  membersLocal: Array<Member>;
+  error: string;
+}
+
 export interface TaskDetailState {
   taskDetail: TaskDetail;
   error: string;
@@ -60,4 +66,5 @@ export default interface ReduxState {
   comment: CommentState;
   comments: CommentsState;
   subTasks: SubTasksState;
+  taskUpdate: TaskUpdateState;
 }

@@ -7,6 +7,7 @@ import {
   ACTION_ADD_MEMBER,
   ACTION_SEARCH_MEMBER,
   ACTION_CLEAR_LOCAL,
+  ACTION_INITIAL_MEMBER,
 } from '../action/members';
 import { Member } from '../../../services/model/Member';
 
@@ -47,6 +48,11 @@ export default (
         membersLocal: findItemData(action.name, state.members)
       }
 
+    case ACTION_INITIAL_MEMBER:
+      return {
+        ...state,
+      }
+
     case ACTION_ADD_MEMBER:
       return {
         ...state,
@@ -58,6 +64,15 @@ export default (
         ...state,
         membersLocal: [],
         members: setIsActive(state.members),
+      }
+
+    case ACTION_INITIAL_MEMBER:
+      return {
+        ...state,
+        membersLocal: action.members.map((item: any) => {
+          item.isActive = true;
+          return item;
+        })
       }
     default:
       return state;

@@ -7,9 +7,14 @@ const ACTION_ERROR = 'GET_MEMBERS_ERROR';
 const ACTION_ADD_MEMBER = 'ACTION_ADD_MEMBER';
 const ACTION_SEARCH_MEMBER = 'ACTION_SEARCH_MEMBER';
 const ACTION_CLEAR_LOCAL = 'GET_MEMBERS_ACTION_CLEAR_LOCAL';
+const ACTION_INITIAL_MEMBER = 'GET_MEMBERS_ACTION_INITIAL_MEMBER';
 interface GetMembersAction {
   type: typeof ACTION;
   params: GetMembersRequest;
+}
+interface InitialMemberAction {
+  type: typeof ACTION_INITIAL_MEMBER;
+  members: Array<Member>;
 }
 
 interface onSuccessAction {
@@ -42,6 +47,7 @@ type GetMembersActionType =
   | AddMemberAction
   | SearchMemberAction
   | ClearMemberLocalAction
+  | InitialMemberAction
   | onFailureAction;
 
 const getMembers = (params: GetMembersRequest): GetMembersAction => ({
@@ -72,6 +78,11 @@ const searchMember = (name: string): SearchMemberAction => ({
 const clearMemberLocal = (): ClearMemberLocalAction => ({
   type: ACTION_CLEAR_LOCAL,
 })
+
+const initialMember = (members: Array<Member>): InitialMemberAction => ({
+  type: ACTION_INITIAL_MEMBER,
+  members,
+})
 export {
   getMembers,
   onFailure,
@@ -79,6 +90,7 @@ export {
   addMember,
   clearMemberLocal,
   searchMember,
+  initialMember,
   GetMembersAction,
   GetMembersActionType,
   ACTION,
@@ -86,5 +98,6 @@ export {
   ACTION_ERROR,
   ACTION_ADD_MEMBER,
   ACTION_SEARCH_MEMBER,
+  ACTION_INITIAL_MEMBER,
   ACTION_CLEAR_LOCAL,
 }
