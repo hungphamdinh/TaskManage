@@ -6,6 +6,7 @@ export interface User  {
   role: string,
   profile: string
   message?: string;
+  isActive?: boolean;
   members: Array<User>;
 }
 

@@ -7,7 +7,7 @@ const ACTION_ERROR = 'SEND_INVITATION_ERROR';
 const ACTION_CLEAR = 'SEND_INVITATION_CLEAR';
 export interface SendInvitationAction {
   type: typeof ACTION;
-  params: SendInvitationRequest;
+  params: Array<SendInvitationRequest>;
 }
 
 interface OnSuccessAction {
@@ -30,7 +30,7 @@ export type SendInvitationActionType =
   | OnFailureAction
   | ClearInvitationAction;
 
-const sendInvitation = (params: SendInvitationRequest): SendInvitationAction => ({
+const sendInvitation = (params: Array<SendInvitationRequest>): SendInvitationAction => ({
   type: ACTION,
   params,
 });

@@ -5,3 +5,6 @@ export interface LoginRequest {
   profile: string,
   userId: string,
 }
+export interface GetUsersByIdRequest {
+  id: string;
+}

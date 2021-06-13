@@ -13,6 +13,7 @@ import TaskDetailScreen from '../screens/TaskDetailScreen/TaskDetailScreen';
 import HomeTab from "./HomeTabNavigation";
 import { useSelector } from "react-redux";
 import ReduxState from "../redux/ReduxState";
+import InvitationsScreen from "../screens/InvitationsScreen/InvitationsScreen";
 const Stack = createStackNavigator();
 function RootNavigation() {
   const { user } = useSelector((state: ReduxState) => state.user);
@@ -66,6 +67,11 @@ function RootNavigation() {
           options={{ headerShown: false }}
           name="InviteMemberScreen"
           component={InviteMemberScreen}
+        />
+         <Stack.Screen
+          options={{ headerShown: false }}
+          name="InvitationsScreen"
+          component={InvitationsScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -13,9 +13,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
-import { getMembers, addMember, searchMember } from "../../../../redux/member/action/members";
 import { strings } from "../../../../languages";
-import { Member } from "../../../../services/model/Member";
+import {
+  getUsers,
+  searchUsers,
+  addUser,
+  clearLocalUser,
+} from "../../../../redux/user/reducer/usersById";
+import {
+  sendInvitation, clearInvitationSend,
+} from "../../../../redux/invitation/action/invitationSend";
+import { SendInvitationRequest } from "../../../../services/model/request/Invitation";
 
 const AddForm = ({
   dispatch,
@@ -26,36 +34,59 @@ const AddForm = ({
   user: User;
   onNavigate: Function;
 }) => {
-  const { members, membersLocal } = useSelector(
-    (state: ReduxState) => state.members
+  const { users, usersLocal } = useSelector(
+    (state: ReduxState) => state.usersById
   );
+  const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
+  const { response } = useSelector((state: ReduxState) => state.invitationSend);
   const [name, setName] = useState("");
   useEffect(() => {
-    if (members.length == 0) {
+    if (users.length == 0) {
       dispatch(
-        getMembers({
-          userId: user.id,
+        getUsers({
+          id: user.id,
         })
       );
     }
+    return () => {
+      dispatch(clearInvitationSend());
+      dispatch(clearLocalUser());
+    }
   }, []);
+
+  useEffect(() => {
+    if (response) {
+      onNavigate();
+    }
+  }, [response]);
   const _onChangeTaskName = (value: any) => {
     setName(value);
-    dispatch(searchMember(value));
+    dispatch(searchUsers(value));
   };
 
   const _onPressDone = () => {
-    onNavigate();
+    let arr: Array<SendInvitationRequest> = [];
+    usersLocal.map((item: User) => {
+      if (item.isActive) {
+        arr.push({
+          userId: user.id,
+          taskId: taskDetail.id,
+          userName: user.name,
+          receiverId: item.id,
+        });
+      }
+    });
+    dispatch(sendInvitation(arr));
   };
 
   const _keyExtractor = (item: any, index: number) => index.toString();
 
-  const _renderItem = ({ item, index }: { item: Member; index: number }) => (
+  const _renderItem = ({ item, index }: { item: User; index: number }) => (
     <Item index={index} item={item} onPress={_onPressItem} />
   );
 
-  const _onPressItem = (item: Member, index: number) => {
-    dispatch(addMember(item));
+  const _onPressItem = (item: User, index: number) => {
+    dispatch(addUser(item));
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -75,7 +106,7 @@ const AddForm = ({
       </View>
       <View style={styles.teamContainer}>
         <FlatList
-          data={name !== '' ? membersLocal : members}
+          data={name !== "" ? usersLocal : users}
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />
@@ -95,7 +126,7 @@ const Item = ({
   index,
   onPress,
 }: {
-  item: Member;
+  item: User;
   index: number;
   onPress: Function;
 }) => {

@@ -69,5 +69,8 @@ export default {
     task: 'Task',
     add_task: 'Add Task',
     write_comment: 'Write Comment',
+  },
+  dashboard_screen: {
+    title: 'Dashboard',
   }
 };

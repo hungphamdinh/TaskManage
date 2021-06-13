@@ -12,7 +12,6 @@ import { AddSubTaskAction, onSuccess, onFailure, ACTION } from '../action/subTas
 function* addSubTask(action: AddSubTaskAction) {
   try {
     //-------------- Request API
-    console.log(action)
     yield put(showIndicator(Colors.overlay5));
     yield sleep(1000);
     const res = yield TaskAPI.addSubTask(action.params);

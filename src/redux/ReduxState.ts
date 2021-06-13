@@ -9,6 +9,11 @@ export interface UserState {
   user: User;
   error: string;
 }
+export interface UsersByIdState {
+  users: Array<User>;
+  usersLocal: Array<User>;
+  error: string;
+}
 export interface TasksState {
   tasks: Array<Task>;
   error: string;
@@ -87,6 +92,7 @@ export default interface ReduxState {
   taskUpdate: TaskUpdateState;
   invitationSend: AddInvitationState;
   invitationsByUserId: InvitationByUserIdState;
-  acceptInvitation: AcceptInvitationState;
-  deleteInvitation: DeleteInvitationState;
+  invitationAccept: AcceptInvitationState;
+  invitationDelete: DeleteInvitationState;
+  usersById: UsersByIdState;
 }

@@ -20,6 +20,7 @@ function* sendInvitation(action: SendInvitationAction) {
     yield put(onSuccess(res));
   } catch (error) {
     //-------------- Request API Failure
+    console.log(error);
       showMessage({
         message: strings.warning_api.check_data,
         description: error.message,

@@ -5,10 +5,8 @@ const SEND_INVITATION = 'invitation/send';
 const GET_INVITATIONS = 'invitation/getByUserId'
 const ACCEPT_INVITATION = 'invitation/accept';
 const DELETE_INVITATION = 'invitation/delete';
-const sendInvitation = async (params: SendInvitationRequest) => {
-  return axios.get(SEND_INVITATION, {
-    params,
-  });
+const sendInvitation = async (params: Array<SendInvitationRequest>) => {
+  return axios.post(SEND_INVITATION, params);
 };
 
 const getInvitationByUserId = async (params: GetInvitationsByUserIdRequest) => {

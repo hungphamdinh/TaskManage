@@ -7,6 +7,10 @@ const ApiResponseStatusCode = {
   UNAUTHORIZED: 401,
 };
 
+const InvitationsType = {
+  receiver: 0,
+  sender: 1,
+}
 const androidOS = Platform.OS === 'android';
 const REQUEST_LIMIT = 5;
 const APIError = {
@@ -84,4 +88,5 @@ export {
   statusType,
   statuses,
   statusesDetail,
+  InvitationsType,
 };

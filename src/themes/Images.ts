@@ -13,6 +13,7 @@ const Images = {
   icSend: require('../../assets/ic-send.png'),
   icUser: require('../../assets/ic-user.png'),
   icDate: require('../../assets/ic-date.png'),
+  icNoti: require('../../assets/ic-noti.png'),
   bg: require('../../assets/bg.png'),
 };
 

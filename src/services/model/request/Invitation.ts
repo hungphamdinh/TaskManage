@@ -1,8 +1,9 @@
 export interface SendInvitationRequest {
-    content: string;
-    title: string;
+    // content: string;
+    // title: string;
     taskId: string;
     userId: string;
+    userName: string;
     receiverId: string;
 }
 

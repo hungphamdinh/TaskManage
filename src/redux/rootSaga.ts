@@ -16,7 +16,7 @@ import sendInvitation from './invitation/sagas/invitationSend';
 import getInvitationsByUserId from './invitation/sagas/invitationByUserId';
 import deleteInvitation from './invitation/sagas/invitationDelete';
 import acceptInvitation from './invitation/sagas/invitationAccept';
-
+import getUsers from './user/sagas/usersById';
 export default function* rootSaga() {
   yield all([
     fork(loginWithEmail),
@@ -34,5 +34,6 @@ export default function* rootSaga() {
     fork(getInvitationsByUserId),
     fork(acceptInvitation),
     fork(deleteInvitation),
+    fork(getUsers),
   ]);
 }
