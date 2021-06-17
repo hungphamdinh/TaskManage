@@ -42,6 +42,9 @@ const EditForm = ({
 
   useEffect(() => {
     dispatch(initialMember(taskDetail.members));
+    return () => {
+      dispatch(clearMemberLocal());
+    }
   }, [])
   useEffect(() => {
     if (response) {
@@ -52,7 +55,6 @@ const EditForm = ({
         }),
       );
       dispatch(clear());
-      dispatch(clearMemberLocal());
     }
   }, [response]);
 
@@ -103,6 +105,7 @@ const EditForm = ({
   const _onPressAdd = () => {
     navigation.navigate("AddMemberScreen");
   };
+  console.log(taskDetail.members)
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <View style={styles.inputTask}>

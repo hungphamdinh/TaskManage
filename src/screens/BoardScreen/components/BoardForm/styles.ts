@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Metrics, Colors } from '../../../../themes';
+import { Metrics, Colors, Styles } from '../../../../themes';
 
 const styles = StyleSheet.create({
   header: {
@@ -58,6 +58,31 @@ const styles = StyleSheet.create({
   listContainer: {
     flexGrow: 1,
   },
+  buttonShowDropdown: {
+    flexDirection: 'row',
+    backgroundColor: Colors.appPrimaryColor,
+    padding: Metrics.margin.regular,
+    alignItems: 'center',
+    borderRadius: Metrics.borderRadius.regular,
+  },
+  textDropdown: {
+    marginRight: Metrics.margin.regular,
+  },
+  dropdown: {
+    backgroundColor: Colors.appWhite,
+    paddingHorizontal: Metrics.margin.very_huge,
+    paddingVertical: Metrics.margin.regular,
+    position: "absolute",
+    margin: Metrics.margin.regular,
+    top: Metrics.screenHeight / 8,
+    right: 5,
+    zIndex: 1,
+    borderRadius: Metrics.borderRadius.regular,
+    ...Styles.shadow
+  },
+  itemDropdown: {
+    padding: Metrics.margin.small,
+  }
 });
 
 export default styles;

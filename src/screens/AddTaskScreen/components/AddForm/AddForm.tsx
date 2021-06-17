@@ -19,8 +19,12 @@ import { addTask, clear } from "../../../../redux/task/action/task";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
 import { AddTaskRequest } from "../../../../services/model/request/Task";
-import { getMembers, clearMemberLocal } from "../../../../redux/member/action/members";
+import {
+  getMembers,
+  clearMemberLocal,
+} from "../../../../redux/member/action/members";
 import { Member } from "../../../../services/model/Member";
+import { CommonActions } from "@react-navigation/native";
 
 const BoardForm = ({
   dispatch,
@@ -54,15 +58,20 @@ const BoardForm = ({
     }
     return () => {
       dispatch(clearMemberLocal());
-    }
+    };
   }, []);
 
   useEffect(() => {
-    if(response) {
-      navigation.goBack();
+    if (response) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: "HomeTabNavigation" }],
+        })
+      );
       dispatch(clear());
     }
-  }, [response])
+  }, [response]);
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
@@ -126,7 +135,7 @@ const BoardForm = ({
       userId: user?.id,
       name: name,
       status: boardStatus.filter((item: any) => item.isActive)[0].id,
-      timeCreated: date,
+      date: date,
       timeStart: startTime,
       timeEnd: endTime,
       members: membersLocal.filter((item: Member) => item.isActive),

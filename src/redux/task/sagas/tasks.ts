@@ -9,6 +9,8 @@ import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
 import { Task } from '../../../services/model/Task';
 import TaskAPI from '../../../services/api/TaskAPI';
+import { Response } from '../../../services/model/Response';
+import { ApiResponseStatusCode } from '../../../helpers/Constants';
 
 function* getTasksByUserId(action: GetTaskAction) {
   try {
@@ -16,10 +18,21 @@ function* getTasksByUserId(action: GetTaskAction) {
     // console.log('action')
     yield put(showIndicator(Colors.overlay5));
     yield sleep(1000);
-    const res: Array<Task> = yield TaskAPI.getTaskByUserId(action.params);
-    //-------------- Request API Success
+    const res: Response = yield TaskAPI.getTaskByUserId(action.params);
     yield put(hideIndicator());
-    yield put(onSuccess(res));
+    if(res.status === ApiResponseStatusCode.SUCCESS) {
+      yield put(onSuccess(res.data));
+    }
+    else {
+      showMessage({
+        message: strings.warning_api.login_failed,
+        description: res.message,
+        type: 'warning',
+      });
+      yield put(onFailure(JSON.stringify(res)));
+
+    }
+    //-------------- Request API Success
   } catch (error) {
     //-------------- Request API Failure
       showMessage({

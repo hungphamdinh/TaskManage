@@ -15,6 +15,7 @@ export interface GetInvitationsByUserIdRequest {
 export interface AcceptInvitationRequest {
     id: string;
     userId: string; //Receiver
+    taskId: string;
 }
 
 export interface DeleteInvitationRequest {

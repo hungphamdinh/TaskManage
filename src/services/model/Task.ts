@@ -10,6 +10,7 @@ export interface Task  {
   description: string,
   timeEnd: any;
   timeStart: any;
+  date: any;
 }
 export interface SubTask {
   id: string;
@@ -31,10 +32,18 @@ export interface TaskDetail {
   isAdmin: boolean;
   comments: Array<any>;
   subTasks: Array<SubTask>;
+  date: any;
 }
 
 
 export interface SubTaskStatus {
   id: string;
   status: number;
+}
+
+export interface Item {
+  id: any;
+  name: string;
+  isActive?: boolean;
+  color?: any;
 }

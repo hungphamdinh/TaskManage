@@ -9,6 +9,7 @@ import { getComments } from "../../redux/comment/action/comments";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { View, StyleSheet } from "react-native";
 import { Colors, Metrics } from "../../themes";
+import taskDetail from "../../redux/task/reducer/taskDetail";
 const dropdownData = [
   {
     id: 0,
@@ -40,6 +41,7 @@ const TaskDetailScreen = ({
 }) => {
   const { user } = useSelector((state: ReduxState) => state.user);
   const [isShowModal, setIsShowModal] = useState(false);
+  const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const dispatch = useDispatch();
   const { taskId } = route.params;
   useEffect(() => {
@@ -66,13 +68,14 @@ const TaskDetailScreen = ({
   };
 
   const _onPressItem = (item: any) => {
-    console.log(item);
     if (item.id == 0) {
       navigation.navigate("InviteMemberScreen");
-    } else {
+    } else if (item.id == 1) {
       navigation.navigate("EditTaskScreen", {
         taskId,
       });
+    } else {
+      console.log(item);
     }
     _onPressShowDropdown();
   };
@@ -96,13 +99,29 @@ const TaskDetailScreen = ({
       {isShowModal ? (
         <View style={styles.dropdown}>
           {dropdownData.map((item) => (
-            <TouchableOpacity
-              onPress={() => _onPressItem(item)}
-              style={styles.buttonItem}
-              key={item.id.toString()}
-            >
-              <AppText color={Colors.overlay5} text={item.name} />
-            </TouchableOpacity>
+            <>
+              {taskDetail?.userId == user?.id ? (
+                <TouchableOpacity
+                  onPress={() => _onPressItem(item)}
+                  style={styles.buttonItem}
+                  key={item.id.toString()}
+                >
+                  <AppText color={Colors.overlay5} text={item.name} />
+                </TouchableOpacity>
+              ) : (
+                <>
+                  {item.id > 1 ? (
+                    <TouchableOpacity
+                      onPress={() => _onPressItem(item)}
+                      style={styles.buttonItem}
+                      key={item.id.toString()}
+                    >
+                      <AppText color={Colors.overlay5} text={item.name} />
+                    </TouchableOpacity>
+                  ) : null}
+                </>
+              )}
+            </>
           ))}
         </View>
       ) : null}

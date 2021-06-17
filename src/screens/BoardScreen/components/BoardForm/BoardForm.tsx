@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Divider, AppText } from "../../../../components";
 import { Text, View, Image } from "react-native";
 import { strings } from "../../../../languages";
@@ -11,8 +11,10 @@ import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
-import { Task } from "../../../../services/model/Task";
+import { Task, Item } from "../../../../services/model/Task";
 import ItemBoard from "./components/Item";
+import { statusType } from "../../../../helpers/Constants";
+import { getTasksByUserId } from "../../../../redux/task/action/tasks";
 const week = [
   {
     id: 0,
@@ -94,7 +96,41 @@ const BoardForm = ({
   dispatch: any;
   onNavigate: Function;
 }) => {
+  const STATUS_ALL_ID = 6;
   const { tasks } = useSelector((state: ReduxState) => state.tasks);
+  const [isShowFilter, setIsShowFilter] = useState(false);
+  const [status, setStatus] = useState([
+    {
+      id: STATUS_ALL_ID,
+      name: "All",
+      isActive: true,
+      color: Colors.appBlue,
+    },
+    {
+      id: statusType.urgent,
+      name: "Urgent",
+      isActive: false,
+      color: Colors.sponsoredColor,
+    },
+    {
+      id: statusType.ongoing,
+      name: "OnGoing",
+      isActive: false,
+      color: Colors.appPrimaryColor,
+    },
+    {
+      id: statusType.running,
+      name: "Running",
+      isActive: false,
+      color: Colors.appGreen,
+    },
+    {
+      id: statusType.done,
+      name: "Done",
+      isActive: false,
+      color: Colors.appBlue,
+    },
+  ] as Array<Item>);
 
   const _onPress = () => {
     dispatch(logout());
@@ -106,21 +142,63 @@ const BoardForm = ({
   );
 
   const _onPressAdd = () => {
-    onNavigate('AddTaskScreen');
+    onNavigate("AddTaskScreen");
   };
 
   const _onPressItem = (item: Task) => {
-    onNavigate('TaskDetailScreen', item);
+    onNavigate("TaskDetailScreen", item);
   };
+
+  const _onPresShowFilter = () => {
+    setIsShowFilter(!isShowFilter);
+  };
+
+  const _onPressDropDownItem = (item: Item) => {
+    dispatch(
+      getTasksByUserId({
+        id: user?.id,
+        type: item.id === STATUS_ALL_ID ? undefined : item.id,
+      })
+    );
+    setStatus(
+      status.map((value: Item) =>
+        item.id === value.id
+          ? { ...value, isActive: true }
+          : { ...value, isActive: false }
+      )
+    );
+    _onPresShowFilter();
+  };
+
+  const buttonShowDropdown = () => {
+    return {
+      ...styles.buttonShowDropdown,
+      backgroundColor: status.filter((item: Item) => item.isActive)[0].color
+    }
+  }
   return (
     <View style={styles.container}>
+      {isShowFilter ? (
+        <View style={styles.dropdown}>
+          {status.map((item: Item) => (
+            <TouchableOpacity
+              key={item.id.toString()}
+              style={styles.itemDropdown}
+              onPress={() => _onPressDropDownItem(item)}
+            >
+              <AppText text={item.name} />
+            </TouchableOpacity>
+          ))}
+        </View>
+      ) : null}
       <View style={styles.header}>
         <AppText text={strings.board_screen.task} bold size={Fonts.size.h6} />
-        <TouchableOpacity style={styles.profilePicture} onPress={_onPress}>
-          <Image
-            source={{ uri: user?.profile }}
-            style={styles.avatar}
-            resizeMode={"contain"}
+        <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
+          <Ionicons name="add-outline" size={20} color={Colors.appWhite} />
+          <AppText
+            color={Colors.appWhite}
+            bold
+            text={strings.board_screen.add_task}
           />
         </TouchableOpacity>
       </View>
@@ -137,13 +215,18 @@ const BoardForm = ({
             size={Fonts.size.h6}
           />
         </View>
-        <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
-          <Ionicons name="add-outline" size={20} color={Colors.appWhite} />
+
+        <TouchableOpacity
+          style={buttonShowDropdown()}
+          onPress={_onPresShowFilter}
+        >
           <AppText
             color={Colors.appWhite}
             bold
-            text={strings.board_screen.add_task}
+            style={styles.textDropdown}
+            text={status.filter((item: Item) => item.isActive)[0].name}
           />
+          <Ionicons name="chevron-down" size={20} color={Colors.appWhite} />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>

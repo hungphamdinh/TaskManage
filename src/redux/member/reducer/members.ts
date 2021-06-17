@@ -48,11 +48,6 @@ export default (
         membersLocal: findItemData(action.name, state.members)
       }
 
-    case ACTION_INITIAL_MEMBER:
-      return {
-        ...state,
-      }
-
     case ACTION_ADD_MEMBER:
       return {
         ...state,

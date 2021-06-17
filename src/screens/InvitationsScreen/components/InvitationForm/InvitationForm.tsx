@@ -50,6 +50,7 @@ const AddForm = ({
     dispatch(acceptInvitation({
       id: item.id,
       userId: user?.id,
+      taskId: item.taskId,
     }))
   };
   return (
