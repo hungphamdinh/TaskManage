@@ -23,6 +23,11 @@ export interface TaskState {
   error: string;
 }
 
+export interface TaskLeaveState {
+  response: any;
+  error: string;
+}
+
 export interface TaskUpdateState {
   response: any;
   membersLocal: Array<Member>;
@@ -50,7 +55,8 @@ export interface AcceptInvitationState {
   error: string;
 }
 export interface InvitationByUserIdState {
-  invitations: Array<Invitation>;
+  invitationsSender: Array<Invitation>;
+  invitationsReceiver: Array<Invitation>;
   error: string;
 }
 export interface DeleteInvitationState {
@@ -95,4 +101,5 @@ export default interface ReduxState {
   invitationAccept: AcceptInvitationState;
   invitationDelete: DeleteInvitationState;
   usersById: UsersByIdState;
+  taskLeave: TaskLeaveState;
 }

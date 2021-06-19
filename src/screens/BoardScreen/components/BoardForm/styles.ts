@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
   },
   buttonAdd: {
       flexDirection: 'row',
-      backgroundColor: Colors.sponsoredColor,
-      padding: Metrics.margin.regular,
       alignItems: 'center',
       borderRadius: Metrics.borderRadius.regular,
   },

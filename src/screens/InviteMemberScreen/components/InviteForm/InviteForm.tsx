@@ -72,7 +72,10 @@ const AddForm = ({
           userId: user.id,
           taskId: taskDetail.id,
           userName: user.name,
+          userMail: user.mail,
           receiverId: item.id,
+          receiverName: item.name,
+          receiverMail: item.mail,
         });
       }
     });

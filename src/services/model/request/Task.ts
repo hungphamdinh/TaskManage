@@ -39,3 +39,8 @@ export interface UpdateTaskRequest {
   name: string;
   status: number;
 }
+
+export interface LeaveTaskRequest {
+  taskId: string;
+  userId: string;
+}

@@ -95,6 +95,11 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     // height: '35%',
+  },
+  shortText: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: Metrics.margin.large,
   }
 });
 

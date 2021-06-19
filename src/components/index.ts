@@ -4,4 +4,5 @@ import AppButton from "./AppButton";
 import Divider from "./Divider";
 import Background from "./Background/Background";
 import Indicator from './Indicator';
-export { AppText, TextInputForm, AppButton, Divider, Background, Indicator};
+import AlertDialog from './AlertDialog';
+export { AppText, TextInputForm, AppButton, Divider, Background, Indicator, AlertDialog};

@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { takeEvery, put } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
-import { ACTION, GetInvitationByUserIdAction, onSuccess, onFailure } from '../action/invitationsByUserId';
+import { ACTION, GetInvitationByUserIdAction, onSuccessReceiver, onSuccessSender, onFailure } from '../action/invitationsByUserId';
 import { hideIndicator, showIndicator } from '../../app';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
 import InvitationAPI from '../../../services/api/InvitationAPI';
 import { Colors } from '../../../themes';
 import { Response } from '../../../services/model/Response';
-import { ApiResponseStatusCode } from '../../../helpers/Constants';
+import { ApiResponseStatusCode, InvitationsType } from '../../../helpers/Constants';
 
 function* getInvitationsByUserId(action: GetInvitationByUserIdAction) {
   try {
@@ -20,7 +20,12 @@ function* getInvitationsByUserId(action: GetInvitationByUserIdAction) {
     //-------------- Request API Success
     yield put(hideIndicator());
     if(res.status === ApiResponseStatusCode.SUCCESS) {
-      yield put(onSuccess(res.data));
+      if(res.type == 'Receiver') {
+        yield put(onSuccessReceiver(res.data))
+      }
+      else {
+        yield put(onSuccessSender(res.data))
+      }
     }
     else {
       showMessage({

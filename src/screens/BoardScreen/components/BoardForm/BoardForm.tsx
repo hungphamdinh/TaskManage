@@ -173,9 +173,9 @@ const BoardForm = ({
   const buttonShowDropdown = () => {
     return {
       ...styles.buttonShowDropdown,
-      backgroundColor: status.filter((item: Item) => item.isActive)[0].color
-    }
-  }
+      backgroundColor: status.filter((item: Item) => item.isActive)[0].color,
+    };
+  };
   return (
     <View style={styles.container}>
       {isShowFilter ? (
@@ -194,12 +194,7 @@ const BoardForm = ({
       <View style={styles.header}>
         <AppText text={strings.board_screen.task} bold size={Fonts.size.h6} />
         <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
-          <Ionicons name="add-outline" size={20} color={Colors.appWhite} />
-          <AppText
-            color={Colors.appWhite}
-            bold
-            text={strings.board_screen.add_task}
-          />
+          <Ionicons name="add-outline" size={25} color={Colors.appTextBlack} />
         </TouchableOpacity>
       </View>
       <View style={styles.subHeader}>

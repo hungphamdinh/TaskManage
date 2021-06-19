@@ -4,6 +4,11 @@ export interface Invitation {
     title: string;
     taskId: string;
     userId: string;
+    userName: string;
+    userMail: string;
     receiverId: string;
-    status: string;
+    receiverName: string;
+    receiverMail: string;
+    status: number;
+    type: string;
 }

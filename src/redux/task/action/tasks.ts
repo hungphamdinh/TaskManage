@@ -1,8 +1,4 @@
 /* eslint-disable no-undef */
-import {
-  LoginRequest,
-} from '../../../services/model/request/User';
-import { User } from '../../../services/model/User';
 import { GetTasksRequest } from '../../../services/model/request/Task';
 import { Task } from '../../../services/model/Task';
 

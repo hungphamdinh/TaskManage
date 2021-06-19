@@ -13,11 +13,12 @@ import { useSelector, useDispatch } from "react-redux";
 import ReduxState from "../../redux/ReduxState";
 import { getInvitationByUserId } from "../../redux/invitation/action/invitationsByUserId";
 import { InvitationsType } from "../../helpers/Constants";
+import { logout } from "../../redux/user/reducer/user";
 
-const DashboardScreen = ({navigation} : {navigation: any}) => {
+const DashboardScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: ReduxState) => state.user);
-  const { invitations } = useSelector(
+  const { invitationsReceiver } = useSelector(
     (state: ReduxState) => state.invitationsByUserId
   );
   useEffect(() => {
@@ -29,7 +30,9 @@ const DashboardScreen = ({navigation} : {navigation: any}) => {
     );
   }, []);
   const _onPress = () => {
-    navigation.navigate('InvitationsScreen');
+    navigation.navigate("InvitationsScreen", {
+      isReceiver: true,
+    });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -52,11 +55,14 @@ const DashboardScreen = ({navigation} : {navigation: any}) => {
                 bold
                 color={Colors.appWhite}
                 size={Fonts.size.tiny}
-                text={invitations.length}
+                text={invitationsReceiver.length}
               />
             </TouchableOpacity>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.profilePicture} onPress={_onPress}>
+          <TouchableOpacity
+            style={styles.profilePicture}
+            onPress={() => dispatch(logout())}
+          >
             <Image
               source={{ uri: user?.profile }}
               style={styles.avatar}

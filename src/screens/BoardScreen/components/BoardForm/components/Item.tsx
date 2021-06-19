@@ -32,7 +32,7 @@ const ItemBoard = ({
       status = "Onggoing";
       color = Colors.appPrimaryColor;
       break;
-    
+
     case statusType.done:
       status = "Done";
       color = Colors.appBlue;
@@ -67,7 +67,11 @@ const ItemBoard = ({
         <AppText
           color={Colors.overlay3}
           style={styles.textDescription}
-          text={item.description}
+          text={
+            item.description.length > 100
+              ? item.description.substring(0, 100) + "..."
+              : item.description
+          }
         />
       </View>
       <View style={styles.itemFooter}>

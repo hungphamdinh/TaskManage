@@ -24,6 +24,11 @@ const statusType = {
   done: 3,
 };
 
+const invitationStatus = {
+  pending: 0,
+  accepted: 1,
+  rejected: 2,
+}
 const statuses = [
   {
     id: statusType.urgent,
@@ -89,4 +94,5 @@ export {
   statuses,
   statusesDetail,
   InvitationsType,
+  invitationStatus,
 };

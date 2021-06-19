@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AppText } from "../../../../components";
-import { View, Image, Keyboard } from "react-native";
+import { View, Image, Keyboard, Text } from "react-native";
 import { strings } from "../../../../languages";
 import { Fonts, Colors, Images, Metrics } from "../../../../themes";
 import styles from "./styles";
@@ -48,6 +48,7 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const [pushFooter, setPusFooter] = useState(false);
+  const [isShortText, setIsShortText] = useState(false);
   const status = {
     inProgress: 0,
     done: 1,
@@ -90,7 +91,11 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
 
   const footer = () => {
     return {
-      marginBottom: pushFooter ? (!androidOS ? Metrics.screenHeight / 2 : 0) : 0,
+      marginBottom: pushFooter
+        ? !androidOS
+          ? Metrics.screenHeight / 2
+          : 0
+        : 0,
     };
   };
   useEffect(() => {
@@ -113,6 +118,14 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
       dispatch(clearSubTaskStatus());
     }
   }, [subTaskResponse?.id, response]);
+
+  useEffect(() => {
+    if (taskDetail) {
+      if (taskDetail.description.length > 100) {
+        setIsShortText(true);
+      }
+    }
+  }, [taskDetail]);
 
   const _onPressItemSubTask = (item: SubTask) => {
     dispatch(
@@ -154,6 +167,10 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
     );
     setMessage("");
   };
+
+  const _onShowFullText = () => {
+    setIsShortText(false);
+  };
   return taskDetail ? (
     <>
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -164,11 +181,29 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
             bold
             size={Fonts.size.h5}
           />
-          <AppText
-            style={styles.description}
-            text={taskDetail.description}
-            color={Colors.appGrayColor}
-          />
+          {isShortText ? (
+            <TouchableOpacity
+              style={styles.shortText}
+              onPress={_onShowFullText}
+            >
+              <Text>
+                <AppText
+                  text={taskDetail.description.substring(0, 100) + "..."}
+                  color={Colors.appGrayColor}
+                />
+                <AppText
+                  text={' ' + strings.detail_screen.more}
+                  color={Colors.appLightGrayColor}
+                />
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <AppText
+              style={styles.description}
+              text={taskDetail.description}
+              color={Colors.appGrayColor}
+            />
+          )}
         </View>
         <View style={styles.mainInfoContainer}>
           <View style={styles.team}>

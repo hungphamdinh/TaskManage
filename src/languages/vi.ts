@@ -62,6 +62,8 @@ export default {
   invite_member_screen: {
     search: 'Search...',
     title: 'Invite team member',
+    delete: 'Do you want to delete this invitation',
+    view_detail: 'View detail',
   },
   detail_screen: {
     teams: 'Teams',
@@ -69,8 +71,14 @@ export default {
     task: 'Task',
     add_task: 'Add Task',
     write_comment: 'Write Comment',
+    more: 'Xem thêm',
   },
   dashboard_screen: {
     title: 'Dashboard',
-  }
+  },
+  alert: {
+    notify: 'Notification',
+    cancel: 'Cancel',
+    accept: 'Accept'
+  },
 };

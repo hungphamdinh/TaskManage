@@ -105,7 +105,6 @@ const EditForm = ({
   const _onPressAdd = () => {
     navigation.navigate("AddMemberScreen");
   };
-  console.log(taskDetail.members)
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <View style={styles.inputTask}>

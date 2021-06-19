@@ -4,7 +4,10 @@ export interface SendInvitationRequest {
     taskId: string;
     userId: string;
     userName: string;
+    userMail: string;
     receiverId: string;
+    receiverName: string;
+    receiverMail: string;
 }
 
 export interface GetInvitationsByUserIdRequest {

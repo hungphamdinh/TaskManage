@@ -1,41 +1,71 @@
-import React, { useState, useEffect } from "react";
-import { View, PanResponder } from "react-native";
+import React, { useEffect } from "react";
+import { View, FlatList, ScrollView } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
-import { AppText } from "../../../../components";
-import { Colors, Fonts } from "../../../../themes";
-import {
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-} from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
+import ReceiverForm from "./components/ReceiverForm/ReceiverForm";
+import SenderForm from "./components/SenderForm/SenderForm";
 import ReduxState from "../../../../redux/ReduxState";
 import { Invitation } from "../../../../services/model/Invitation";
-import { acceptInvitation, clearInvitationSend } from "../../../../redux/invitation/action/invitationAccept";
-
+import {
+  acceptInvitation,
+  clearInvitationSend,
+} from "../../../../redux/invitation/action/invitationAccept";
+import {
+  deleteInvitation,
+  clearInvitationDelete,
+} from "../../../../redux/invitation/action/invitationDelete";
+import { getInvitationByUserId } from "../../../../redux/invitation/action/invitationsByUserId";
+import { InvitationsType } from "../../../../helpers/Constants";
+const invitationType = {
+  sender: "Sender",
+  receiver: "Receiver",
+};
 const AddForm = ({
   dispatch,
   user,
   onNavigate,
+  isReceiver,
 }: {
   dispatch: any;
   user: User;
   onNavigate: Function;
+  isReceiver: boolean;
 }) => {
-  const { response } = useSelector((state: ReduxState) => state.invitationAccept);
-  const { invitations } = useSelector(
+  const { response } = useSelector(
+    (state: ReduxState) => state.invitationAccept
+  );
+  const { invitationsSender, invitationsReceiver } = useSelector(
     (state: ReduxState) => state.invitationsByUserId
   );
+  const deleteResponse = useSelector(
+    (state: ReduxState) => state.invitationDelete.response
+  );
+
   useEffect(() => {
     if (response) {
       onNavigate();
     }
     return () => {
       dispatch(clearInvitationSend());
-    }
+    };
   }, [response]);
 
+  useEffect(() => {
+    if (deleteResponse) {
+      dispatch(
+        getInvitationByUserId({
+          id: user?.id,
+          type: InvitationsType.sender,
+        })
+      );
+      dispatch(clearInvitationDelete());
+    }
+  }, []);
+
+  const _onPressDetail = (item: Invitation) => {
+    onNavigate(item.taskId);
+  };
   const _keyExtractor = (item: any, index: number) => index.toString();
 
   const _renderItem = ({
@@ -44,20 +74,42 @@ const AddForm = ({
   }: {
     item: Invitation;
     index: number;
-  }) => <Item index={index} item={item} onPress={_onPressItem} />;
+  }) => (
+    <>
+      {item.type === invitationType.receiver ? (
+        <ReceiverForm
+          onPressDetail={_onPressDetail}
+          index={index}
+          item={item}
+          onPress={_onPressItem}
+        />
+      ) : (
+        <SenderForm index={index} item={item} onPress={_onPressItem} />
+      )}
+    </>
+  );
 
   const _onPressItem = (item: Invitation) => {
-    dispatch(acceptInvitation({
-      id: item.id,
-      userId: user?.id,
-      taskId: item.taskId,
-    }))
+    item.type === invitationType.receiver
+      ? dispatch(
+          acceptInvitation({
+            id: item.id,
+            userId: user?.id,
+            taskId: item.taskId,
+          })
+        )
+      : dispatch(
+          deleteInvitation({
+            userId: user.id,
+            id: item.id,
+          })
+        );
   };
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.teamContainer}>
         <FlatList
-          data={invitations}
+          data={isReceiver ? invitationsReceiver : invitationsSender}
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />
@@ -67,72 +119,3 @@ const AddForm = ({
 };
 
 export default AddForm;
-
-const Item = ({
-  item,
-  index,
-  onPress,
-}: {
-  item: Invitation;
-  index: number;
-  onPress: Function;
-}) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const _onPressAccept = () => {
-    onPress(item, index);
-  };
-
-
-  const infoContainer = () => {
-    return {
-      ...styles.infoContainer,
-      flex: isVisible ? 0.65 : 1,
-    }
-  }
-  const recognizeDrag = ({
-    dx,
-  }: {
-    moveX: any;
-    moveY: any;
-    dx: any;
-    dy: any;
-  }) => {
-    if (dx < -100) return true; //left to right
-    return false;
-  };
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => {
-      return true;
-    },
-    onPanResponderEnd: (e, gestureState) => {
-      if (recognizeDrag(gestureState)) {
-        setIsVisible(true);
-      }
-      return true;
-    },
-  });
-  return (
-    <View {...panResponder.panHandlers} style={styles.itemContainer}>
-      <View style={styles.mainContainer}>
-        <View style={infoContainer()}>
-          <AppText text={item.taskId} bold size={Fonts.size.large} />
-          <AppText
-            style={styles.marginTopSmall}
-            text={item.content}
-            color={Colors.appGrayColor}
-          />
-        </View>
-        {isVisible ? (
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buttonAccept} onPress={_onPressAccept}>
-              <AppText color={Colors.appWhite} text={"Accept"} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonCancel}>
-              <AppText color={Colors.appWhite} text={"Cancel"} />
-            </TouchableOpacity>
-          </View>
-        ) : null}
-      </View>
-    </View>
-  );
-};

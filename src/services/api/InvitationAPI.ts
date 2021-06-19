@@ -20,6 +20,7 @@ const acceptInvitation = async (params: AcceptInvitationRequest) => {
 }
 
 const deleteInvitation = async (params: DeleteInvitationRequest) => {
+  console.log(params)
   return axios.delete(DELETE_INVITATION, {
     params,
   })

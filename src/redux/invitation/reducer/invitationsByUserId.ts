@@ -1,14 +1,16 @@
 import { InvitationByUserIdState } from '../../ReduxState';
 import {
   ACTION,
-  ACTION_SUCCESS,
+  ACTION_SUCCESS_RECEIVER,
+  ACTION_SUCCESS_SENDER,
   ACTION_ERROR,
   GetInvitationByUserIdActionType,
 } from '../action/invitationsByUserId';
 
 //-------------- Actions
 const initialState: InvitationByUserIdState = {
-  invitations: [],
+  invitationsReceiver: [],
+  invitationsSender: [],
   error: '',
 };
 
@@ -20,16 +22,24 @@ export default (
     case ACTION:
       return {
         ...state,
-        invitations: [],
+        invitationsSender: [],
+        invitationsReceiver: []
       };
 
-    case ACTION_SUCCESS:
+    case ACTION_SUCCESS_RECEIVER:
       return {
         ...state,
-        invitations: action.payload,
+        invitationsReceiver: action.receiver,
         error: '',
       };
 
+      case ACTION_SUCCESS_SENDER:
+        return {
+          ...state,
+          invitationsSender: action.sender,
+          error: '',
+        };
+  
     case ACTION_ERROR:
       return {
         ...state,

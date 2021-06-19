@@ -8,27 +8,38 @@ import { getSubTask } from "../../redux/task/action/subTasks";
 import { getComments } from "../../redux/comment/action/comments";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { View, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Colors, Metrics } from "../../themes";
-import taskDetail from "../../redux/task/reducer/taskDetail";
+import { leaveTask, clear } from "../../redux/task/action/taskLeave";
+import { CommonActions } from "@react-navigation/native";
+import { getInvitationByUserId } from "../../redux/invitation/action/invitationsByUserId";
+import { InvitationsType } from "../../helpers/Constants";
+const itemId = {
+  invite: 0,
+  edit: 1,
+  history: 2,
+  share: 3,
+  leave: 4,
+};
 const dropdownData = [
   {
-    id: 0,
+    id: itemId.invite,
     name: "Invite member",
   },
   {
-    id: 1,
+    id: itemId.edit,
     name: "Edit task",
   },
   {
-    id: 2,
+    id: itemId.history,
     name: "History",
   },
   {
-    id: 3,
+    id: itemId.share,
     name: "Share link",
   },
   {
-    id: 4,
+    id: itemId.leave,
     name: "Leave from task",
   },
 ];
@@ -42,6 +53,7 @@ const TaskDetailScreen = ({
   const { user } = useSelector((state: ReduxState) => state.user);
   const [isShowModal, setIsShowModal] = useState(false);
   const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
+  const { response } = useSelector((state: ReduxState) => state.taskLeave);
   const dispatch = useDispatch();
   const { taskId } = route.params;
   useEffect(() => {
@@ -63,21 +75,49 @@ const TaskDetailScreen = ({
     );
   }, []);
 
+  useEffect(() => {
+    if (response) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: "HomeTabNavigation" }],
+        })
+      );
+      dispatch(clear());
+    }
+  }, [response]);
   const _onPressShowDropdown = () => {
     setIsShowModal(!isShowModal);
   };
 
   const _onPressItem = (item: any) => {
-    if (item.id == 0) {
+    if (item.id == itemId.invite) {
       navigation.navigate("InviteMemberScreen");
-    } else if (item.id == 1) {
+    } else if (item.id == itemId.edit) {
       navigation.navigate("EditTaskScreen", {
         taskId,
       });
-    } else {
-      console.log(item);
+    } else if (item.id === itemId.leave) {
+      dispatch(
+        leaveTask({
+          userId: user?.id,
+          taskId: taskDetail?.id,
+        })
+      );
     }
     _onPressShowDropdown();
+  };
+
+  const _onPressInvitation = () => {
+    dispatch(
+      getInvitationByUserId({
+        type: InvitationsType.sender,
+        id: user.id,
+      })
+    );
+    navigation.navigate("InvitationsScreen", {
+      isReceiver: false,
+    });
   };
   return (
     <>
@@ -86,31 +126,50 @@ const TaskDetailScreen = ({
         title={"Task Detail"}
         mainComponent={<TaskDetail dispatch={dispatch} user={user} />}
         secondaryComponent={
-          <TouchableOpacity
-            style={styles.buttonSetting}
-            onPress={_onPressShowDropdown}
-          >
-            <View style={styles.circle} />
-            <View style={styles.circle} />
-            <View style={styles.circle} />
-          </TouchableOpacity>
+          <View style={styles.secondaryComponent}>
+            {taskDetail?.isAdmin ? (
+              <TouchableOpacity
+                style={styles.buttonInvitation}
+                onPress={_onPressInvitation}
+              >
+                <Ionicons
+                  name="mail-unread-outline"
+                  size={20}
+                  color={Colors.appWhite}
+                />
+              </TouchableOpacity>
+            ) : null}
+
+            <TouchableOpacity
+              style={styles.buttonSetting}
+              onPress={_onPressShowDropdown}
+            >
+              <View style={styles.circle} />
+              <View style={styles.circle} />
+              <View style={styles.circle} />
+            </TouchableOpacity>
+          </View>
         }
       />
       {isShowModal ? (
         <View style={styles.dropdown}>
           {dropdownData.map((item) => (
             <>
-              {taskDetail?.userId == user?.id ? (
-                <TouchableOpacity
-                  onPress={() => _onPressItem(item)}
-                  style={styles.buttonItem}
-                  key={item.id.toString()}
-                >
-                  <AppText color={Colors.overlay5} text={item.name} />
-                </TouchableOpacity>
+              {taskDetail?.isAdmin ? (
+                <>
+                  {item.id < itemId.leave ? (
+                    <TouchableOpacity
+                      onPress={() => _onPressItem(item)}
+                      style={styles.buttonItem}
+                      key={item.id.toString()}
+                    >
+                      <AppText color={Colors.overlay5} text={item.name} />
+                    </TouchableOpacity>
+                  ) : null}
+                </>
               ) : (
                 <>
-                  {item.id > 1 ? (
+                  {item.id > itemId.edit ? (
                     <TouchableOpacity
                       onPress={() => _onPressItem(item)}
                       style={styles.buttonItem}
@@ -153,5 +212,11 @@ const styles = StyleSheet.create({
   },
   buttonItem: {
     marginVertical: Metrics.margin.regular,
+  },
+  secondaryComponent: {
+    flexDirection: "row",
+  },
+  buttonInvitation: {
+    marginRight: Metrics.margin.large,
   },
 });
