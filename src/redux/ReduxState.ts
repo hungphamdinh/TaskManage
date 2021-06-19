@@ -54,6 +54,11 @@ export interface AcceptInvitationState {
   response: any;
   error: string;
 }
+
+export interface RejectInvitationState {
+  response: any;
+  error: string;
+}
 export interface InvitationByUserIdState {
   invitationsSender: Array<Invitation>;
   invitationsReceiver: Array<Invitation>;
@@ -102,4 +107,5 @@ export default interface ReduxState {
   invitationDelete: DeleteInvitationState;
   usersById: UsersByIdState;
   taskLeave: TaskLeaveState;
+  invitationReject: RejectInvitationState;
 }

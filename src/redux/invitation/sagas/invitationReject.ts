@@ -1,21 +1,19 @@
-/* eslint-disable prettier/prettier */
 import { takeEvery, put } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
-import { ACTION, SendInvitationAction, onSuccess, onFailure } from '../action/invitationSend';
+import { ACTION, RejectInvitationAction, onSuccess, onFailure } from '../action/invitationReject';
 import { hideIndicator, showIndicator } from '../../app';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
 import InvitationAPI from '../../../services/api/InvitationAPI';
-import { Colors } from '../../../themes';
 import { Response } from '../../../services/model/Response';
 import { ApiResponseStatusCode } from '../../../helpers/Constants';
+import { Colors } from '../../../themes';
 
-function* sendInvitation(action: SendInvitationAction) {
+function* rejectInvitation(action: RejectInvitationAction) {
   try {
     //-------------- Request API
-    console.log(action.params);
     yield put(showIndicator(Colors.overlay5));
-    const res: Response = yield InvitationAPI.sendInvitation(
+    const res: Response = yield InvitationAPI.rejectInvitation(
       action.params
     );
     yield put(hideIndicator());
@@ -28,12 +26,10 @@ function* sendInvitation(action: SendInvitationAction) {
         description: res.message,
         type: 'warning',
       });
-    yield put(onFailure(JSON.stringify(res)));
+    yield put(onFailure(JSON.stringify(res.message)));
     }
-    //-------------- Request API Success
   } catch (error) {
     //-------------- Request API Failure
-    console.log(error);
       showMessage({
         message: strings.warning_api.check_data,
         description: error.message,
@@ -45,52 +41,7 @@ function* sendInvitation(action: SendInvitationAction) {
 }
 
 export default function* saga() {
-  yield takeEvery(ACTION, sendInvitation);
+  yield takeEvery(ACTION, rejectInvitation);
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//CopyRight: PDH 

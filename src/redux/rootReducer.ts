@@ -18,6 +18,7 @@ import invitationAccept from './invitation/reducer/invitationAccept';
 import invitationDelete from './invitation/reducer/invitationDelete';
 import usersById from './user/reducer/usersById';
 import taskLeave from './task/reducer/taskLeave';
+import invitationReject from './invitation/reducer/invitationReject';
 const rootReducer = combineReducers({
   user,
   tasks,
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   invitationDelete,
   usersById,
   taskLeave,
+  invitationReject,
 });
 
 export default rootReducer;

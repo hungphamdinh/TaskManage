@@ -18,6 +18,7 @@ import deleteInvitation from './invitation/sagas/invitationDelete';
 import acceptInvitation from './invitation/sagas/invitationAccept';
 import getUsers from './user/sagas/usersById';
 import leaveTask from './task/sagas/taskLeave';
+import rejectInvitation from './invitation/sagas/invitationReject';
 export default function* rootSaga() {
   yield all([
     fork(loginWithEmail),
@@ -37,5 +38,6 @@ export default function* rootSaga() {
     fork(deleteInvitation),
     fork(getUsers),
     fork(leaveTask),
+    fork(rejectInvitation),
   ]);
 }

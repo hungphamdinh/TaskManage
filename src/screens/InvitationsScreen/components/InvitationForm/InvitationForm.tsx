@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, FlatList, ScrollView } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
@@ -17,11 +17,15 @@ import {
 } from "../../../../redux/invitation/action/invitationDelete";
 import { getInvitationByUserId } from "../../../../redux/invitation/action/invitationsByUserId";
 import { InvitationsType } from "../../../../helpers/Constants";
+import {
+  rejectInvitation,
+  clearRejectInvitation,
+} from "../../../../redux/invitation/action/invitationReject";
 const invitationType = {
   sender: "Sender",
   receiver: "Receiver",
 };
-const AddForm = ({
+const InvitationForm = ({
   dispatch,
   user,
   onNavigate,
@@ -35,13 +39,18 @@ const AddForm = ({
   const { response } = useSelector(
     (state: ReduxState) => state.invitationAccept
   );
+  const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const { invitationsSender, invitationsReceiver } = useSelector(
     (state: ReduxState) => state.invitationsByUserId
+  );
+  const rejectResponse = useSelector(
+    (state: ReduxState) => state.invitationReject.response
   );
   const deleteResponse = useSelector(
     (state: ReduxState) => state.invitationDelete.response
   );
 
+  //Send invitation
   useEffect(() => {
     if (response) {
       onNavigate();
@@ -51,18 +60,32 @@ const AddForm = ({
     };
   }, [response]);
 
+  //Refresh List and Clear Delete Response
   useEffect(() => {
     if (deleteResponse) {
       dispatch(
         getInvitationByUserId({
           id: user?.id,
           type: InvitationsType.sender,
+          taskId: taskDetail.id,
         })
       );
       dispatch(clearInvitationDelete());
     }
-  }, []);
+  }, [deleteResponse, dispatch]);
 
+  //Refresh List and Clear Reject Response
+  useEffect(() => {
+    if (rejectResponse) {
+      dispatch(
+        getInvitationByUserId({
+          id: user?.id,
+          type: InvitationsType.receiver,
+        })
+      );
+      dispatch(clearRejectInvitation());
+    }
+  }, [rejectResponse, dispatch]);
   const _onPressDetail = (item: Invitation) => {
     onNavigate(item.taskId);
   };
@@ -82,14 +105,17 @@ const AddForm = ({
           index={index}
           item={item}
           onPress={_onPressItem}
+          onPressReject={_onPressReject}
         />
       ) : (
         <SenderForm index={index} item={item} onPress={_onPressItem} />
       )}
     </>
   );
-
+  
+  //Accept or Delete Invitation
   const _onPressItem = (item: Invitation) => {
+    // Type is Receiver
     item.type === invitationType.receiver
       ? dispatch(
           acceptInvitation({
@@ -98,12 +124,22 @@ const AddForm = ({
             taskId: item.taskId,
           })
         )
+      //Type is sender
       : dispatch(
           deleteInvitation({
             userId: user.id,
             id: item.id,
           })
         );
+  };
+  //Reject
+  const _onPressReject = (item: Invitation) => {
+    dispatch(
+      rejectInvitation({
+        id: item.id,
+        userId: item.receiverId,
+      })
+    );
   };
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -118,4 +154,4 @@ const AddForm = ({
   );
 };
 
-export default AddForm;
+export default InvitationForm;

@@ -13,6 +13,7 @@ export interface SendInvitationRequest {
 export interface GetInvitationsByUserIdRequest {
     id: string;
     type: number; //0: Receiver, 1: Sender
+    taskId?: string;
 }
 
 export interface AcceptInvitationRequest {
@@ -21,6 +22,10 @@ export interface AcceptInvitationRequest {
     taskId: string;
 }
 
+export interface RejectInvitationRequest {
+    id: string;
+    userId: string;
+}
 export interface DeleteInvitationRequest {
     userId: string; //Sender
     id: string;

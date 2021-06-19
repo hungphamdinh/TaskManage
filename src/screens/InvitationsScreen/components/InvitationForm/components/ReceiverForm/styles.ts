@@ -27,15 +27,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   buttonAccept: {
-    height: '100%',
     paddingHorizontal: Metrics.margin.regular,
-    justifyContent: 'center',
     backgroundColor: 'green',
+    flex: 1,
+    justifyContent: 'center',
   },
   buttonCancel: {
-    height: '100%',
     paddingHorizontal: Metrics.margin.regular,
     justifyContent: 'center',
+    flex: 1,
     backgroundColor: 'red',
     borderTopRightRadius: Metrics.borderRadius.regular,
     borderBottomRightRadius: Metrics.borderRadius.regular,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     flex: 0.65,
     paddingVertical: Metrics.margin.regular,
     paddingLeft: Metrics.margin.regular,
-  }
+  },
 });
 
 export default styles;

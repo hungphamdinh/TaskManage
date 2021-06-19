@@ -113,6 +113,7 @@ const TaskDetailScreen = ({
       getInvitationByUserId({
         type: InvitationsType.sender,
         id: user.id,
+        taskId: taskDetail.id,
       })
     );
     navigation.navigate("InvitationsScreen", {

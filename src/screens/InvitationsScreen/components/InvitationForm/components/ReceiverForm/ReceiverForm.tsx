@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, PanResponder } from "react-native";
 import styles from "./styles";
-import { AppText } from "../../../../../../components";
+import { AppText, AlertDialog } from "../../../../../../components";
 import { Colors, Fonts } from "../../../../../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Invitation } from "../../../../../../services/model/Invitation";
@@ -12,13 +12,16 @@ const Item = ({
   index,
   onPress,
   onPressDetail,
+  onPressReject,
 }: {
   item: Invitation;
   index: number;
   onPress: Function;
   onPressDetail: Function;
+  onPressReject: Function;
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isShowDialog, setIsShowDialog] = useState(false);
   const _onPressAccept = () => {
     onPress(item, index);
   };
@@ -55,6 +58,15 @@ const Item = ({
   const _onPressDetail = () => {
     onPressDetail(item);
   };
+
+  const _onPressReject = () => {
+    onPressReject(item);
+    changeModalVisible();
+  }
+
+  const changeModalVisible = () => {
+    setIsShowDialog(!isShowDialog);
+  };
   return (
     <View {...panResponder.panHandlers} style={styles.itemContainer}>
       <View style={styles.mainContainer}>
@@ -81,12 +93,22 @@ const Item = ({
             >
               <AppText color={Colors.appWhite} text={"Accept"} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonCancel}>
+            <TouchableOpacity style={styles.buttonCancel} onPress={changeModalVisible}>
               <AppText color={Colors.appWhite} text={"Cancel"} />
             </TouchableOpacity>
           </View>
         ) : null}
       </View>
+      <AlertDialog
+        visible={isShowDialog}
+        title={strings.alert.notify}
+        content={strings.invite_member_screen.delete}
+        textBtnAccept={strings.alert.accept}
+        textBtnOut={strings.alert.cancel}
+        onPressButtonLeft={changeModalVisible}
+        onPressOut={changeModalVisible}
+        onPressSubmit={_onPressReject}
+      />
     </View>
   );
 };
