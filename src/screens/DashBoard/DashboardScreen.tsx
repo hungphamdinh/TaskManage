@@ -34,6 +34,10 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
       isReceiver: true,
     });
   };
+
+  const _onPressProfile = () => {
+    navigation.navigate('ProfileScreen');
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -61,7 +65,7 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.profilePicture}
-            onPress={() => dispatch(logout())}
+            onPress={_onPressProfile}
           >
             <Image
               source={{ uri: user?.profile }}

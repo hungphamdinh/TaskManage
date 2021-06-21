@@ -14,6 +14,8 @@ import HomeTab from "./HomeTabNavigation";
 import { useSelector } from "react-redux";
 import ReduxState from "../redux/ReduxState";
 import InvitationsScreen from "../screens/InvitationsScreen/InvitationsScreen";
+import ProfileScreen from "../screens/ProfileScreen/ProfileScreen";
+import CreateTeamScreen from "../screens/CreateTeamScreen/CreateTeamScreen";
 const Stack = createStackNavigator();
 function RootNavigation() {
   const { user } = useSelector((state: ReduxState) => state.user);
@@ -72,6 +74,16 @@ function RootNavigation() {
           options={{ headerShown: false }}
           name="InvitationsScreen"
           component={InvitationsScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ProfileScreen"
+          component={ProfileScreen}
+        />
+         <Stack.Screen
+          options={{ headerShown: false }}
+          name="CreateTeamScreen"
+          component={CreateTeamScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

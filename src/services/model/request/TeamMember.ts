@@ -45,3 +45,6 @@ export interface GetTeamInvitationByUserIdRequest {
 export interface RejectTeamInvitationRequest {
   id: string;
 }
+export interface GetTeamMembersRequest {
+  userId: string;  
+}

@@ -31,7 +31,7 @@ export default (props: any) => {
         marginBottom: Metrics.margin.small,
         paddingBottom: Metrics.margin.regular,
         borderBottomWidth: 1,
-        borderBottomColor: Colors.appGrayColor,
+        borderBottomColor: Colors.overlay1,
       };
     }
   }

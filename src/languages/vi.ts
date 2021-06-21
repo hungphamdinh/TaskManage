@@ -81,4 +81,18 @@ export default {
     cancel: 'Cancel',
     accept: 'Accept'
   },
+  profile_screen: {
+    title: 'Profile',
+    team_work: 'Team you work now',
+    work_with: 'Work with',
+  },
+  create_team_screen: {
+    title: 'Create team',
+    upload: 'Upload logo file',
+    logo_description: 'Your logo will public always',
+    team_name: 'Team name',
+    member: 'Member',
+    select_member: 'Select member',
+    create: 'Create Team',
+  }
 };

@@ -146,7 +146,7 @@ export default interface ReduxState {
   taskLeave: TaskLeaveState;
   invitationReject: RejectInvitationState;
   teamMemberAdd: AddTeamMemberState;
-  teamMemberByUserId: TeamMemberByUserIdState;
+  teamsMemberByUserId: TeamMemberByUserIdState;
   teamMemberUpdate: UpdateTeamMemberState;
   teamInvitationAccept: AcceptTeamInvitationState;
   teamInvitationsByUserId: TeamInvitationByUserIdState;

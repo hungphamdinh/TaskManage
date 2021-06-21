@@ -12,13 +12,6 @@ export interface AddMemberRequest {
     isActive?: boolean;
   }
 
-export interface GetTeamMembersRequest {
-    teamName: string;
-    profile: string;
-    userId: string;
-    members: Array<TeamMember>;
-    
-}
 export interface TeamMember {
   googleUserId: string;
   name: string;

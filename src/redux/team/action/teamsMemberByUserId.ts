@@ -1,6 +1,6 @@
-import { GetMembersRequest, GetTeamMembersRequest, TeamMember } from "../../../services/model/request/Member";
 import { Member } from "../../../services/model/Member";
 import { TeamMemberByUserId } from "../../../services/model/TeamMember";
+import { GetTeamMembersRequest } from "../../../services/model/request/TeamMember";
 
 const ACTION = 'GET_TEAMS_BY_USER_ID';
 const ACTION_SUCCESS = 'GET_TEAMS_BY_USER_ID_SUCCESS';

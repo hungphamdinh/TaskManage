@@ -1,31 +1,21 @@
 import React from "react";
-import AddForm from "./components/AddForm/AddForm";
+import ProfileForm from "./components/ProfileForm/CreatTeamForm";
 import { useSelector, useDispatch } from "react-redux";
 import ReduxState from "../../redux/ReduxState";
 import { Background } from "../../components";
 import { strings } from "../../languages";
 
-const AddMemberScreen = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
+const BoardScreen = ({ navigation }: { navigation: any }) => {
   const { user } = useSelector((state: ReduxState) => state.user);
   const dispatch = useDispatch();
-  const isTeamMember = route.params?.isTeamMember;
-  const _onNavigate = () => {
-    navigation.goBack();
-  };
+
   return (
     <Background
-      title={strings.add_member_screen.title}
       navigation={navigation}
+      title={strings.create_team_screen.title}
       mainComponent={
-        <AddForm
-          isTeamMember={isTeamMember}
-          onNavigate={_onNavigate}
+        <ProfileForm
+          navigation={navigation}
           dispatch={dispatch}
           user={user}
         />
@@ -34,4 +24,4 @@ const AddMemberScreen = ({
   );
 };
 
-export default AddMemberScreen;
+export default BoardScreen;

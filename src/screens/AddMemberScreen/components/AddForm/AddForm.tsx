@@ -20,32 +20,52 @@ import {
 } from "../../../../redux/member/action/members";
 import { strings } from "../../../../languages";
 import { Member } from "../../../../services/model/Member";
+import {
+  getUsers,
+  addUser,
+  searchUsers,
+} from "../../../../redux/user/reducer/usersById";
 
 const AddForm = ({
   dispatch,
   user,
   onNavigate,
+  isTeamMember,
 }: {
   dispatch: any;
   user: User;
   onNavigate: Function;
+  isTeamMember?: boolean;
 }) => {
   const { members, membersLocal } = useSelector(
     (state: ReduxState) => state.members
   );
+  const { users, usersLocal } = useSelector(
+    (state: ReduxState) => state.usersById
+  );
   const [name, setName] = useState("");
   useEffect(() => {
-    if (members.length == 0) {
-      dispatch(
-        getMembers({
-          userId: user.id,
-        })
-      );
+    if (!isTeamMember) {
+      if (members.length == 0) {
+        dispatch(
+          getMembers({
+            userId: user.id,
+          })
+        );
+      }
+    } else {
+      if (users.length === 0) {
+        dispatch(
+          getUsers({
+            id: user.id,
+          })
+        );
+      }
     }
   }, []);
   const _onChangeTaskName = (value: any) => {
     setName(value);
-    dispatch(searchMember(value));
+    isTeamMember ? dispatch(searchUsers(value)) : dispatch(searchMember(value));
   };
 
   const _onPressDone = () => {
@@ -54,12 +74,12 @@ const AddForm = ({
 
   const _keyExtractor = (item: any, index: number) => index.toString();
 
-  const _renderItem = ({ item, index }: { item: Member; index: number }) => (
+  const _renderItem = ({ item, index }: { item: any; index: number }) => (
     <Item index={index} item={item} onPress={_onPressItem} />
   );
 
-  const _onPressItem = (item: Member, index: number) => {
-    dispatch(addMember(item));
+  const _onPressItem = (item: any, index: number) => {
+    isTeamMember ? dispatch(addUser(item)) : dispatch(addMember(item));
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -79,7 +99,15 @@ const AddForm = ({
       </View>
       <View style={styles.teamContainer}>
         <FlatList
-          data={name !== "" ? membersLocal : members}
+          data={
+            name !== ""
+              ? isTeamMember
+                ? usersLocal
+                : membersLocal
+              : isTeamMember
+              ? users
+              : members
+          }
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />
