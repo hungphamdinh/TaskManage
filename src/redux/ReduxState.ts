@@ -4,6 +4,7 @@ import { Task, TaskDetail, SubTask, SubTaskStatus } from '../services/model/Task
 import { Member } from '../services/model/Member';
 import { Comment } from '../services/model/Comment';
 import { Invitation } from '../services/model/Invitation';
+import { TeamMemberByUserId, TeamDetail, TeamInvitation } from '../services/model/TeamMember';
 
 export interface UserState {
   user: User;
@@ -39,12 +40,23 @@ export interface TaskDetailState {
   error: string;
 }
 
+export interface TeamDetailState {
+  teamDetail: TeamDetail;
+  error: string;
+}
+
+
 export interface MembersState {
   members: Array<Member>;
   membersLocal: Array<Member>;
   error: string;
 }
 
+export interface TeamMemberByUserIdState {
+  teamMembers: Array<TeamMemberByUserId>;
+  teamMemberLocal: Array<any>;
+  error: string;
+}
 export interface AddInvitationState {
   response: any;
   error: string;
@@ -55,13 +67,38 @@ export interface AcceptInvitationState {
   error: string;
 }
 
+export interface AcceptTeamInvitationState {
+  response: any;
+  error: string;
+}
+export interface AddTeamMemberState {
+  response: any;
+  error: string;
+}
+
+export interface UpdateTeamMemberState {
+  response: any;
+  error: string;
+}
 export interface RejectInvitationState {
+  response: any;
+  error: string;
+}
+
+
+export interface TeamInvitationRejectState {
   response: any;
   error: string;
 }
 export interface InvitationByUserIdState {
   invitationsSender: Array<Invitation>;
   invitationsReceiver: Array<Invitation>;
+  error: string;
+}
+
+export interface TeamInvitationByUserIdState {
+  invitationsSender: Array<TeamInvitation>;
+  invitationsReceiver: Array<TeamInvitation>;
   error: string;
 }
 export interface DeleteInvitationState {
@@ -108,4 +145,10 @@ export default interface ReduxState {
   usersById: UsersByIdState;
   taskLeave: TaskLeaveState;
   invitationReject: RejectInvitationState;
+  teamMemberAdd: AddTeamMemberState;
+  teamMemberByUserId: TeamMemberByUserIdState;
+  teamMemberUpdate: UpdateTeamMemberState;
+  teamInvitationAccept: AcceptTeamInvitationState;
+  teamInvitationsByUserId: TeamInvitationByUserIdState;
+  teamInvitationReject: TeamInvitationRejectState;
 }

@@ -1,3 +1,5 @@
+import { TeamMember } from "./TeamMember";
+
 export interface SendInvitationRequest {
     // content: string;
     // title: string;
@@ -29,4 +31,9 @@ export interface RejectInvitationRequest {
 export interface DeleteInvitationRequest {
     userId: string; //Sender
     id: string;
+}
+
+export interface AcceptTeamInvitationRequest {
+    id: string,
+    members: TeamMember;
 }

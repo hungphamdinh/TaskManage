@@ -1,4 +1,4 @@
-import { Member } from "../Member";
+import { AddMemberRequest } from "./Member";
 
 export interface GetTasksRequest {
   id: string;
@@ -11,7 +11,7 @@ export interface AddTaskRequest {
   date: any;
   timeStart: any;
   timeEnd: any;
-  members: Array<any>;
+  members: Array<AddMemberRequest>;
   description: string;
 }
 export interface AddSubTaskRequest {
@@ -34,7 +34,7 @@ export interface GetSubTaskRequest {
 
 export interface UpdateTaskRequest {
   id: string;
-  members: Array<Member>;
+  members: Array<AddMemberRequest>;
   description: string;
   name: string;
   status: number;

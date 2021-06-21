@@ -24,7 +24,6 @@ const rejectInvitation = async (params: RejectInvitationRequest) => {
   return axios.put(REJECT_INVITATION, params);
 }
 const deleteInvitation = async (params: DeleteInvitationRequest) => {
-  console.log(params)
   return axios.delete(DELETE_INVITATION, {
     params,
   })

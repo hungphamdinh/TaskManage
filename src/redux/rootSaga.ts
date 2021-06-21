@@ -19,6 +19,13 @@ import acceptInvitation from './invitation/sagas/invitationAccept';
 import getUsers from './user/sagas/usersById';
 import leaveTask from './task/sagas/taskLeave';
 import rejectInvitation from './invitation/sagas/invitationReject';
+import addTeamMember from './team/sagas/teamMemberAdd';
+import getTeamMembers from './team/sagas/teamsMemberByUserId';
+import getTeamDetail from './team/sagas/teamDetail';
+import updateTeamMember from './team/sagas/teamMemberUpdate';
+import acceptTeamInvitation from './team/sagas/teamInvitationAccept';
+import getTeamInvitationsByUserId from './team/sagas/teamInvitationByUserId';
+import rejectTeamInvitation from './team/sagas/teamInvitationReject';
 export default function* rootSaga() {
   yield all([
     fork(loginWithEmail),
@@ -39,5 +46,12 @@ export default function* rootSaga() {
     fork(getUsers),
     fork(leaveTask),
     fork(rejectInvitation),
+    fork(addTeamMember),
+    fork(getTeamMembers),
+    fork(getTeamDetail),
+    fork(updateTeamMember),
+    fork(acceptTeamInvitation),
+    fork(getTeamInvitationsByUserId),
+    fork(rejectTeamInvitation),
   ]);
 }
