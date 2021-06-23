@@ -4,7 +4,7 @@ import { Task, TaskDetail, SubTask, SubTaskStatus } from '../services/model/Task
 import { Member } from '../services/model/Member';
 import { Comment } from '../services/model/Comment';
 import { Invitation } from '../services/model/Invitation';
-import { TeamMemberByUserId, TeamDetail, TeamInvitation } from '../services/model/TeamMember';
+import { TeamMemberByUserId, TeamDetail, TeamInvitation, AddTeamMember } from '../services/model/TeamMember';
 
 export interface UserState {
   user: User;
@@ -67,12 +67,16 @@ export interface AcceptInvitationState {
   error: string;
 }
 
+export interface TeamProfileState {
+  response: any;
+  error: string;
+}
 export interface AcceptTeamInvitationState {
   response: any;
   error: string;
 }
 export interface AddTeamMemberState {
-  response: any;
+  response: AddTeamMember;
   error: string;
 }
 
@@ -151,4 +155,6 @@ export default interface ReduxState {
   teamInvitationAccept: AcceptTeamInvitationState;
   teamInvitationsByUserId: TeamInvitationByUserIdState;
   teamInvitationReject: TeamInvitationRejectState;
+  teamProfile: TeamProfileState;
+  teamDetail: TeamDetailState;
 }

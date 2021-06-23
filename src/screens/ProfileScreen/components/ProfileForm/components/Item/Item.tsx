@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { AppText } from "../../../../../../components";
 import { View, Image } from "react-native";
 import { Colors, Fonts } from "../../../../../../themes";
@@ -13,30 +13,47 @@ const status = {
 const ItemBoard = ({
   item,
   onPressItem,
+  onPressDetail,
 }: {
   item: TeamMemberByUserId;
   index: number;
   onPressItem: Function;
+  onPressDetail: Function;
 }) => {
-  const _onPressItem = () => {
-    onPressItem(item);
-  };
-  return (
-    <View style={styles.itemContainer}>
-      <View style={styles.body}>
-        {item.profile !== "" ? (
-          <Image style={styles.profile} source={{ uri: item.profile }} />
-        ) : (
-          <View style={styles.profile} />
-        )}
-        <AppText
-          bold
-          size={Fonts.size.large}
-          style={styles.textName}
-          text={item.teamName}
-        />
-      </View>
-    </View>
-  );
+  return useMemo(() => {
+    const _onPressItem = () => {
+      onPressItem(item);
+    };
+
+    const _onPressDetail = () => {
+      onPressDetail(item);
+    };
+    return (
+      <TouchableOpacity style={styles.itemContainer} onPress={_onPressDetail}>
+        <View style={styles.body}>
+          <View style={styles.infoContainer}>
+            {item.profile !== "" ? (
+              <Image style={styles.profile} source={{ uri: item.profile }} />
+            ) : (
+              <View style={styles.profile} />
+            )}
+            <AppText
+              bold
+              size={Fonts.size.large}
+              style={styles.textName}
+              text={item.teamName}
+            />
+          </View>
+          <TouchableOpacity onPress={_onPressItem}>
+            <Ionicons
+              name="mail-unread-outline"
+              size={20}
+              color={Colors.overlay4}
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  }, [item, onPressItem, onPressDetail]);
 };
 export default ItemBoard;

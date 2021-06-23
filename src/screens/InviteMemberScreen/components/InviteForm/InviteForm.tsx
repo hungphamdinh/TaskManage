@@ -21,7 +21,8 @@ import {
   clearLocalUser,
 } from "../../../../redux/user/reducer/usersById";
 import {
-  sendInvitation, clearInvitationSend,
+  sendInvitation,
+  clearInvitationSend,
 } from "../../../../redux/invitation/action/invitationSend";
 import { SendInvitationRequest } from "../../../../services/model/request/Invitation";
 
@@ -51,7 +52,7 @@ const AddForm = ({
     return () => {
       dispatch(clearInvitationSend());
       dispatch(clearLocalUser());
-    }
+    };
   }, []);
 
   useEffect(() => {

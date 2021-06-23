@@ -1,7 +1,22 @@
 import { StyleSheet } from 'react-native';
-import { Metrics, Colors } from '../../../../../../themes';
+import { Metrics, Colors } from '../../../../themes';
 
 const styles = StyleSheet.create({
+  container: {
+      marginHorizontal: Metrics.margin.very_huge,
+      flexGrow: 1,
+  },
+  inputTask: {
+    backgroundColor: Colors.appWhite,
+    borderRadius: Metrics.borderRadius.regular,
+    padding: Metrics.margin.large,
+    marginTop: Metrics.margin.huge,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  teamContainer: {
+    marginTop: Metrics.margin.large,
+  },
   itemContainer: {
     // padding: Metrics.margin.large,
     backgroundColor: Colors.appWhite,
@@ -27,15 +42,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   buttonAccept: {
+    height: '100%',
     paddingHorizontal: Metrics.margin.regular,
-    backgroundColor: 'green',
-    flex: 1,
     justifyContent: 'center',
+    backgroundColor: 'green',
   },
   buttonCancel: {
+    height: '100%',
     paddingHorizontal: Metrics.margin.regular,
     justifyContent: 'center',
-    flex: 1,
     backgroundColor: 'red',
     borderTopRightRadius: Metrics.borderRadius.regular,
     borderBottomRightRadius: Metrics.borderRadius.regular,
@@ -44,7 +59,7 @@ const styles = StyleSheet.create({
     flex: 0.65,
     paddingVertical: Metrics.margin.regular,
     paddingLeft: Metrics.margin.regular,
-  },
+  }
 });
 
 export default styles;

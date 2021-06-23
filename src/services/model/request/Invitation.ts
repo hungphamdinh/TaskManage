@@ -35,5 +35,5 @@ export interface DeleteInvitationRequest {
 
 export interface AcceptTeamInvitationRequest {
     id: string,
-    members: TeamMember;
+    member: TeamMember;
 }

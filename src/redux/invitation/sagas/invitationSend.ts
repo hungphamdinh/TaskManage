@@ -13,7 +13,6 @@ import { ApiResponseStatusCode } from '../../../helpers/Constants';
 function* sendInvitation(action: SendInvitationAction) {
   try {
     //-------------- Request API
-    console.log(action.params);
     yield put(showIndicator(Colors.overlay5));
     const res: Response = yield InvitationAPI.sendInvitation(
       action.params

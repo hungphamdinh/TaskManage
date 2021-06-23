@@ -20,7 +20,7 @@ function* addTeamMember(action: AddTeamMemberAction) {
     );
     yield put(hideIndicator());
     if(res.status === ApiResponseStatusCode.SUCCESS) {
-      yield put(onSuccess(res));
+      yield put(onSuccess(res.data));
     }
     else {
       showMessage({

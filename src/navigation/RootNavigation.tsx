@@ -9,11 +9,12 @@ import DynamicFormScreen from "../screens/DynamicFormScreen/DynamicFormScreen";
 import BoardScreen from "../screens/BoardScreen/BoardScreen";
 import AddMemberScreen from "../screens/AddMemberScreen/AddMemberScreen";
 import InviteMemberScreen from "../screens/InviteMemberScreen/InviteMemberScreen";
-import TaskDetailScreen from '../screens/TaskDetailScreen/TaskDetailScreen';
+import TaskDetailScreen from "../screens/TaskDetailScreen/TaskDetailScreen";
 import HomeTab from "./HomeTabNavigation";
 import { useSelector } from "react-redux";
 import ReduxState from "../redux/ReduxState";
 import InvitationsScreen from "../screens/InvitationsScreen/InvitationsScreen";
+import TeamInvitationsScreen from "../screens/TeamInvitationsScreen/TeamInvitationsScreen";
 import ProfileScreen from "../screens/ProfileScreen/ProfileScreen";
 import CreateTeamScreen from "../screens/CreateTeamScreen/CreateTeamScreen";
 const Stack = createStackNavigator();
@@ -30,11 +31,64 @@ function RootNavigation() {
         }}
       >
         {user ? (
-          <Stack.Screen
-            name="HomeTabNavigation"
-            component={HomeTab}
-            options={{ headerShown: false }}
-          />
+          <>
+            <Stack.Screen
+              name="HomeTabNavigation"
+              component={HomeTab}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+            <Stack.Screen
+              name="DynamicFormScreen"
+              component={DynamicFormScreen}
+            />
+            <Stack.Screen name="BoardScreen" component={BoardScreen} />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="AddTaskScreen"
+              component={AddTaskScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="AddMemberScreen"
+              component={AddMemberScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="EditTaskScreen"
+              component={EditTaskScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="TaskDetailScreen"
+              component={TaskDetailScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="InviteMemberScreen"
+              component={InviteMemberScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="InvitationsScreen"
+              component={InvitationsScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="ProfileScreen"
+              component={ProfileScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="CreateTeamScreen"
+              component={CreateTeamScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="TeamInvitationsScreen"
+              component={TeamInvitationsScreen}
+            />
+          </>
         ) : (
           <Stack.Screen
             options={{ headerShown: false }}
@@ -42,49 +96,6 @@ function RootNavigation() {
             component={LoginScreen}
           />
         )}
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-        <Stack.Screen name="DynamicFormScreen" component={DynamicFormScreen} />
-        <Stack.Screen name="BoardScreen" component={BoardScreen} />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AddTaskScreen"
-          component={AddTaskScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="AddMemberScreen"
-          component={AddMemberScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="EditTaskScreen"
-          component={EditTaskScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TaskDetailScreen"
-          component={TaskDetailScreen}
-        />
-         <Stack.Screen
-          options={{ headerShown: false }}
-          name="InviteMemberScreen"
-          component={InviteMemberScreen}
-        />
-         <Stack.Screen
-          options={{ headerShown: false }}
-          name="InvitationsScreen"
-          component={InvitationsScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="ProfileScreen"
-          component={ProfileScreen}
-        />
-         <Stack.Screen
-          options={{ headerShown: false }}
-          name="CreateTeamScreen"
-          component={CreateTeamScreen}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );

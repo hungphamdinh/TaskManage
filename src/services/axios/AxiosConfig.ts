@@ -4,11 +4,11 @@ import BuildConfig, { Environments } from '../../config/BuildConfig';
 import { _getStorage } from '../../utilities/Utils';
 const api = axios.create({
   baseURL:
-    BuildConfig == Environments.PRODUCTION
+    BuildConfig == Environments.DEVELOPMENT
       ? 'https://taskmanage998.herokuapp.com/api'
       : 'http://localhost:8080/api/',
 });
-
+// api.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {

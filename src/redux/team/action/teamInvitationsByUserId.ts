@@ -1,14 +1,12 @@
 
-import { GetInvitationsByUserIdRequest } from "../../../services/model/request/Invitation";
-import { Invitation } from "../../../services/model/Invitation";
 import { TeamInvitation } from "../../../services/model/TeamMember";
 import { GetTeamInvitationByUserIdRequest } from "../../../services/model/request/TeamMember";
 
-const ACTION = 'GET_INVITATION_BY_USER_ID';
-const ACTION_SUCCESS_SENDER = 'GET_INVITATION_BY_USER_ID_SUCCESS_SENDER';
-const ACTION_SUCCESS_RECEIVER = 'GET_INVITATION_BY_USER_ID_SUCCESS_RECEIVER';
-const ACTION_ERROR = 'GET_INVITATION_BY_USER_ID_ERROR';
-const ACTION_CLEAR = 'GET_INVITATION_BY_USER_ID_CLEAR';
+const ACTION = 'GET_TEAM_INVITATION_BY_USER_ID';
+const ACTION_SUCCESS_SENDER = 'GET_TEAM_INVITATION_BY_USER_ID_SUCCESS_SENDER';
+const ACTION_SUCCESS_RECEIVER = 'GET_TEAM_INVITATION_BY_USER_ID_SUCCESS_RECEIVER';
+const ACTION_ERROR = 'GET_TEAM_INVITATION_BY_USER_ID_ERROR';
+const ACTION_CLEAR = 'GET_TEAM_INVITATION_BY_USER_ID_CLEAR';
 export interface GetTeamInvitationByUserIdAction {
   type: typeof ACTION;
   params: GetTeamInvitationByUserIdRequest;

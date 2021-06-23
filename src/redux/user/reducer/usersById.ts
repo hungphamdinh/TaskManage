@@ -12,12 +12,19 @@ import {
   ACTION_SEARCH_USERS,
   SearchUsersAction,
   AddUserAction,
-  ClearUsersLocalAction
+  ClearUsersLocalAction,
+  DeleteLocalUserAction,
+  ACTION_DELETE_USER_LOCAL,
+  ACTION_INITIAL_TEAM_MEMBER,
+  InitialMemberLocalAction
 } from '../action/usersById';
 import {
   GetUsersByIdRequest,
 } from '../../../services/model/request/User';
 import { User } from '../../../services/model/User';
+import { TeamMember } from '../../../services/model/request/TeamMember';
+import members from '../../member/reducer/members';
+import { array } from 'yup/lib/locale';
 
 const getUsers = (params: GetUsersByIdRequest): GetUserAction => ({
   type: ACTION,
@@ -46,6 +53,16 @@ const addUser = (user: User): AddUserAction => ({
 
 const clearLocalUser = (): ClearUsersLocalAction => ({
   type: ACTION_CLEAR_LOCAL,
+})
+
+const deleteLocalUser = (item: User): DeleteLocalUserAction => ({
+  type: ACTION_DELETE_USER_LOCAL,
+  item,
+})
+
+const initialMemberLocal = (members: Array<TeamMember>): InitialMemberLocalAction => ({
+  type: ACTION_INITIAL_TEAM_MEMBER,
+  members,
 })
 //-------------- Actions
 const initialState: UsersByIdState = {
@@ -98,7 +115,30 @@ export default (
           users: setIsActive(state.users),
         }
   
+      case ACTION_DELETE_USER_LOCAL:
+        return {
+          ...state,
+          usersLocal: state.usersLocal.map((item: User) => {
+            if(item.id === action.item.id) {
+              item.isActive = false
+            }
+            return item;
+          })
+        }
 
+      case ACTION_INITIAL_TEAM_MEMBER:
+        return {
+          ...state,
+          usersLocal: state.usersLocal.map((item: User) => {
+            action.members.map((child: TeamMember) => {
+              if(child.memberId === item.id) {
+                item.isActive = true;
+              }
+              return child;
+            })
+            return item;
+          })
+        }
     default:
       return state;
   }
@@ -111,6 +151,8 @@ export {
   searchUsers,
   addUser,
   clearLocalUser,
+  initialMemberLocal,
+  deleteLocalUser,
 };
 const setIsActive = (arr: Array<any>) => {
   const data: Array<any> = arr.map((item: any) => {

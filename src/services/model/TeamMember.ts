@@ -2,6 +2,7 @@ import { TeamMember } from "./request/TeamMember";
 
 export interface TeamMemberByUserId  {
     teamId: string;
+    isAdmin: boolean;
     profile: string;
     userId: string;
     teamName: string;
@@ -10,6 +11,8 @@ export interface TeamMemberByUserId  {
 
 export interface TeamDetail {
     teamId: string;
+    isAdmin: boolean;
+    teamName: string;
     profile: string;
     userId: string;
     members: Array<TeamMemberDetail>;
@@ -36,4 +39,8 @@ export interface TeamInvitation  {
     teamId: string,
     status: number,
     type: string;
+}
+
+export interface AddTeamMember {
+    id: string;
 }

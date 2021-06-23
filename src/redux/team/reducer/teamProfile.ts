@@ -1,28 +1,27 @@
-import { AddTeamMemberState } from '../../ReduxState';
+import { AddTeamMemberState, TeamProfileState } from '../../ReduxState';
 import {
   ACTION,
   ACTION_SUCCESS,
   ACTION_ERROR,
-  AddTeamMemberActionType,
+  TeamProfileActionType,
   ACTION_CLEAR,
-} from '../action/teamMemberAdd';
-import { AddTeamMember } from '../../../services/model/TeamMember';
+} from '../action/teamProfile';
 
 //-------------- Actions
-const initialState: AddTeamMemberState = {
-  response: {} as unknown as AddTeamMember,
+const initialState: TeamProfileState = {
+  response: undefined,
   error: '',
 };
 
 export default (
   state = initialState,
-  action: AddTeamMemberActionType,
-): AddTeamMemberState => {
+  action: TeamProfileActionType,
+): TeamProfileState => {
   switch (action.type) {
     case ACTION:
       return {
         ...state,
-        response: {} as any,
+        response: undefined,
       };
 
     case ACTION_SUCCESS:
@@ -40,7 +39,7 @@ export default (
     case ACTION_CLEAR:
       return {
         ...state,
-        response: {} as any,
+        response: undefined,
         error: ''
       }
       

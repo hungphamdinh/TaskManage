@@ -7,24 +7,22 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors, Metrics } from "../../themes";
-import { getInvitationByUserId } from "../../redux/invitation/action/invitationsByUserId";
 import { InvitationsType } from "../../helpers/Constants";
 import { strings } from "../../languages";
-const TaskDetailScreen = ({ navigation }: { navigation: any }) => {
+import { getTeamInvitation } from "../../redux/team/action/teamInvitationsByUserId";
+const ProfileScreen = ({ navigation }: { navigation: any }) => {
   const { user } = useSelector((state: ReduxState) => state.user);
-  const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const dispatch = useDispatch();
 
   const _onPressInvitation = () => {
     dispatch(
-      getInvitationByUserId({
-        type: InvitationsType.sender,
-        id: user.id,
-        taskId: taskDetail.id,
+      getTeamInvitation({
+        type: InvitationsType.receiver,
+        id: user?.id,
       })
     );
-    navigation.navigate("InvitationsScreen", {
-      isReceiver: false,
+    navigation.navigate("TeamInvitationsScreen", {
+      isReceiver: true,
     });
   };
   return (
@@ -58,7 +56,7 @@ const TaskDetailScreen = ({ navigation }: { navigation: any }) => {
   );
 };
 
-export default TaskDetailScreen;
+export default ProfileScreen;
 const styles = StyleSheet.create({
   circle: {
     width: 4,

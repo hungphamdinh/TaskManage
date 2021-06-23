@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { TextInput, Text } from 'react-native';
-import { Colors } from '../../themes';
-import styles from './styles';
-import AppText from '../AppText';
-import { strings } from '../../languages';
-import { Metrics } from '../../themes';
+import React, { useState } from "react";
+import { View } from "react-native";
+import { TextInput, Text } from "react-native";
+import { Colors } from "../../themes";
+import styles from "./styles";
+import AppText from "../AppText";
+import { strings } from "../../languages";
+import { Metrics } from "../../themes";
 export default (props: any) => {
-  const { inputRef, label, isValidate = false } = props;
+  const { inputRef, label, isValidate = false, disabled = false } = props;
   const [isFocus, setIsFocus] = useState(false);
   const _onFocus = () => {
     setIsFocus(true);
@@ -53,6 +53,8 @@ export default (props: any) => {
       <TextInput
         onFocus={_onFocus}
         onBlur={_onBlur}
+        editable={!disabled}
+        selectTextOnFocus={!disabled}
         {...props}
         style={styles.textInput}
         ref={inputRef}

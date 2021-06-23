@@ -10,7 +10,7 @@ import { Invitation } from "../../../../services/model/Invitation";
 import {
   acceptInvitation,
   clearInvitationSend,
-} from "../../../../redux/invitation/action/invitationAccept";
+} from "../../../../redux/team/action/teamInvitationAccept";
 import {
   deleteInvitation,
   clearInvitationDelete,
@@ -20,7 +20,9 @@ import { InvitationsType } from "../../../../helpers/Constants";
 import {
   rejectInvitation,
   clearRejectInvitation,
-} from "../../../../redux/invitation/action/invitationReject";
+} from "../../../../redux/team/action/teamInvitationReject";
+import { getTeamInvitation } from "../../../../redux/team/action/teamInvitationsByUserId";
+import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
 const invitationType = {
   sender: "Sender",
   receiver: "Receiver",
@@ -28,23 +30,26 @@ const invitationType = {
 const InvitationForm = ({
   dispatch,
   user,
-  onNavigate,
   isReceiver,
+  navigation,
 }: {
   dispatch: any;
   user: User;
-  onNavigate: Function;
   isReceiver: boolean;
+  navigation: any;
 }) => {
+  const type = {
+    admin: 0,
+    member: 1,
+  };
   const { response } = useSelector(
-    (state: ReduxState) => state.invitationAccept
+    (state: ReduxState) => state.teamInvitationAccept
   );
-  const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const { invitationsSender, invitationsReceiver } = useSelector(
-    (state: ReduxState) => state.invitationsByUserId
+    (state: ReduxState) => state.teamInvitationsByUserId
   );
   const rejectResponse = useSelector(
-    (state: ReduxState) => state.invitationReject.response
+    (state: ReduxState) => state.teamInvitationReject.response
   );
   const deleteResponse = useSelector(
     (state: ReduxState) => state.invitationDelete.response
@@ -53,7 +58,12 @@ const InvitationForm = ({
   //Send invitation
   useEffect(() => {
     if (response) {
-      onNavigate();
+      dispatch(
+        getTeams({
+          userId: user.id,
+        })
+      );
+      navigation.goBack();
     }
     return () => {
       dispatch(clearInvitationSend());
@@ -64,10 +74,9 @@ const InvitationForm = ({
   useEffect(() => {
     if (deleteResponse) {
       dispatch(
-        getInvitationByUserId({
+        getTeamInvitation({
           id: user?.id,
           type: InvitationsType.sender,
-          taskId: taskDetail.id,
         })
       );
       dispatch(clearInvitationDelete());
@@ -87,7 +96,7 @@ const InvitationForm = ({
     }
   }, [rejectResponse, dispatch]);
   const _onPressDetail = (item: Invitation) => {
-    onNavigate(item.taskId);
+    // onNavigate(item.taskId);
   };
   const _keyExtractor = (item: any, index: number) => index.toString();
 
@@ -104,15 +113,21 @@ const InvitationForm = ({
           onPressDetail={_onPressDetail}
           index={index}
           item={item}
+          isTeam={true}
           onPress={_onPressItem}
           onPressReject={_onPressReject}
         />
       ) : (
-        <SenderForm index={index} item={item} onPress={_onPressItem} />
+        <SenderForm
+          isTeam={true}
+          index={index}
+          item={item}
+          onPress={_onPressItem}
+        />
       )}
     </>
   );
-  
+
   //Accept or Delete Invitation
   const _onPressItem = (item: Invitation) => {
     // Type is Receiver
@@ -120,12 +135,19 @@ const InvitationForm = ({
       ? dispatch(
           acceptInvitation({
             id: item.id,
-            userId: user?.id,
-            taskId: item.taskId,
+            member: {
+              googleUserId: user.id,
+              name: user.name,
+              mail: user.mail,
+              role: user.role,
+              profile: user.profile,
+              userId: item.userId,
+              memberId: user.id,
+            },
           })
         )
-      //Type is sender
-      : dispatch(
+      : //Type is sender
+        dispatch(
           deleteInvitation({
             userId: user.id,
             id: item.id,
@@ -137,7 +159,6 @@ const InvitationForm = ({
     dispatch(
       rejectInvitation({
         id: item.id,
-        userId: item.receiverId,
       })
     );
   };
@@ -145,7 +166,7 @@ const InvitationForm = ({
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.teamContainer}>
         <FlatList
-          data={isReceiver ? invitationsReceiver : invitationsSender}
+          data={isReceiver ? invitationsReceiver : (invitationsSender as any)}
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />

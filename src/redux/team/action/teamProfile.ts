@@ -1,19 +1,18 @@
 
-import { AddTeamMemberRequest } from "../../../services/model/request/TeamMember";
-import { AddTeamMember } from "../../../services/model/TeamMember";
+import { PostProfilePicRequest } from "../../../services/model/request/TeamMember";
 
-const ACTION = 'ADD_TEAM_MEMBER';
-const ACTION_SUCCESS = 'ADD_TEAM_MEMBER_SUCCESS';
-const ACTION_ERROR = 'ADD_TEAM_MEMBER_ERROR';
-const ACTION_CLEAR = 'ADD_TEAM_MEMBER_CLEAR';
-export interface AddTeamMemberAction {
+const ACTION = 'UPDATE_TEAM_PROFILE';
+const ACTION_SUCCESS = 'UPDATE_TEAM_PROFILE_SUCCESS';
+const ACTION_ERROR = 'UPDATE_TEAM_PROFILE_ERROR';
+const ACTION_CLEAR = 'UPDATE_TEAM_PROFILE_CLEAR';
+export interface PostTeamProfilePicAction {
   type: typeof ACTION;
-  params: AddTeamMemberRequest;
+  params: PostProfilePicRequest;
 }
 
 interface OnSuccessAction {
   type: typeof ACTION_SUCCESS;
-  payload: AddTeamMember;
+  payload: any;
 }
 
 interface OnFailureAction {
@@ -25,18 +24,18 @@ interface ClearTeamMemberAction {
   type: typeof ACTION_CLEAR;
 }
 
-export type AddTeamMemberActionType =
-  | AddTeamMemberAction
+export type TeamProfileActionType =
+  | PostTeamProfilePicAction
   | OnSuccessAction
   | OnFailureAction
   | ClearTeamMemberAction;
 
-const addTeamMember = (params: AddTeamMemberRequest): AddTeamMemberAction => ({
+const postTeamProfilePic = (params: PostProfilePicRequest): PostTeamProfilePicAction => ({
   type: ACTION,
   params,
 });
 
-const onSuccess = (payload: AddTeamMember): OnSuccessAction => ({
+const onSuccess = (payload: any): OnSuccessAction => ({
   type: ACTION_SUCCESS,
   payload,
 });
@@ -51,7 +50,7 @@ const clearTeamMember = (): ClearTeamMemberAction => ({
 })
 
 export {
-  addTeamMember,
+  postTeamProfilePic,
   onFailure,
   onSuccess,
   clearTeamMember,

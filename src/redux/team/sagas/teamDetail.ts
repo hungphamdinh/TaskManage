@@ -16,6 +16,7 @@ function* getTeamDetail(action: GetTeamDetailAction) {
     yield put(showIndicator(Colors.overlay5));
     yield sleep(1000);
     const res = yield TeamMemberAPI.getTeamDetail(action.params);
+    console.log(res);
     // console.log(res);
     //-------------- Request API Success
     yield put(hideIndicator());

@@ -69,8 +69,19 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.borderRadius.medium,
   },
   taskContainer: {
-    // height: '30%',
+    height: Metrics.screenHeight / 3.5,
   },
+  buttonSetting: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  iconSetting: {
+    width: 30,
+    height: 30,
+  },
+  textSetting: {
+    marginLeft: Metrics.margin.regular,
+  }
 });
 
 export default styles;

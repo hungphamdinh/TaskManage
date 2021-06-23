@@ -1,23 +1,26 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import styles from "./styles";
-import { AppText, Divider, AlertDialog } from "../../../../../../components";
-import { Colors, Fonts } from "../../../../../../themes";
+import { AppText, Divider, AlertDialog } from "../index";
+import { Colors, Fonts } from "../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Invitation } from "../../../../../../services/model/Invitation";
-import { invitationStatus } from "../../../../../../helpers/Constants";
+import { Invitation } from "../../services/model/Invitation";
+import { invitationStatus } from "../../helpers/Constants";
 import { Ionicons } from "@expo/vector-icons";
-import { strings } from "../../../../../../languages";
+import { strings } from "../../languages";
 
 const Item = ({
   item,
   index,
+  isTeam,
   onPress,
 }: {
-  item: Invitation;
+  item: any;
   index: number;
+  isTeam?: boolean;
   onPress: Function;
 }) => {
+  console.log(item);
   const [isShowDialog, setIsShowDialog] = useState(false);
   let color = "";
   let name = "";
@@ -51,8 +54,16 @@ const Item = ({
     return {
       ...styles.verticalBar,
       backgroundColor: color,
-    }
-  }
+    };
+  };
+
+  const infoContainer = () => {
+    return {
+      ...styles.infoContainer,
+      flexDirection: isTeam ? "row" : "column",
+      alignItems: isTeam ? "center" : null,
+    } as any;
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -72,13 +83,36 @@ const Item = ({
         <View style={styles.mainContainer}>
           <View style={verticalBar()} />
 
-          <View style={styles.infoContainer}>
-            <AppText text={item.taskId} bold size={Fonts.size.large} />
-            <AppText
-              style={styles.marginTopSmall}
-              text={item.receiverName}
-              color={Colors.appGrayColor}
-            />
+          <View style={infoContainer()}>
+            {isTeam ? (
+              <>
+                <Image
+                  source={{ uri: item.member.profile }}
+                  style={styles.profileImage}
+                />
+                <View>
+                  <AppText
+                    style={styles.marginLeftSmall}
+                    text={item.member.name}
+                    bold
+                  />
+                  <AppText
+                    style={[styles.marginTopSmall, styles.marginLeftSmall]}
+                    text={item.member.mail}
+                    color={Colors.appGrayColor}
+                  />
+                </View>
+              </>
+            ) : (
+              <>
+                <AppText text={item.taskId} bold size={Fonts.size.large} />
+                <AppText
+                  style={styles.marginTopSmall}
+                  text={item.receiverName}
+                  color={Colors.appGrayColor}
+                />
+              </>
+            )}
           </View>
         </View>
       </View>

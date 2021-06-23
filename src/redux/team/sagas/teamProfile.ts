@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { takeEvery, put } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
-import { ACTION, GetTeamsAction, onSuccess, onFailure } from '../action/teamsMemberByUserId';
+import { ACTION, PostTeamProfilePicAction, onSuccess, onFailure } from '../action/teamProfile';
 import { hideIndicator, showIndicator } from '../../app';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
@@ -10,19 +10,20 @@ import { Response } from '../../../services/model/Response';
 import { ApiResponseStatusCode } from '../../../helpers/Constants';
 import TeamMemberAPI from '../../../services/api/TeamMemberAPI';
 
-function* getTeamMembers(action: GetTeamsAction) {
+function* postProfilePic(action: PostTeamProfilePicAction) {
   try {
     //-------------- Request API
+    console.log(action.params);
     yield put(showIndicator(Colors.overlay5));
-    const res: Response = yield TeamMemberAPI.getTeamsMemberByUserId(
+    const res: Response = yield TeamMemberAPI.postProfilePic(
       action.params
     );
     yield put(hideIndicator());
     if(res.status === ApiResponseStatusCode.SUCCESS) {
-      yield put(onSuccess(res.data));
+      yield put(onSuccess(res));
     }
     else {
-      showMessage({
+      showMessage({ 
         message: strings.warning_api.check_data,
         description: res.message,
         type: 'warning',
@@ -44,7 +45,7 @@ function* getTeamMembers(action: GetTeamsAction) {
 }
 
 export default function* saga() {
-  yield takeEvery(ACTION, getTeamMembers);
+  yield takeEvery(ACTION, postProfilePic);
 }
 
 

@@ -85,9 +85,11 @@ export default {
     title: 'Profile',
     team_work: 'Team you work now',
     work_with: 'Work with',
+    settings: 'Settings',
   },
   create_team_screen: {
     title: 'Create team',
+    title_detail: 'Team Detail',
     upload: 'Upload logo file',
     logo_description: 'Your logo will public always',
     team_name: 'Team name',

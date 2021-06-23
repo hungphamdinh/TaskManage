@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   body: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   checkBox: {
     padding: Metrics.margin.small,
@@ -26,7 +27,19 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: Metrics.borderRadius.h5,
     backgroundColor: Colors.appGrayColor,
-  }
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonAdd: {
+    backgroundColor: Colors.buttonIconColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 30,
+    height: 30,
+    borderRadius: Metrics.borderRadius.medium,
+  },
 });
 
 export default styles;

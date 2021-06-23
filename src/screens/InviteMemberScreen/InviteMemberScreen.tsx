@@ -10,12 +10,14 @@ const InviteMemberScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
   const _onNavigate = () => {
     navigation.goBack();
-  }
+  };
   return (
     <Background
       title={strings.invite_member_screen.title}
       navigation={navigation}
-      mainComponent={<InviteForm onNavigate={_onNavigate} dispatch={dispatch} user={user} />}
+      mainComponent={
+        <InviteForm onNavigate={_onNavigate} dispatch={dispatch} user={user} />
+      }
     />
   );
 };

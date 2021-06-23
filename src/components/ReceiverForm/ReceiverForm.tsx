@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, PanResponder } from "react-native";
 import styles from "./styles";
-import { AppText, AlertDialog } from "../../../../../../components";
-import { Colors, Fonts } from "../../../../../../themes";
+import { AppText, AlertDialog } from "../../components";
+import { Colors, Fonts } from "../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Invitation } from "../../../../../../services/model/Invitation";
-import { strings } from "../../../../../../languages";
+import { Invitation } from "../../services/model/Invitation";
+import { strings } from "../../languages";
 
 const Item = ({
   item,
@@ -13,12 +13,14 @@ const Item = ({
   onPress,
   onPressDetail,
   onPressReject,
+  isTeam = false,
 }: {
-  item: Invitation;
+  item: any;
   index: number;
   onPress: Function;
   onPressDetail: Function;
   onPressReject: Function;
+  isTeam?: boolean;
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isShowDialog, setIsShowDialog] = useState(false);
@@ -62,7 +64,7 @@ const Item = ({
   const _onPressReject = () => {
     onPressReject(item);
     changeModalVisible();
-  }
+  };
 
   const changeModalVisible = () => {
     setIsShowDialog(!isShowDialog);
@@ -71,19 +73,25 @@ const Item = ({
     <View {...panResponder.panHandlers} style={styles.itemContainer}>
       <View style={styles.mainContainer}>
         <View style={infoContainer()}>
-          <AppText text={item.taskId} bold size={Fonts.size.large} />
+          <AppText
+            text={isTeam ? item.teamId : item.taskId}
+            bold
+            size={Fonts.size.large}
+          />
           <AppText
             style={styles.marginTopSmall}
             text={item.content}
             color={Colors.appGrayColor}
           />
-          <TouchableOpacity onPress={_onPressDetail}>
-            <AppText
-              style={styles.marginTopSmall}
-              color={Colors.appBlue}
-              text={strings.invite_member_screen.view_detail}
-            />
-          </TouchableOpacity>
+          {!isTeam ? (
+            <TouchableOpacity onPress={_onPressDetail}>
+              <AppText
+                style={styles.marginTopSmall}
+                color={Colors.appBlue}
+                text={strings.invite_member_screen.view_detail}
+              />
+            </TouchableOpacity>
+          ) : null}
         </View>
         {isVisible ? (
           <View style={styles.buttonContainer}>
@@ -93,7 +101,10 @@ const Item = ({
             >
               <AppText color={Colors.appWhite} text={"Accept"} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonCancel} onPress={changeModalVisible}>
+            <TouchableOpacity
+              style={styles.buttonCancel}
+              onPress={changeModalVisible}
+            >
               <AppText color={Colors.appWhite} text={"Cancel"} />
             </TouchableOpacity>
           </View>

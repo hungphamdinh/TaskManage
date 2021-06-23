@@ -100,13 +100,13 @@ const AddForm = ({
       <View style={styles.teamContainer}>
         <FlatList
           data={
-            name !== ""
+            (name !== ""
               ? isTeamMember
                 ? usersLocal
                 : membersLocal
               : isTeamMember
               ? users
-              : members
+              : members) as any
           }
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}

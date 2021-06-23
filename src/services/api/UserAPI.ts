@@ -4,7 +4,7 @@ import {
 } from '../model/request/User';
 
 const LOGIN_REQUEST = 'login';
-const GET_USERS = 'users';
+const GET_USERS = 'users/getAllUsers';
 const login = async (params: LoginRequest) => {
   return axios.post(LOGIN_REQUEST, params);
 };

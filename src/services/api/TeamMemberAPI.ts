@@ -1,12 +1,13 @@
 import axios from '../axios/AxiosConfig';
-import { AddTeamMemberRequest, GetTeamDetailRequest, UpdateTeamMemberRequest, GetTeamInvitationByUserIdRequest, RejectTeamInvitationRequest } from '../model/request/TeamMember';
-import { GetTeamMembersRequest } from '../model/request/Member';
+import { AddTeamMemberRequest, GetTeamDetailRequest, UpdateTeamMemberRequest, GetTeamInvitationByUserIdRequest, RejectTeamInvitationRequest, PostProfilePicRequest } from '../model/request/TeamMember';
+import { GetTeamMembersRequest } from '../model/request/TeamMember';
 import { AcceptTeamInvitationRequest } from '../model/request/Invitation';
 
-const ADD_TEAM_MEMBER = 'team/add';
+const ADD_TEAM_MEMBER = 'team/addTeam';
 const UPDATE_TEAM_MEMBER = 'team/update';
 const GET_TEAMS_MEMBER_BY_USER_ID = 'team/getByUserId';
-const GET_TEAM_DETAIL = 'team/getDetail'
+const TEAM_DETAIL = 'team/getDetail'
+const POST_PROFILE_PIC = 'team/upload';
 const ACCEPT_TEAM_INVITATION = 'teamInvitation/accept';
 const GET_TEAM_INVITATION = 'teamInvitation/getByUserId';
 const REJECT_TEAM_INVITATION = 'teamInvitation/reject';
@@ -21,7 +22,7 @@ const getTeamsMemberByUserId = async (params: GetTeamMembersRequest) => {
 }
 
 const getTeamDetail = async (params: GetTeamDetailRequest) => {
-  return axios.get(GET_TEAM_DETAIL, {
+  return axios.get(TEAM_DETAIL, {
     params,
   })
 }
@@ -43,6 +44,18 @@ const getTeamInvitation = async (params: GetTeamInvitationByUserIdRequest) => {
 const rejectTeamInvitation = async (params: RejectTeamInvitationRequest) => {
   return axios.put(REJECT_TEAM_INVITATION, params)
 }
+
+const postProfilePic = async (params: PostProfilePicRequest) => {
+  var photo = {
+    uri: params.file.uri,
+    type: 'image/jpeg',
+    name: `${new Date().getTime()}.png`,
+  };
+  const data = new FormData();
+  data.append('file', photo as any);
+  data.append('teamId', params.teamId);
+  return axios.put(POST_PROFILE_PIC, data);
+}
 export default {
   addTeamMember,
   getTeamsMemberByUserId,
@@ -51,4 +64,5 @@ export default {
   acceptTeamInvitation,
   getTeamInvitation,
   rejectTeamInvitation,
+  postProfilePic,
 };

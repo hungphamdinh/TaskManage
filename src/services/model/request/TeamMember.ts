@@ -16,12 +16,13 @@ export interface TeamMember {
 }
 export interface GetTeamDetailRequest {
   id: string;
+  userId: string;
 }
 
 export interface UpdateTeamMemberRequest {
   teamId: string;
   teamName: string;
-  profile: string;
+  profile?: string;
   members: Array<TeamMemberUpdate>;
 }
 export interface TeamMemberUpdate {
@@ -47,4 +48,9 @@ export interface RejectTeamInvitationRequest {
 }
 export interface GetTeamMembersRequest {
   userId: string;  
+}
+
+export interface PostProfilePicRequest {
+  teamId: any;
+  file: any;
 }

@@ -19,6 +19,7 @@ function* getTeamInvitationsByUserId(action: GetTeamInvitationByUserIdAction) {
     );
     //-------------- Request API Success
     yield put(hideIndicator());
+    console.log(res.status);
     if(res.status === ApiResponseStatusCode.SUCCESS) {
       if(res.type == 'Receiver') {
         yield put(onSuccessReceiver(res.data))

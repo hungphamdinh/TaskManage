@@ -12,16 +12,13 @@ const styles = StyleSheet.create({
   teamContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    flex: 0.9,
     marginTop: Metrics.margin.regular,
   },
-  imageMember: {
-    width: 40,
-    height: 40,
-    marginRight: Metrics.margin.huge,
-  },
   profile: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
+    borderRadius: Metrics.borderRadius.h5,
   },
   buttonDone: {
     flexGrow: 1,
@@ -52,6 +49,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: Metrics.margin.small,
+  },
+  memberContainer: {
+    padding: Metrics.margin.small,
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: Metrics.margin.regular,
+    marginRight: Metrics.margin.regular,
+    backgroundColor: Colors.overlay1,
+    borderRadius: Metrics.borderRadius.regular - 2,
+  },
+  textMemberName: {
+    marginLeft: Metrics.margin.regular,
+  },
+  buttonClose: {
+    marginLeft: Metrics.margin.small,
+  },
+  buttonAdd: {
+    flex: 0.1,
+    alignItems: 'flex-end',
   }
 });
 

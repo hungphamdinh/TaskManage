@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { AppText } from "../../../../components";
 import { View, Image } from "react-native";
 import { strings } from "../../../../languages";
-import { Fonts, Colors } from "../../../../themes";
+import { Fonts, Colors, Images } from "../../../../themes";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
 import { TouchableOpacity, FlatList } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
-import { SubTask } from "../../../../services/model/Task";
 import Item from "./components/Item/Item";
-import { doneSubTask } from "../../../../redux/task/action/subTaskStatus";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
 import { TeamMemberByUserId } from "../../../../services/model/TeamMember";
+import { getTeamInvitation } from "../../../../redux/team/action/teamInvitationsByUserId";
+import { InvitationsType } from "../../../../helpers/Constants";
+import { logout } from "../../../../redux/user/reducer/user";
 const TaskDetail = ({
   dispatch,
   user,
@@ -27,15 +28,14 @@ const TaskDetail = ({
   const { teamMembers } = useSelector(
     (state: ReduxState) => state.teamsMemberByUserId
   );
-  const status = {
-    inProgress: 0,
-    done: 1,
-  };
+  const { invitationsSender } = useSelector(
+    (state: ReduxState) => state.teamInvitationsByUserId
+  );
 
   useEffect(() => {
     dispatch(
       getTeams({
-        userId: user.id,
+        userId: user?.id,
       })
     );
   }, [dispatch]);
@@ -46,36 +46,60 @@ const TaskDetail = ({
   }: {
     item: TeamMemberByUserId;
     index: number;
-  }) => <Item onPressItem={_onPressItemSubTask} item={item} index={index} />;
+  }) => <Item onPressDetail={_onPressDetail} onPressItem={_onPressTeamItem} item={item} index={index} />;
 
-  const _onPressItemSubTask = (item: SubTask) => {
-    dispatch(
-      doneSubTask({
-        id: item.id,
-        status: status.done,
-      })
-    );
+  useEffect(() => {
+    if (invitationsSender.length > 0) {
+      navigation.navigate("TeamInvitationsScreen", {
+        isReceiver: false,
+      });
+    }
+  }, [invitationsSender.length]);
+  const _onPressTeamItem = (item: TeamMemberByUserId) => {
+    if (item.isAdmin) {
+      dispatch(
+        getTeamInvitation({
+          type: InvitationsType.sender,
+          id: user?.id,
+          teamId: item.teamId,
+        })
+      );
+    }
   };
 
+  const _onPressDetail = (item: TeamMemberByUserId) => {
+    navigation.navigate("CreateTeamScreen", {
+      isUpdate: true,
+      teamId: item.teamId,
+    });
+  }
   const _onPressAdd = () => {
-    navigation.navigate('CreateTeamScreen');
+    navigation.navigate("CreateTeamScreen");
+  };
+
+  const _onPressSettings = () => {
+    dispatch(logout());
   };
   return (
     <View>
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
           <View style={styles.avatar}>
-            <Image style={styles.imageAvatar} source={{ uri: user.profile }} />
+            <Image
+              resizeMode={"contain"}
+              style={styles.imageAvatar}
+              source={{ uri: user?.profile }}
+            />
           </View>
           <AppText
             style={styles.title}
-            text={user.name}
+            text={user?.name}
             bold
             size={Fonts.size.h5}
           />
           <AppText
             style={styles.description}
-            text={user.role}
+            text={user?.role}
             color={Colors.appGrayColor}
           />
         </View>
@@ -119,6 +143,18 @@ const TaskDetail = ({
             </View>
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.buttonSetting}
+          onPress={_onPressSettings}
+        >
+          <Image source={Images.icSetting} style={styles.iconSetting} />
+          <AppText
+            text={strings.profile_screen.settings}
+            bold
+            style={styles.textSetting}
+            size={Fonts.size.large}
+          />
+        </TouchableOpacity>
       </KeyboardAwareScrollView>
     </View>
   );

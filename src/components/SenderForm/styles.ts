@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Metrics, Colors } from '../../../../../../themes';
+import { Metrics, Colors } from '../../themes';
 
 const styles = StyleSheet.create({
   itemContainer: {
@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
   },
   marginTopSmall: {
     marginTop: Metrics.margin.tiny,
+  },
+  marginLeftSmall: {
+    marginLeft: Metrics.margin.regular,
   },
   infoContainer: {
     paddingVertical: Metrics.margin.regular,
@@ -51,6 +54,11 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginHorizontal: Metrics.margin.regular,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: Metrics.borderRadius.h6,
   }
 });
 
