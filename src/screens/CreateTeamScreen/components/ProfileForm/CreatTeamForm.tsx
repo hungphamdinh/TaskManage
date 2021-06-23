@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Image, Platform } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
@@ -37,11 +37,13 @@ import {
 } from "../../../../redux/user/reducer/usersById";
 import { TeamMember } from "../../../../services/model/request/TeamMember";
 import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
-import { getTeamDetail } from "../../../../redux/team/action/teamDetail";
-import { updateTeamMember } from "../../../../redux/team/action/teamMemberUpdate";
-import { TeamMemberDetail } from "../../../../services/model/TeamMember";
+import {
+  updateTeamMember,
+  clearTeamMember as clearUpdateResponse,
+} from "../../../../redux/team/action/teamMemberUpdate";
+import taskDetail from "../../../../redux/task/reducer/taskDetail";
 
-const BoardForm = ({
+const CreateTeamForm = ({
   dispatch,
   user,
   navigation,
@@ -56,7 +58,6 @@ const BoardForm = ({
     (state: ReduxState) => state.usersById
   );
   const [image, setImage] = useState("" as any);
-  const { response } = useSelector((state: ReduxState) => state.task);
   const { id } = useSelector(
     (state: ReduxState) => state.teamMemberAdd.response
   );
@@ -64,9 +65,13 @@ const BoardForm = ({
   const postProfilePicResponse = useSelector(
     (state: ReduxState) => state.teamProfile.response
   );
-  const isAdmin = teamDetail?.isAdmin;
+  const updateResponse = useSelector(
+    (state: ReduxState) => state.teamMemberUpdate.response
+  );
   const [name, setName] = useState("");
 
+  const isCurrentImage = teamDetail?.profile === image?.uri;
+  const isAdmin = teamDetail?.isAdmin;
   useEffect(() => {
     if (isUpdate) {
       if (teamDetail) {
@@ -89,9 +94,13 @@ const BoardForm = ({
       dispatch(clearTeamMember());
       dispatch(clearPostProfile());
       dispatch(clearLocalUser());
+      if (teamDetail?.isAdmin) {
+        dispatch(clearUpdateResponse());
+      }
     };
   }, []);
 
+  //add success
   useEffect(() => {
     if (id) {
       dispatch(
@@ -103,6 +112,28 @@ const BoardForm = ({
     }
   }, [id, dispatch]);
 
+  //isAdmin & update success
+  useEffect(() => {
+    if (updateResponse) {
+      if (teamDetail?.isAdmin && !isCurrentImage) {
+        dispatch(
+          postTeamProfilePic({
+            teamId: teamDetail.teamId,
+            file: image,
+          })
+        );
+      } else {
+        navigation.goBack();
+        dispatch(
+          getTeams({
+            userId: user?.id,
+          })
+        );
+      }
+    }
+  }, [dispatch, updateResponse]);
+
+  //After upload Image
   useEffect(() => {
     if (postProfilePicResponse) {
       dispatch(
@@ -114,6 +145,7 @@ const BoardForm = ({
     }
   }, [postProfilePicResponse]);
 
+  //Permission
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -127,17 +159,7 @@ const BoardForm = ({
     })();
   }, []);
 
-  useEffect(() => {
-    if (response) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{ name: "HomeTabNavigation" }],
-        })
-      );
-      dispatch(clear());
-    }
-  }, [response]);
+
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
@@ -151,6 +173,7 @@ const BoardForm = ({
           teamName: name,
           teamId: teamDetail.teamId,
           members: teamDetail.members,
+          profile: !isCurrentImage ? image.uri : teamDetail?.profile,
         })
       );
     } else {
@@ -255,7 +278,7 @@ const BoardForm = ({
           )}
           <View style={styles.teamContainer}>
             <>
-              {!isAdmin ? (
+              {isUpdate ? (
                 <>
                   {teamDetail?.members.map((item: any) => (
                     <RenderMember
@@ -283,13 +306,15 @@ const BoardForm = ({
             </>
           </View>
           <View style={styles.buttonAdd}>
-            <TouchableOpacity onPress={_onPressAdd} disabled={!isAdmin}>
-              <Ionicons
-                name="add-outline"
-                size={30}
-                color={Colors.appPrimaryColor}
-              />
-            </TouchableOpacity>
+            {!isUpdate ? (
+              <TouchableOpacity onPress={_onPressAdd}>
+                <Ionicons
+                  name="add-outline"
+                  size={30}
+                  color={Colors.appPrimaryColor}
+                />
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
         <Divider />
@@ -302,7 +327,7 @@ const BoardForm = ({
   );
 };
 
-export default BoardForm;
+export default CreateTeamForm;
 const RenderMember = ({
   item,
   onPressDeleteItem,
@@ -310,7 +335,6 @@ const RenderMember = ({
   item: User;
   onPressDeleteItem?: any;
 }) => {
-  console.log(item);
   return (
     <View style={styles.memberContainer}>
       <Image style={styles.profile} source={{ uri: item.profile }} />

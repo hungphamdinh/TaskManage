@@ -8,4 +8,5 @@ export interface Member {
     userId: string;
     teamId: string;
     isActive?: boolean;
+    isDisable?: boolean;
   }

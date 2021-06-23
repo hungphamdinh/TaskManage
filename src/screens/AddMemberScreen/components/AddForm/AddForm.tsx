@@ -24,18 +24,25 @@ import {
   getUsers,
   addUser,
   searchUsers,
+  initialMemberLocal,
+  clearLocalUser,
 } from "../../../../redux/user/reducer/usersById";
+import { TeamDetail } from "../../../../services/model/TeamMember";
 
 const AddForm = ({
   dispatch,
   user,
   onNavigate,
   isTeamMember,
+  isInvite,
+  teamDetail,
 }: {
   dispatch: any;
   user: User;
   onNavigate: Function;
   isTeamMember?: boolean;
+  isInvite?: boolean;
+  teamDetail: TeamDetail;
 }) => {
   const { members, membersLocal } = useSelector(
     (state: ReduxState) => state.members
@@ -44,6 +51,7 @@ const AddForm = ({
     (state: ReduxState) => state.usersById
   );
   const [name, setName] = useState("");
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
     if (!isTeamMember) {
       if (members.length == 0) {
@@ -62,14 +70,27 @@ const AddForm = ({
         );
       }
     }
+    setMounted(true);
+    // return () => {
+    //   dispatch(clearLocalUser());
+    // }
   }, []);
+
+  useEffect(() => {
+    if (usersLocal.length > 0 && isInvite) {
+      // console.log(teamDetail.members);
+      if (mounted) {
+        dispatch(initialMemberLocal(teamDetail.members));
+      }
+    }
+  }, [usersLocal.length, mounted]);
   const _onChangeTaskName = (value: any) => {
     setName(value);
     isTeamMember ? dispatch(searchUsers(value)) : dispatch(searchMember(value));
   };
 
   const _onPressDone = () => {
-    onNavigate();
+    onNavigate(usersLocal);
   };
 
   const _keyExtractor = (item: any, index: number) => index.toString();
@@ -135,24 +156,39 @@ const Item = ({
     onPress(item, index);
   };
   return (
-    <TouchableOpacity style={styles.itemContainer} onPress={_onPress}>
+    <TouchableOpacity
+      disabled={item.isDisable}
+      style={styles.itemContainer}
+      onPress={_onPress}
+    >
       <View style={styles.profileContainer}>
         <View style={styles.imageProfileContainer}>
           <Image style={styles.imageMember} source={{ uri: item.profile }} />
         </View>
         <View style={styles.roleContainer}>
-          <AppText text={item.name} bold size={Fonts.size.large} />
+          <AppText
+            color={item.isDisable ? Colors.overlay3 : Colors.appTextBlack}
+            text={item.name}
+            bold
+            size={Fonts.size.large}
+          />
           <AppText
             style={styles.marginTopSmall}
             text={item.role}
-            color={Colors.appGrayColor}
+            color={item.isDisable ? Colors.overlay3 : Colors.appGrayColor}
           />
         </View>
       </View>
       <Ionicons
         name="checkmark-outline"
         size={20}
-        color={item.isActive ? Colors.appPrimaryColor : Colors.appWhite}
+        color={
+          item.isDisable
+            ? Colors.overlay2
+            : item.isActive
+            ? Colors.appPrimaryColor
+            : Colors.appWhite
+        }
       />
     </TouchableOpacity>
   );

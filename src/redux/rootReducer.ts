@@ -27,6 +27,7 @@ import teamInvitationAccept from './team/reducer/teamInvitationAccept';
 import teamInvitationsByUserId from './team/reducer/teamInvitationsByUserId';
 import teamInvitationReject from './team/reducer/teamInvitationReject';
 import teamProfile from './team/reducer/teamProfile';
+import teamMemberInvite from './team/reducer/teamMemberInvite';
 const rootReducer = combineReducers({
   user,
   tasks,
@@ -55,6 +56,7 @@ const rootReducer = combineReducers({
   teamInvitationsByUserId,
   teamInvitationReject,
   teamProfile,
+  teamMemberInvite,
 });
 
 export default rootReducer;

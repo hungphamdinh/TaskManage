@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
   buttonAdd: {
     flex: 0.1,
     alignItems: 'flex-end',
-  }
+  },
+  
 });
 
 export default styles;

@@ -20,7 +20,6 @@ const Item = ({
   isTeam?: boolean;
   onPress: Function;
 }) => {
-  console.log(item);
   const [isShowDialog, setIsShowDialog] = useState(false);
   let color = "";
   let name = "";

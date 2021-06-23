@@ -79,7 +79,10 @@ export interface AddTeamMemberState {
   response: AddTeamMember;
   error: string;
 }
-
+export interface InviteTeamMemberState {
+  response: any;
+  error: string;
+}
 export interface UpdateTeamMemberState {
   response: any;
   error: string;
@@ -157,4 +160,5 @@ export default interface ReduxState {
   teamInvitationReject: TeamInvitationRejectState;
   teamProfile: TeamProfileState;
   teamDetail: TeamDetailState;
+  teamMemberInvite: InviteTeamMemberState;
 }

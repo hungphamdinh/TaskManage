@@ -27,6 +27,7 @@ import acceptTeamInvitation from './team/sagas/teamInvitationAccept';
 import getTeamInvitationsByUserId from './team/sagas/teamInvitationByUserId';
 import rejectTeamInvitation from './team/sagas/teamInvitationReject';
 import postProfilePic from './team/sagas/teamProfile';
+import inviteTeamMember from './team/sagas/teamMemberInvite';
 export default function* rootSaga() {
   yield all([
     fork(loginWithEmail),
@@ -55,5 +56,6 @@ export default function* rootSaga() {
     fork(getTeamInvitationsByUserId),
     fork(rejectTeamInvitation),
     fork(postProfilePic),
+    fork(inviteTeamMember),
   ]);
 }

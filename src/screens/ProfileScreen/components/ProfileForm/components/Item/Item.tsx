@@ -44,13 +44,15 @@ const ItemBoard = ({
               text={item.teamName}
             />
           </View>
-          <TouchableOpacity onPress={_onPressItem}>
-            <Ionicons
-              name="mail-unread-outline"
-              size={20}
-              color={Colors.overlay4}
-            />
-          </TouchableOpacity>
+          {item.isAdmin ? (
+            <TouchableOpacity onPress={_onPressItem}>
+              <Ionicons
+                name="mail-unread-outline"
+                size={20}
+                color={Colors.overlay4}
+              />
+            </TouchableOpacity>
+          ) : null}
         </View>
       </TouchableOpacity>
     );

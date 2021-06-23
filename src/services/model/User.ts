@@ -7,6 +7,7 @@ export interface User  {
   profile: string
   message?: string;
   isActive?: boolean;
+  isDisable?: boolean;
   members: Array<User>;
 }
 

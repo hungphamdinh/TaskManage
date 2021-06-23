@@ -129,15 +129,7 @@ export default (
       case ACTION_INITIAL_TEAM_MEMBER:
         return {
           ...state,
-          usersLocal: state.usersLocal.map((item: User) => {
-            action.members.map((child: TeamMember) => {
-              if(child.memberId === item.id) {
-                item.isActive = true;
-              }
-              return child;
-            })
-            return item;
-          })
+          usersLocal: setIsDisable(state.usersLocal, action.members)
         }
     default:
       return state;
@@ -154,9 +146,25 @@ export {
   initialMemberLocal,
   deleteLocalUser,
 };
+
+const setIsDisable = (data: Array<User>, members: Array<TeamMember>) => {
+  console.log(data);
+  const arr = data.map((item: User) => {
+    members.map((child: TeamMember) => {
+      if(child.memberId === item.id) {
+        item.isDisable = true;
+      }
+      return child;
+    })
+    return item;
+  })
+  // console.log(arr);
+  return arr;
+}
 const setIsActive = (arr: Array<any>) => {
   const data: Array<any> = arr.map((item: any) => {
     item.isActive = false;
+    item.isDisable = false;
     return item;
   });
   return data;

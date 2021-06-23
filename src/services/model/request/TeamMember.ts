@@ -4,6 +4,12 @@ export interface AddTeamMemberRequest {
   userId: string;
   members: Array<TeamMember>;
 }
+export interface InviteTeamMemberRequest {
+  teamName: string;
+  teamId: string;
+  userId: string;
+  members: Array<TeamMember>;
+}
 export interface TeamMember {
   googleUserId: string;
   name: string;
@@ -22,7 +28,7 @@ export interface GetTeamDetailRequest {
 export interface UpdateTeamMemberRequest {
   teamId: string;
   teamName: string;
-  profile?: string;
+  profile: string;
   members: Array<TeamMemberUpdate>;
 }
 export interface TeamMemberUpdate {

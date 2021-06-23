@@ -1,9 +1,10 @@
 import axios from '../axios/AxiosConfig';
-import { AddTeamMemberRequest, GetTeamDetailRequest, UpdateTeamMemberRequest, GetTeamInvitationByUserIdRequest, RejectTeamInvitationRequest, PostProfilePicRequest } from '../model/request/TeamMember';
+import { AddTeamMemberRequest, GetTeamDetailRequest, UpdateTeamMemberRequest, GetTeamInvitationByUserIdRequest, RejectTeamInvitationRequest, PostProfilePicRequest, TeamMember, InviteTeamMemberRequest } from '../model/request/TeamMember';
 import { GetTeamMembersRequest } from '../model/request/TeamMember';
 import { AcceptTeamInvitationRequest } from '../model/request/Invitation';
 
 const ADD_TEAM_MEMBER = 'team/addTeam';
+const INVITE_TEAM_MEMBER = 'team/invite';
 const UPDATE_TEAM_MEMBER = 'team/update';
 const GET_TEAMS_MEMBER_BY_USER_ID = 'team/getByUserId';
 const TEAM_DETAIL = 'team/getDetail'
@@ -56,6 +57,11 @@ const postProfilePic = async (params: PostProfilePicRequest) => {
   data.append('teamId', params.teamId);
   return axios.put(POST_PROFILE_PIC, data);
 }
+
+const inviteTeamMember = (params: InviteTeamMemberRequest) => {
+  console.log(params);
+  return axios.post(INVITE_TEAM_MEMBER, params);
+}
 export default {
   addTeamMember,
   getTeamsMemberByUserId,
@@ -65,4 +71,5 @@ export default {
   getTeamInvitation,
   rejectTeamInvitation,
   postProfilePic,
+  inviteTeamMember,
 };
