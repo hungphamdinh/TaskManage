@@ -59,7 +59,6 @@ const postProfilePic = async (params: PostProfilePicRequest) => {
 }
 
 const inviteTeamMember = (params: InviteTeamMemberRequest) => {
-  console.log(params);
   return axios.post(INVITE_TEAM_MEMBER, params);
 }
 export default {

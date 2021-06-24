@@ -6,15 +6,8 @@ import styles from "./styles";
 import { Task } from "../../../../../services/model/Task";
 import { statusType } from "../../../../../helpers/Constants";
 import moment from "moment";
-import { TouchableOpacity } from "react-native";
 
-const ItemBoard = ({
-  item,
-  onPressItem,
-}: {
-  item: Task;
-  onPressItem: Function;
-}) => {
+const ItemBoard = ({ item }: { item: Task; index: number }) => {
   let status = "";
   let color = "";
   switch (item.status) {
@@ -33,10 +26,6 @@ const ItemBoard = ({
       color = Colors.appPrimaryColor;
       break;
 
-    case statusType.done:
-      status = "Done";
-      color = Colors.appBlue;
-      break;
     default:
       break;
   }
@@ -47,11 +36,8 @@ const ItemBoard = ({
       marginBottom: Metrics.margin.very_huge,
     };
   };
-  const _onPressItem = () => {
-    onPressItem(item);
-  };
   return (
-    <TouchableOpacity style={styles.itemContainer} onPress={_onPressItem}>
+    <View style={styles.itemContainer}>
       <AppText color={color} text={status.toUpperCase()} />
       <View style={styles.marginVertical}>
         <Divider />
@@ -67,11 +53,7 @@ const ItemBoard = ({
         <AppText
           color={Colors.overlay3}
           style={styles.textDescription}
-          text={
-            item.description.length > 100
-              ? item.description.substring(0, 100) + "..."
-              : item.description
-          }
+          text={item.description}
         />
       </View>
       <View style={styles.itemFooter}>
@@ -83,7 +65,9 @@ const ItemBoard = ({
           />
           <AppText
             style={styles.textTime}
-            text={moment(item.date).format("LL")}
+            text={`${moment(item.timeStart).format("LT")} - ${moment(
+              item.timeEnd
+            ).format("LT")}`}
           />
         </View>
         <View style={styles.memberContainer}>
@@ -98,7 +82,7 @@ const ItemBoard = ({
           />
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 export default ItemBoard;

@@ -53,7 +53,8 @@ export interface RejectTeamInvitationRequest {
   id: string;
 }
 export interface GetTeamMembersRequest {
-  userId: string;  
+  userId: string;
+  isAdminTeams?: boolean;
 }
 
 export interface PostProfilePicRequest {

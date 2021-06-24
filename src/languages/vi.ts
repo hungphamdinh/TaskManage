@@ -51,6 +51,9 @@ export default {
     login_failed: 'Đăng nhập thất bại',
     check_data: "Request Failed",
   },
+  warning: {
+    not_full_fill: 'Please fill all of your information',
+  },
   login_screen: {
     title: 'Manage\nYour task easily',
     sub_title: 'Easy wayt to manage daily task and office management',

@@ -8,6 +8,7 @@ import SignUpScreen from "../screens/SignUpScreen/SignUpScreen";
 import DynamicFormScreen from "../screens/DynamicFormScreen/DynamicFormScreen";
 import BoardScreen from "../screens/BoardScreen/BoardScreen";
 import AddMemberScreen from "../screens/AddMemberScreen/AddMemberScreen";
+import AddMemberToTaskScreen from "../screens/AddMemberToTaskScreen/AddMemberToTaskScreen";
 import InviteMemberScreen from "../screens/InviteMemberScreen/InviteMemberScreen";
 import TaskDetailScreen from "../screens/TaskDetailScreen/TaskDetailScreen";
 import HomeTab from "./HomeTabNavigation";
@@ -52,6 +53,11 @@ function RootNavigation() {
               options={{ headerShown: false }}
               name="AddMemberScreen"
               component={AddMemberScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="AddMemberToTaskScreen"
+              component={AddMemberToTaskScreen}
             />
             <Stack.Screen
               options={{ headerShown: false }}

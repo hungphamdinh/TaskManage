@@ -13,9 +13,13 @@ import Item from "./components/Item/Item";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
 import { TeamMemberByUserId } from "../../../../services/model/TeamMember";
-import { getTeamInvitation } from "../../../../redux/team/action/teamInvitationsByUserId";
+import {
+  getTeamInvitation,
+  clearInvitationSend,
+} from "../../../../redux/team/action/teamInvitationsByUserId";
 import { InvitationsType } from "../../../../helpers/Constants";
 import { logout } from "../../../../redux/user/reducer/user";
+import { onSuccess } from "../../../../redux/user/reducer/usersById";
 const TaskDetail = ({
   dispatch,
   user,
@@ -46,7 +50,14 @@ const TaskDetail = ({
   }: {
     item: TeamMemberByUserId;
     index: number;
-  }) => <Item onPressDetail={_onPressDetail} onPressItem={_onPressTeamItem} item={item} index={index} />;
+  }) => (
+    <Item
+      onPressDetail={_onPressDetail}
+      onPressItem={_onPressTeamItem}
+      item={item}
+      index={index}
+    />
+  );
 
   useEffect(() => {
     if (invitationsSender.length > 0) {
@@ -72,13 +83,14 @@ const TaskDetail = ({
       isUpdate: true,
       teamId: item.teamId,
     });
-  }
+  };
   const _onPressAdd = () => {
     navigation.navigate("CreateTeamScreen");
   };
 
   const _onPressSettings = () => {
     dispatch(logout());
+    dispatch(onSuccess([]));
   };
   return (
     <View>

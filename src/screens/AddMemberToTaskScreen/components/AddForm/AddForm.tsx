@@ -13,53 +13,33 @@ import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
-import {
-  getMembers,
-  addMember,
-  searchMember,
-} from "../../../../redux/member/action/members";
 import { strings } from "../../../../languages";
 import { Member } from "../../../../services/model/Member";
+import { clearTeamMember } from "../../../../redux/team/action/teamMemberInvite";
+import { getTeamDetail } from "../../../../redux/team/action/teamDetail";
 import {
-  getUsers,
-  addUser,
-  searchUsers,
-  initialMemberLocal,
-  clearLocalUser,
-} from "../../../../redux/user/reducer/usersById";
-import { TeamDetail } from "../../../../services/model/TeamMember";
-import { TeamMember } from "../../../../services/model/request/TeamMember";
-import {
-  inviteTeamMember,
-  clearTeamMember,
-} from "../../../../redux/team/action/teamMemberInvite";
+  addMember,
+  pushMemberLocal,
+} from "../../../../redux/member/action/members";
+import { TeamMemberDetail } from "../../../../services/model/TeamMember";
 
 const AddForm = ({
   dispatch,
   user,
   navigation,
-  isTeamMember,
-  isInvite,
-  teamDetail,
+  teamId,
 }: {
   dispatch: any;
   user: User;
   navigation: any;
-  isTeamMember?: boolean;
-  isInvite?: boolean;
-  teamDetail: TeamDetail;
+  teamId: any;
 }) => {
-  const { members, membersLocal } = useSelector(
-    (state: ReduxState) => state.members
-  );
-  const { users, usersLocal } = useSelector(
-    (state: ReduxState) => state.usersById
-  );
   const { response } = useSelector(
     (state: ReduxState) => state.teamMemberInvite
   );
+  const { membersLocal } = useSelector((state: ReduxState) => state.members);
   const [name, setName] = useState("");
-  const [mounted, setMounted] = useState(false);
+  const { teamDetail } = useSelector((state: ReduxState) => state.teamDetail);
   useEffect(() => {
     if (response) {
       navigation.goBack();
@@ -68,70 +48,26 @@ const AddForm = ({
   }, [response]);
 
   useEffect(() => {
-    if (!isTeamMember) {
-      if (members.length == 0) {
-        dispatch(
-          getMembers({
-            userId: user.id,
-          })
-        );
-      }
-    } else {
-      if (users.length === 0) {
-        dispatch(
-          getUsers({
-            id: user.id,
-          })
-        );
-      }
-    }
-    setMounted(true);
-    // return () => {
-    //   // dispatch(clearLocalUser());
-    // };
+    dispatch(
+      getTeamDetail({
+        id: teamId,
+        userId: user.id,
+      })
+    );
   }, []);
 
   useEffect(() => {
-    if (usersLocal.length > 0 && isInvite) {
-      // console.log(teamDetail.members);
-      if (mounted) {
-        dispatch(initialMemberLocal(teamDetail.members));
-      }
+    if (teamDetail) {
+      dispatch(pushMemberLocal(teamDetail?.members));
     }
-  }, [usersLocal.length, mounted]);
+  }, [teamDetail]);
+
   const _onChangeTaskName = (value: any) => {
     setName(value);
-    isTeamMember ? dispatch(searchUsers(value)) : dispatch(searchMember(value));
+    // isTeamMember ? dispatch(searchUsers(value)) : dispatch(searchMember(value));
   };
 
-  const _onPressDone = () => {
-    if (isInvite) {
-      let data = [] as Array<TeamMember>;
-      usersLocal.map((item: User) => {
-        if (item.isActive && !item.isDisable) {
-          data.push({
-            googleUserId: item.googleUserId,
-            name: item.name,
-            mail: item.mail,
-            role: item.role,
-            profile: item.profile,
-            userId: user.id,
-            memberId: item.id,
-          });
-        }
-      });
-      dispatch(
-        inviteTeamMember({
-          members: data,
-          userId: user.id,
-          teamName: teamDetail.teamName,
-          teamId: teamDetail.teamId,
-        })
-      );
-    } else {
-      navigation.goBack();
-    }
-  };
+  const _onPressDone = () => {};
 
   const _keyExtractor = (item: any, index: number) => index.toString();
 
@@ -139,8 +75,8 @@ const AddForm = ({
     <Item index={index} item={item} onPress={_onPressItem} />
   );
 
-  const _onPressItem = (item: any, index: number) => {
-    isTeamMember ? dispatch(addUser(item)) : dispatch(addMember(item));
+  const _onPressItem = (item: TeamMemberDetail) => {
+    dispatch(addMember(item));
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -160,15 +96,7 @@ const AddForm = ({
       </View>
       <View style={styles.teamContainer}>
         <FlatList
-          data={
-            (name !== ""
-              ? isTeamMember
-                ? usersLocal
-                : membersLocal
-              : isTeamMember
-              ? users
-              : members) as any
-          }
+          data={teamDetail?.members}
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />

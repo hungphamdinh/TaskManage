@@ -4,6 +4,7 @@ import {
   ACTION_SUCCESS_RECEIVER,
   ACTION_SUCCESS_SENDER,
   ACTION_ERROR,
+  ACTION_CLEAR,
   TeamInvitationByUserIdActionType,
 } from '../action/teamInvitationsByUserId';
 
@@ -40,6 +41,14 @@ export default (
           error: '',
         };
   
+
+    case ACTION_CLEAR:
+      return {
+        ...state,
+        invitationsSender: [],
+        invitationsReceiver: [],
+        error: '',
+      }
     case ACTION_ERROR:
       return {
         ...state,

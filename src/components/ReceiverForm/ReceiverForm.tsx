@@ -83,15 +83,13 @@ const Item = ({
             text={item.content}
             color={Colors.appGrayColor}
           />
-          {!isTeam ? (
-            <TouchableOpacity onPress={_onPressDetail}>
-              <AppText
-                style={styles.marginTopSmall}
-                color={Colors.appBlue}
-                text={strings.invite_member_screen.view_detail}
-              />
-            </TouchableOpacity>
-          ) : null}
+          <TouchableOpacity onPress={_onPressDetail}>
+            <AppText
+              style={styles.marginTopSmall}
+              color={Colors.appBlue}
+              text={strings.invite_member_screen.view_detail}
+            />
+          </TouchableOpacity>
         </View>
         {isVisible ? (
           <View style={styles.buttonContainer}>

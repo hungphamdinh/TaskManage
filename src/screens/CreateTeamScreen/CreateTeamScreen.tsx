@@ -76,7 +76,7 @@ const CreateTeamScreen = ({
         }
         secondaryComponent={
           <View style={styles.secondaryComponent}>
-            {teamDetail?.isAdmin ? (
+            {teamDetail?.isAdmin && isUpdate ? (
               <TouchableOpacity
                 style={styles.buttonSetting}
                 onPress={_onPressShowDropdown}

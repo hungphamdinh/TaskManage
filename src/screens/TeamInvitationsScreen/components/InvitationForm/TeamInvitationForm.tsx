@@ -21,8 +21,9 @@ import {
   rejectInvitation,
   clearRejectInvitation,
 } from "../../../../redux/team/action/teamInvitationReject";
-import { getTeamInvitation } from "../../../../redux/team/action/teamInvitationsByUserId";
+import { getTeamInvitation, clearInvitationSend as clearTeamById } from "../../../../redux/team/action/teamInvitationsByUserId";
 import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
+import { TeamInvitation } from "../../../../services/model/TeamMember";
 const invitationType = {
   sender: "Sender",
   receiver: "Receiver",
@@ -67,6 +68,7 @@ const InvitationForm = ({
     }
     return () => {
       dispatch(clearInvitationSend());
+      dispatch(clearTeamById());
     };
   }, [response]);
 
@@ -95,8 +97,12 @@ const InvitationForm = ({
       dispatch(clearRejectInvitation());
     }
   }, [rejectResponse, dispatch]);
-  const _onPressDetail = (item: Invitation) => {
+  const _onPressDetail = (item: TeamInvitation) => {
     // onNavigate(item.taskId);
+    navigation.navigate('CreateTeamScreen', {
+      isUpdate: true,
+      teamId: item.teamId,
+    })
   };
   const _keyExtractor = (item: any, index: number) => index.toString();
 

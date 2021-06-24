@@ -34,6 +34,7 @@ import {
   clearLocalUser,
   deleteLocalUser,
   initialMemberLocal,
+  getUsers,
 } from "../../../../redux/user/reducer/usersById";
 import { TeamMember } from "../../../../services/model/request/TeamMember";
 import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
@@ -41,7 +42,7 @@ import {
   updateTeamMember,
   clearTeamMember as clearUpdateResponse,
 } from "../../../../redux/team/action/teamMemberUpdate";
-import taskDetail from "../../../../redux/task/reducer/taskDetail";
+import { showMessage } from "react-native-flash-message";
 
 const CreateTeamForm = ({
   dispatch,
@@ -72,6 +73,8 @@ const CreateTeamForm = ({
 
   const isCurrentImage = teamDetail?.profile === image?.uri;
   const isAdmin = teamDetail?.isAdmin;
+
+  //initial with team Detail
   useEffect(() => {
     if (isUpdate) {
       if (teamDetail) {
@@ -81,11 +84,12 @@ const CreateTeamForm = ({
       }
     }
   }, [teamDetail, isUpdate]);
+
   useEffect(() => {
     if (users.length == 0) {
       dispatch(
-        getMembers({
-          userId: user.id,
+        getUsers({
+          id: user.id,
         })
       );
     }
@@ -159,14 +163,12 @@ const CreateTeamForm = ({
     })();
   }, []);
 
-
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
 
   const _onPressDone = () => {
     let members = [] as Array<TeamMember>;
-
     if (isUpdate) {
       dispatch(
         updateTeamMember({
@@ -177,27 +179,37 @@ const CreateTeamForm = ({
         })
       );
     } else {
-      usersLocal.map((item: User) => {
-        if (item.isActive) {
-          members.push({
-            googleUserId: item.googleUserId,
-            mail: item.mail,
-            memberId: item.id,
-            name: item.name,
-            profile: item.profile,
-            role: item.role,
+      if (
+        name === "" ||
+        usersLocal.filter((item: User) => item.isActive).length === 0
+      ) {
+        showMessage({
+          message: strings.warning.not_full_fill,
+          type: "warning",
+        });
+      } else {
+        usersLocal.map((item: User) => {
+          if (item.isActive) {
+            members.push({
+              googleUserId: item.googleUserId,
+              mail: item.mail,
+              memberId: item.id,
+              name: item.name,
+              profile: item.profile,
+              role: item.role,
+              userId: user.id,
+            });
+          }
+        });
+        dispatch(
+          addTeamMember({
+            teamName: name,
+            profile: "",
             userId: user.id,
-          });
-        }
-      });
-      dispatch(
-        addTeamMember({
-          teamName: name,
-          profile: "",
-          userId: user.id,
-          members: members,
-        })
-      );
+            members: members,
+          })
+        );
+      }
     }
   };
 
@@ -237,7 +249,7 @@ const CreateTeamForm = ({
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.buttonUpload}
-          disabled={!isAdmin}
+          disabled={!isAdmin && isUpdate}
           onPress={pickImage}
         >
           <Image
@@ -259,7 +271,7 @@ const CreateTeamForm = ({
       <View style={styles.inputTask}>
         <TextInputForm
           label={"Team name".toUpperCase()}
-          disabled={!isAdmin}
+          disabled={!isAdmin && isUpdate}
           value={name}
           onChangeText={_onChangeTaskName}
         />
@@ -282,7 +294,7 @@ const CreateTeamForm = ({
                 <>
                   {teamDetail?.members.map((item: any) => (
                     <RenderMember
-                      key={item.teamId}
+                      key={item.memberId}
                       onPressDeleteItem={_onPressDeleteItem}
                       item={item}
                     />
@@ -306,7 +318,7 @@ const CreateTeamForm = ({
             </>
           </View>
           <View style={styles.buttonAdd}>
-            {!isUpdate ? (
+            {!isUpdate || isAdmin ? (
               <TouchableOpacity onPress={_onPressAdd}>
                 <Ionicons
                   name="add-outline"
@@ -321,7 +333,9 @@ const CreateTeamForm = ({
       </View>
 
       <View style={styles.buttonDone}>
-        {isAdmin ? <AppButton text={"Done"} onPress={_onPressDone} /> : null}
+        {isAdmin || !isUpdate ? (
+          <AppButton text={"Done"} onPress={_onPressDone} />
+        ) : null}
       </View>
     </KeyboardAwareScrollView>
   );

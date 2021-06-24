@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, ActivityIndicator } from "react-native";
+import { View, Image } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
 import {
@@ -25,6 +25,12 @@ import {
 } from "../../../../redux/member/action/members";
 import { Member } from "../../../../services/model/Member";
 import { CommonActions } from "@react-navigation/native";
+import BottomModal from "./BottomModal";
+import {
+  getTeams,
+  onSuccess,
+} from "../../../../redux/team/action/teamsMemberByUserId";
+import { TeamMemberByUserId } from "../../../../services/model/TeamMember";
 
 const BoardForm = ({
   dispatch,
@@ -38,17 +44,22 @@ const BoardForm = ({
   const { members, membersLocal } = useSelector(
     (state: ReduxState) => state.members
   );
+  const { teamMembers } = useSelector(
+    (state: ReduxState) => state.teamsMemberByUserId
+  );
   const { response } = useSelector((state: ReduxState) => state.task);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [startTime, setStartTime] = useState(new Date());
-  const [isStartTimeVisible, setIsStartTimeVisible] = useState(false);
-  const [endTime, setEndTIme] = useState(new Date());
-  const [isEndTimeVisible, setIsEndTimeVisible] = useState(false);
+  const [isTeam, setIsTeam] = useState(false);
+  // const [startTime, setStartTime] = useState(new Date());
+  // const [isStartTimeVisible, setIsStartTimeVisible] = useState(false);
+  // const [endTime, setEndTIme] = useState(new Date());
+  // const [isEndTimeVisible, setIsEndTimeVisible] = useState(false);
   const [boardStatus, setBoardStatus] = useState(statuses);
   useEffect(() => {
+    dispatch(onSuccess([]));
     if (members.length == 0) {
       dispatch(
         getMembers({
@@ -72,6 +83,13 @@ const BoardForm = ({
       dispatch(clear());
     }
   }, [response]);
+
+  //teamMembers have data
+  useEffect(() => {
+    if (teamMembers.length) {
+      setIsTeam(true);
+    }
+  }, [teamMembers.length]);
   const _onChangeTaskName = (value: any) => {
     setName(value);
   };
@@ -84,27 +102,27 @@ const BoardForm = ({
     setIsModalVisible(!isModalVisible);
   };
 
-  const _onPressStartTImeVisible = () => {
-    setIsStartTimeVisible(!isStartTimeVisible);
-  };
+  // const _onPressStartTImeVisible = () => {
+  //   setIsStartTimeVisible(!isStartTimeVisible);
+  // };
 
-  const _onPressEndTimeVisible = () => {
-    setIsEndTimeVisible(!isEndTimeVisible);
-  };
+  // const _onPressEndTimeVisible = () => {
+  //   setIsEndTimeVisible(!isEndTimeVisible);
+  // };
   const _onChangeDate = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
   };
 
-  const _onChangeStartTime = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || startTime;
-    setStartTime(currentDate);
-  };
+  // const _onChangeStartTime = (event: any, selectedDate: any) => {
+  //   const currentDate = selectedDate || startTime;
+  //   setStartTime(currentDate);
+  // };
 
-  const _onChangeEndTime = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || endTime;
-    setEndTIme(currentDate);
-  };
+  // const _onChangeEndTime = (event: any, selectedDate: any) => {
+  //   const currentDate = selectedDate || endTime;
+  //   setEndTIme(currentDate);
+  // };
 
   const board = (item: any) => {
     return {
@@ -136,8 +154,8 @@ const BoardForm = ({
       name: name,
       status: boardStatus.filter((item: any) => item.isActive)[0].id,
       date: date,
-      timeStart: startTime,
-      timeEnd: endTime,
+      timeStart: moment(new Date()).format("LT"),
+      timeEnd: moment(new Date()).format("LT"),
       members: membersLocal.filter((item: Member) => item.isActive),
       description: description,
     };
@@ -145,7 +163,24 @@ const BoardForm = ({
   };
 
   const _onPressAdd = () => {
-    navigation.navigate("AddMemberScreen");
+    dispatch(
+      getTeams({
+        userId: user.id,
+        isAdminTeams: true,
+      })
+    );
+    // navigation.navigate("AddMemberToTaskScreen");
+  };
+
+  const _onPressOut = () => {
+    setIsTeam(false);
+  };
+
+  const _onPressTeamId = (item: TeamMemberByUserId) => {
+    setIsTeam(false);
+    navigation.navigate("AddMemberToTaskScreen", {
+      teamId: item.teamId,
+    });
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -208,7 +243,7 @@ const BoardForm = ({
 
         <Divider />
       </View>
-      <View style={[styles.inputTask, styles.timeContainer]}>
+      {/* <View style={[styles.inputTask, styles.timeContainer]}>
         <View style={styles.startTimeContainer}>
           <AppText text={"START TIME"} color={Colors.appGrayColor} />
           <TouchableOpacity
@@ -264,7 +299,7 @@ const BoardForm = ({
 
           <Divider />
         </View>
-      </View>
+      </View> */}
       <View style={styles.inputTask}>
         <TextInputForm
           label={"Description".toUpperCase()}
@@ -303,6 +338,12 @@ const BoardForm = ({
       <View style={styles.buttonDone}>
         <AppButton text={"Done"} onPress={_onPressDone} />
       </View>
+      <BottomModal
+        visible={isTeam}
+        data={teamMembers}
+        onPressOut={_onPressOut}
+        onPressAdd={_onPressTeamId}
+      />
     </KeyboardAwareScrollView>
   );
 };

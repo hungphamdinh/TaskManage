@@ -13,11 +13,9 @@ const AddMemberScreen = ({
   route: any;
 }) => {
   const { user } = useSelector((state: ReduxState) => state.user);
+  const teamId = route.params.teamId;
 
-  const { teamDetail } = useSelector((state: ReduxState) => state.teamDetail);
   const dispatch = useDispatch();
-  const isTeamMember = route.params?.isTeamMember;
-  const isInvite = route.params?.isInvite;
 
 
   return (
@@ -26,12 +24,10 @@ const AddMemberScreen = ({
       navigation={navigation}
       mainComponent={
         <AddForm
-          isTeamMember={isTeamMember}
-          isInvite={isInvite}
           navigation={navigation}
+          teamId={teamId}
           dispatch={dispatch}
           user={user}
-          teamDetail={teamDetail}
         />
       }
     />

@@ -8,6 +8,7 @@ import {
   ACTION_SEARCH_MEMBER,
   ACTION_CLEAR_LOCAL,
   ACTION_INITIAL_MEMBER,
+  ACTION_PUSH_MEMBER_LOCAL,
 } from '../action/members';
 import { Member } from '../../../services/model/Member';
 
@@ -65,10 +66,16 @@ export default (
       return {
         ...state,
         membersLocal: action.members.map((item: any) => {
-          item.isActive = true;
+          item.isActive = false;
           return item;
         })
       }
+
+     case ACTION_PUSH_MEMBER_LOCAL:
+       return {
+         ...state,
+         members: state.membersLocal.concat(action.members),
+       }
     default:
       return state;
   }
