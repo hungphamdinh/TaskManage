@@ -8,3 +8,7 @@ export interface LoginRequest {
 export interface GetUsersByIdRequest {
   id: string;
 }
+export interface UpdateRoleRequest {
+  userId: string;
+  role: string;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,14 +6,14 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { AppText } from "../../components";
+import { AppText, ModalInput } from "../../components";
 import { Metrics, Fonts, Colors, Images } from "../../themes";
 import { strings } from "../../languages";
 import { useSelector, useDispatch } from "react-redux";
 import ReduxState from "../../redux/ReduxState";
 import { getInvitationByUserId } from "../../redux/invitation/action/invitationsByUserId";
 import { InvitationsType } from "../../helpers/Constants";
-import { logout } from "../../redux/user/reducer/user";
+import { logout, updateRole } from "../../redux/user/reducer/user";
 
 const DashboardScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
@@ -21,7 +21,12 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
   const { invitationsReceiver } = useSelector(
     (state: ReduxState) => state.invitationsByUserId
   );
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [role, setRole] = useState("");
   useEffect(() => {
+    if (user.role === "") {
+      _onChangeModalVisible();
+    }
     dispatch(
       getInvitationByUserId({
         id: user?.id,
@@ -29,6 +34,7 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
       })
     );
   }, []);
+
   const _onPress = () => {
     navigation.navigate("InvitationsScreen", {
       isReceiver: true,
@@ -36,8 +42,26 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
   };
 
   const _onPressProfile = () => {
-    navigation.navigate('ProfileScreen');
-  }
+    navigation.navigate("ProfileScreen");
+  };
+
+  const _onChangeModalVisible = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const _onChangeRole = (value: string) => {
+    setRole(value);
+  };
+
+  const _onPressSubmitRole = () => {
+    dispatch(
+      updateRole({
+        userId: user.id,
+        role: role,
+      })
+    );
+    _onChangeModalVisible();
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -75,6 +99,15 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalInput
+        visible={isModalVisible}
+        data={role}
+        onPressOut={_onChangeModalVisible}
+        title={"Complete Info"}
+        textInputTitle={"Your role"}
+        onPressSubmit={_onPressSubmitRole}
+        onChangeData={_onChangeRole}
+      />
     </SafeAreaView>
   );
 };

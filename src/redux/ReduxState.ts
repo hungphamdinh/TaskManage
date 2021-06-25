@@ -10,6 +10,10 @@ export interface UserState {
   user: User;
   error: string;
 }
+export interface RoleUpdateState {
+  user: User;
+  error: string;
+}
 export interface UsersByIdState {
   users: Array<User>;
   usersLocal: Array<User>;

@@ -17,7 +17,7 @@ export default {
     yes: 'Có',
     no: 'Không',
     delete: 'Delete',
-    accept: 'Đồng ý',
+    accept: 'Accept',
     warning: 'Warning',
     vnd: 'đ',
     month: ' /chuyến',

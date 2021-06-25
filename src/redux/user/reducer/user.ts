@@ -8,15 +8,22 @@ import {
   onSuccessAction,
   onFailureAction,
   loginWithEmailActionType,
+  UpdateRoleAction,
+  ACTION_UPDATE_ROLE,
   ACTION_CLEAR_ERROR,
 } from '../action/user';
 import {
-  LoginRequest,
+  LoginRequest, UpdateRoleRequest,
 } from '../../../services/model/request/User';
 import { User } from '../../../services/model/User';
 
 const loginWithEmail = (params: LoginRequest): loginWithEmailAction => ({
   type: ACTION,
+  params,
+});
+
+const updateRole = (params: UpdateRoleRequest): UpdateRoleAction => ({
+  type: ACTION_UPDATE_ROLE,
   params,
 });
 
@@ -81,6 +88,11 @@ export default (
         error: '',
       };
 
+    case ACTION_UPDATE_ROLE:
+      return {
+        ...state,
+      }
+
     default:
       return state;
   }
@@ -93,4 +105,5 @@ export {
   onSuccess,
   logout,
   clearError,
+  updateRole,
 };

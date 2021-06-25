@@ -13,12 +13,12 @@ import { ApiResponseStatusCode, InvitationsType } from '../../../helpers/Constan
 function* getInvitationsByUserId(action: GetInvitationByUserIdAction) {
   try {
     //-------------- Request API
-    yield put(showIndicator(Colors.overlay5));
+    // yield put(showIndicator(Colors.overlay5));
     const res: Response = yield InvitationAPI.getInvitationByUserId(
       action.params
     );
     //-------------- Request API Success
-    yield put(hideIndicator());
+    // yield put(hideIndicator());
     if(res.status === ApiResponseStatusCode.SUCCESS) {
       if(res.type == 'Receiver') {
         yield put(onSuccessReceiver(res.data))
@@ -43,7 +43,7 @@ function* getInvitationsByUserId(action: GetInvitationByUserIdAction) {
         description: error.message,
         type: 'warning',
       });
-    yield put(hideIndicator());
+    // yield put(hideIndicator());
     yield put(onFailure(JSON.stringify(error)));
   }
 }

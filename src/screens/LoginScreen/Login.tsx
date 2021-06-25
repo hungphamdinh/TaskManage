@@ -64,7 +64,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           name: userGoogle.name,
           profile: userGoogle.profile,
           mail: userGoogle.email,
-          role: "Admin",
+          role: "",
         })
       );
     }
