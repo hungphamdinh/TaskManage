@@ -1,5 +1,6 @@
 import { GetMembersRequest } from "../../../services/model/request/Member";
 import { Member } from "../../../services/model/Member";
+import { TeamMemberByUserId } from "../../../services/model/TeamMember";
 
 const ACTION = 'GET_MEMBERS';
 const ACTION_SUCCESS = 'GET_MEMBERS_SUCCESS';
@@ -9,6 +10,9 @@ const ACTION_SEARCH_MEMBER = 'ACTION_SEARCH_MEMBER';
 const ACTION_CLEAR_LOCAL = 'GET_MEMBERS_ACTION_CLEAR_LOCAL';
 const ACTION_INITIAL_MEMBER = 'GET_MEMBERS_ACTION_INITIAL_MEMBER';
 const ACTION_PUSH_MEMBER_LOCAL = 'GET_MEMBERS_ACTION_PUSH_MEMBER_LOCAL';
+
+const ACTION_RESET_FLAG = 'GET_MEMBERS_ACTION_RESET_FLAG';
+
 interface GetMembersAction {
   type: typeof ACTION;
   params: GetMembersRequest;
@@ -46,6 +50,11 @@ interface ClearMemberLocalAction {
 interface PushMemberLocalAction {
   type: typeof ACTION_PUSH_MEMBER_LOCAL;
   members: Array<Member>;
+  editFlag?: number;
+}
+
+interface ResetFlagAction {
+  type: typeof ACTION_RESET_FLAG;
 }
 type GetMembersActionType =
   | GetMembersAction
@@ -55,6 +64,7 @@ type GetMembersActionType =
   | ClearMemberLocalAction
   | InitialMemberAction
   | PushMemberLocalAction
+  | ResetFlagAction
   | onFailureAction;
 
 const getMembers = (params: GetMembersRequest): GetMembersAction => ({
@@ -91,10 +101,17 @@ const initialMember = (members: Array<Member>): InitialMemberAction => ({
   members,
 })
 
-const pushMemberLocal = (members: Array<Member>): PushMemberLocalAction => ({
+const pushMemberLocal = (members: Array<Member>, editFlag?: number): PushMemberLocalAction => ({
   type: ACTION_PUSH_MEMBER_LOCAL,
   members,
+  editFlag,
 })
+
+const resetFlag = (): ResetFlagAction => ({
+  type: ACTION_RESET_FLAG,
+})
+
+
 export {
   getMembers,
   onFailure,
@@ -104,9 +121,11 @@ export {
   searchMember,
   initialMember,
   pushMemberLocal,
+  resetFlag,
   GetMembersAction,
   GetMembersActionType,
   ACTION,
+  ACTION_RESET_FLAG,
   ACTION_SUCCESS,
   ACTION_ERROR,
   ACTION_ADD_MEMBER,

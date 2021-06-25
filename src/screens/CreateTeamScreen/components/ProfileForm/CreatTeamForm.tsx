@@ -318,7 +318,7 @@ const CreateTeamForm = ({
             </>
           </View>
           <View style={styles.buttonAdd}>
-            {!isUpdate || isAdmin ? (
+            {!isUpdate ? (
               <TouchableOpacity onPress={_onPressAdd}>
                 <Ionicons
                   name="add-outline"

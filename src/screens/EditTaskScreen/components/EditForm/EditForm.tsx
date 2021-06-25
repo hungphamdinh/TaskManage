@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Image } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
-import {
-  TextInputForm,
-  AppText,
-  AppButton,
-} from "../../../../components";
+import { TextInputForm, AppText, AppButton } from "../../../../components";
 import { Colors } from "../../../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,21 +12,35 @@ import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
 import { Member } from "../../../../services/model/Member";
 import { updateTask, clear } from "../../../../redux/task/action/taskUpdate";
-import { initialMember, clearMemberLocal } from "../../../../redux/member/action/members";
+import {
+  initialMember,
+  clearMemberLocal,
+  resetFlag,
+} from "../../../../redux/member/action/members";
 import { CommonActions } from "@react-navigation/native";
+import BottomModal from "../../../AddTaskScreen/components/AddForm/BottomModal";
+import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
+import { TeamMemberByUserId } from "../../../../services/model/TeamMember";
 
 const EditForm = ({
   dispatch,
   navigation,
+  user,
 }: {
   dispatch: any;
   user: User;
   navigation: any;
 }) => {
+  const { teamMembers } = useSelector(
+    (state: ReduxState) => state.teamsMemberByUserId
+  );
   const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const { response } = useSelector((state: ReduxState) => state.taskUpdate);
-  const { membersLocal } = useSelector((state: ReduxState) => state.members);
+  const { members } = useSelector(
+    (state: ReduxState) => state.members
+  );
   const [name, setName] = useState(taskDetail.name);
+  const [teamItem, setTeamItem] = useState('' as any);
   const [description, setDescription] = useState(taskDetail.description);
   const [boardStatus, setBoardStatus] = useState(
     statusesDetail.map((item: any) =>
@@ -39,25 +49,26 @@ const EditForm = ({
         : { ...item, isActive: false }
     )
   );
-
+  const [isTeam, setIsTeam] = useState(false);
   useEffect(() => {
     dispatch(initialMember(taskDetail.members));
+    // dispatch(pushMemberLocal(taskDetail.members));
     return () => {
       dispatch(clearMemberLocal());
-    }
-  }, [])
+    };
+  }, []);
+
   useEffect(() => {
     if (response) {
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{ name: 'HomeTabNavigation' }],
-        }),
+          routes: [{ name: "HomeTabNavigation" }],
+        })
       );
       dispatch(clear());
     }
   }, [response]);
-
 
   const _onChangeTaskName = (value: any) => {
     setName(value);
@@ -76,7 +87,9 @@ const EditForm = ({
   const check = (item: any) => {
     return {
       ...styles.check,
-      backgroundColor: item.isActive ? Colors.appGreen : Colors.appSecondaryColor,
+      backgroundColor: item.isActive
+        ? Colors.appGreen
+        : Colors.appSecondaryColor,
       borderWidth: item.isActive ? 1 : 0,
       zIndex: item.isActive ? 1 : 0,
     };
@@ -93,17 +106,44 @@ const EditForm = ({
   };
 
   const _onPressDone = () => {
-    dispatch(updateTask({
-      id: taskDetail.id,
-      description: description,
-      name: name,
-      members: membersLocal.filter((item: Member) => item.isActive == true),
-      status: boardStatus.filter((item: any) => item.isActive == true)[0].id,
-    }))
+    console.log(members);
+    dispatch(
+      updateTask({
+        id: taskDetail.id,
+        description: description,
+        name: name,
+        members: members.filter((item: Member) => item.isActive == true),
+        status: boardStatus.filter((item: any) => item.isActive == true)[0].id,
+      })
+    );
   };
+  console.log(taskDetail.members[1].teamId);
 
   const _onPressAdd = () => {
-    navigation.navigate("AddMemberScreen");
+    // dispatch(
+    //   getTeams({
+    //     userId: user.id,
+    //     isAdminTeams: true,
+    //   })
+    // );
+    navigation.navigate("AddMemberToTaskScreen", {
+      teamId: taskDetail.members[1].teamId,
+      isEditTask: true,
+    });
+    // setIsTeam(true);
+  };
+
+  const _onPressOut = () => {
+    setIsTeam(false);
+  };
+
+  const _onPressTeamId = (item: TeamMemberByUserId) => {
+    setIsTeam(false);
+    // if (teamItem?.teamId !== item.teamId) {
+    //   setTeamItem(item);
+    //   dispatch(resetFlag());
+    //   dispatch(clearMemberLocal());
+    // }
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -117,7 +157,7 @@ const EditForm = ({
       <View style={styles.inputTask}>
         <AppText text={"TEAM MEMBER"} color={Colors.appGrayColor} />
         <View style={styles.teamContainer}>
-          {membersLocal.map((item: Member) => (
+          {members.map((item: Member) => (
             <>
               {item.isActive ? (
                 <View style={styles.imageMember}>
@@ -174,6 +214,12 @@ const EditForm = ({
           ))}
         </View>
       </View>
+      <BottomModal
+        visible={isTeam}
+        data={teamMembers}
+        onPressOut={_onPressOut}
+        onPressAdd={_onPressTeamId}
+      />
       <View style={styles.buttonDone}>
         <AppButton text={"Done"} onPress={_onPressDone} />
       </View>

@@ -14,7 +14,7 @@ const AddMemberScreen = ({
 }) => {
   const { user } = useSelector((state: ReduxState) => state.user);
   const teamId = route.params.teamId;
-
+  const isEditTask = route.params.isEditTask;
   const dispatch = useDispatch();
 
 
@@ -25,6 +25,7 @@ const AddMemberScreen = ({
       mainComponent={
         <AddForm
           navigation={navigation}
+          isEditTask={isEditTask}
           teamId={teamId}
           dispatch={dispatch}
           user={user}

@@ -34,7 +34,15 @@ import { getComments } from "../../../../redux/comment/action/comments";
 import { Comment } from "../../../../services/model/Comment";
 import { getSubTask } from "../../../../redux/task/action/subTasks";
 import { androidOS } from "../../../../helpers/Constants";
-const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
+const TaskDetail = ({
+  dispatch,
+  user,
+  isInvitation,
+}: {
+  dispatch: any;
+  user: User;
+  isInvitation: boolean;
+}) => {
   const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const { subTaskResponse } = useSelector(
     (state: ReduxState) => state.subTaskStatus
@@ -192,7 +200,7 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
                   color={Colors.appGrayColor}
                 />
                 <AppText
-                  text={' ' + strings.detail_screen.more}
+                  text={" " + strings.detail_screen.more}
                   color={Colors.appLightGrayColor}
                 />
               </Text>
@@ -236,38 +244,44 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
             />
           </View>
         </View>
-        <View style={styles.addSubTask}>
-          <AppText
-            size={Fonts.size.large}
-            bold
-            style={styles.tasks}
-            text={strings.detail_screen.task}
-          />
-          <TouchableOpacity
-            style={styles.buttonAdd}
-            onPress={_onChangeModalVisible}
-          >
-            <Ionicons
-              name="add-outline"
-              size={20}
-              color={Colors.appPrimaryColor}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.taskContainer}>
-          <FlatList
-            data={subTasks}
-            renderItem={_renderItem}
-            keyExtractor={_keyExtractor}
-          />
-        </View>
-        <View style={styles.commentContainer}>
-          <FlatList
-            data={comments}
-            renderItem={_renderComment}
-            keyExtractor={_keyExtractor}
-          />
-        </View>
+        {!isInvitation ? (
+          <>
+            <View style={styles.addSubTask}>
+              <AppText
+                size={Fonts.size.large}
+                bold
+                style={styles.tasks}
+                text={strings.detail_screen.task}
+              />
+              {taskDetail.isAdmin ? (
+                <TouchableOpacity
+                  style={styles.buttonAdd}
+                  onPress={_onChangeModalVisible}
+                >
+                  <Ionicons
+                    name="add-outline"
+                    size={20}
+                    color={Colors.appPrimaryColor}
+                  />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+            <View style={styles.taskContainer}>
+              <FlatList
+                data={subTasks}
+                renderItem={_renderItem}
+                keyExtractor={_keyExtractor}
+              />
+            </View>
+            <View style={styles.commentContainer}>
+              <FlatList
+                data={comments}
+                renderItem={_renderComment}
+                keyExtractor={_keyExtractor}
+              />
+            </View>
+          </>
+        ) : null}
 
         <BottomModal
           visible={isShowModal}
@@ -275,41 +289,46 @@ const TaskDetail = ({ dispatch, user }: { dispatch: any; user: User }) => {
           onPressAdd={_onPressAddSubTask}
         />
       </KeyboardAwareScrollView>
-      <View style={footer()}>
-        <View style={styles.messageContainer}>
-          <View style={styles.icon}>
-            <View style={styles.icContainer}>
+      {!isInvitation ? (
+        <View style={footer()}>
+          <View style={styles.messageContainer}>
+            <View style={styles.icon}>
+              <View style={styles.icContainer}>
+                <Image
+                  source={Images.icMessage}
+                  resizeMode={"contain"}
+                  style={styles.icMessage}
+                />
+              </View>
+              <View
+                style={[
+                  styles.icContainer,
+                  { marginLeft: Metrics.margin.small },
+                ]}
+              >
+                <Image
+                  source={Images.icShare}
+                  resizeMode={"contain"}
+                  style={styles.icMessage}
+                />
+              </View>
+              <TextInput
+                style={styles.textPlaceHolder}
+                placeholder={strings.detail_screen.write_comment}
+                onChangeText={_onChangeMessage}
+                value={message}
+              />
+            </View>
+            <TouchableOpacity style={styles.icContainer} onPress={_onPressSend}>
               <Image
-                source={Images.icMessage}
+                source={Images.icSend}
                 resizeMode={"contain"}
                 style={styles.icMessage}
               />
-            </View>
-            <View
-              style={[styles.icContainer, { marginLeft: Metrics.margin.small }]}
-            >
-              <Image
-                source={Images.icShare}
-                resizeMode={"contain"}
-                style={styles.icMessage}
-              />
-            </View>
-            <TextInput
-              style={styles.textPlaceHolder}
-              placeholder={strings.detail_screen.write_comment}
-              onChangeText={_onChangeMessage}
-              value={message}
-            />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.icContainer} onPress={_onPressSend}>
-            <Image
-              source={Images.icSend}
-              resizeMode={"contain"}
-              style={styles.icMessage}
-            />
-          </TouchableOpacity>
         </View>
-      </View>
+      ) : null}
     </>
   ) : null;
 };

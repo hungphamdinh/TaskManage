@@ -9,13 +9,17 @@ import {
   ACTION_CLEAR_LOCAL,
   ACTION_INITIAL_MEMBER,
   ACTION_PUSH_MEMBER_LOCAL,
+  ACTION_RESET_FLAG,
 } from '../action/members';
 import { Member } from '../../../services/model/Member';
+import { TeamMemberByUserId } from '../../../services/model/TeamMember';
 
 //-------------- Actions
 const initialState: MembersState = {
   members: [],
   membersLocal: [],
+  editFlag: 0,
+  teamItem: undefined as unknown as TeamMemberByUserId,
   error: '',
 };
 
@@ -46,27 +50,28 @@ export default (
     case ACTION_SEARCH_MEMBER:
       return {
         ...state,
-        membersLocal: findItemData(action.name, state.members)
+        members: findItemData(action.name, state.members)
       }
 
     case ACTION_ADD_MEMBER:
       return {
         ...state,
-        membersLocal: checkMember(state.members, action.member)
+        members: checkMember(state.members, action.member)
       }
 
     case ACTION_CLEAR_LOCAL:
       return {
         ...state,
         membersLocal: [],
-        members: setIsActive(state.members),
+        editFlag: 0,
+        members: [],
       }
 
     case ACTION_INITIAL_MEMBER:
       return {
         ...state,
-        membersLocal: action.members.map((item: any) => {
-          item.isActive = false;
+        members: action.members.map((item: any) => {
+          item.isActive = true;
           return item;
         })
       }
@@ -74,8 +79,16 @@ export default (
      case ACTION_PUSH_MEMBER_LOCAL:
        return {
          ...state,
-         members: state.membersLocal.concat(action.members),
+         members: state.members.concat(action.members),
+         editFlag: action.editFlag ? action.editFlag : 0,
        }
+
+    case ACTION_RESET_FLAG:
+      return {
+        ...state,
+        editFlag: 0,
+      }
+
     default:
       return state;
   }

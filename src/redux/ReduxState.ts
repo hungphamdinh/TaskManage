@@ -48,7 +48,9 @@ export interface TeamDetailState {
 
 export interface MembersState {
   members: Array<Member>;
-  membersLocal: Array<Member>;
+  membersLocal: Array<Member>; //members after check
+  editFlag: number; //check when edit navigate to AddToTaskMemberScreen again
+  teamItem: TeamMemberByUserId; //store to check reset Flag
   error: string;
 }
 

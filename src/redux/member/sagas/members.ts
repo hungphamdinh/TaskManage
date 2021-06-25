@@ -16,7 +16,7 @@ function* getMembers(action: GetMembersAction) {
       action.params
     );
     //-------------- Request API Success
-    yield put(onSuccess(res));
+    // yield put(onSuccess(res));
   } catch (error) {
     //-------------- Request API Failure
       showMessage({

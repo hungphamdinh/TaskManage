@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Image } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
-import { AppText, AppButton } from "../../../../components";
+import { AppText } from "../../../../components";
 import { Colors, Fonts } from "../../../../themes";
 import {
   TouchableOpacity,
@@ -14,12 +14,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
 import { strings } from "../../../../languages";
-import { Member } from "../../../../services/model/Member";
 import { clearTeamMember } from "../../../../redux/team/action/teamMemberInvite";
 import { getTeamDetail } from "../../../../redux/team/action/teamDetail";
 import {
   addMember,
   pushMemberLocal,
+  clearMemberLocal,
 } from "../../../../redux/member/action/members";
 import { TeamMemberDetail } from "../../../../services/model/TeamMember";
 
@@ -28,16 +28,20 @@ const AddForm = ({
   user,
   navigation,
   teamId,
+  isEditTask,
 }: {
   dispatch: any;
   user: User;
   navigation: any;
   teamId: any;
+  isEditTask: boolean;
 }) => {
   const { response } = useSelector(
     (state: ReduxState) => state.teamMemberInvite
   );
-  const { membersLocal } = useSelector((state: ReduxState) => state.members);
+  const { members, editFlag } = useSelector(
+    (state: ReduxState) => state.members
+  );
   const [name, setName] = useState("");
   const { teamDetail } = useSelector((state: ReduxState) => state.teamDetail);
   useEffect(() => {
@@ -55,10 +59,33 @@ const AddForm = ({
       })
     );
   }, []);
-
   useEffect(() => {
-    if (teamDetail) {
-      dispatch(pushMemberLocal(teamDetail?.members));
+    if (teamDetail && editFlag == 0) {
+      if (isEditTask) {
+        var newArray = [];
+
+        for (var i = 0; i < teamDetail.members.length; i++) {
+          // we want to know if a[i] is found in b
+          var match = false; // we haven't found it yet
+          for (var j = 0; j < members.length; j++) {
+            if (teamDetail.members[i].memberId == members[j].memberId) {
+              // we have found a[i] in b, so we can stop searching
+              match = true;
+              break;
+            }
+            // if we never find a[i] in b, the for loop will simply end,
+            // and match will remain false
+          }
+          // add a[i] to newArray only if we didn't find a match.
+          if (!match) {
+            newArray.push(teamDetail.members[i]);
+          }
+        }
+
+        dispatch(pushMemberLocal(newArray, editFlag + 1));
+      } else {
+        dispatch(pushMemberLocal(teamDetail?.members, editFlag + 1));
+      }
     }
   }, [teamDetail]);
 
@@ -67,7 +94,6 @@ const AddForm = ({
     // isTeamMember ? dispatch(searchUsers(value)) : dispatch(searchMember(value));
   };
 
-  const _onPressDone = () => {};
 
   const _keyExtractor = (item: any, index: number) => index.toString();
 
@@ -96,15 +122,16 @@ const AddForm = ({
       </View>
       <View style={styles.teamContainer}>
         <FlatList
-          data={teamDetail?.members}
+          data={members}
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />
       </View>
-
+      {/* 
       <View style={styles.buttonDone}>
         <AppButton text={"Done"} onPress={_onPressDone} />
       </View>
+      <SafeAreaView /> */}
     </KeyboardAwareScrollView>
   );
 };
@@ -116,7 +143,7 @@ const Item = ({
   index,
   onPress,
 }: {
-  item: Member;
+  item: TeamMemberDetail;
   index: number;
   onPress: Function;
 }) => {
@@ -125,7 +152,7 @@ const Item = ({
   };
   return (
     <TouchableOpacity
-      disabled={item.isDisable}
+      disabled={item.isAdmin}
       style={styles.itemContainer}
       onPress={_onPress}
     >
@@ -135,7 +162,7 @@ const Item = ({
         </View>
         <View style={styles.roleContainer}>
           <AppText
-            color={item.isDisable ? Colors.overlay3 : Colors.appTextBlack}
+            color={item.isAdmin ? Colors.overlay3 : Colors.appTextBlack}
             text={item.name}
             bold
             size={Fonts.size.large}
@@ -143,7 +170,7 @@ const Item = ({
           <AppText
             style={styles.marginTopSmall}
             text={item.role}
-            color={item.isDisable ? Colors.overlay3 : Colors.appGrayColor}
+            color={item.isAdmin ? Colors.overlay3 : Colors.appGrayColor}
           />
         </View>
       </View>
@@ -151,7 +178,7 @@ const Item = ({
         name="checkmark-outline"
         size={20}
         color={
-          item.isDisable
+          item.isAdmin
             ? Colors.overlay2
             : item.isActive
             ? Colors.appPrimaryColor

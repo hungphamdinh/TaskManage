@@ -27,7 +27,10 @@ export interface TeamMemberDetail {
     userId: string;
     role: string;
     name: string;
+    isAdmin: boolean;
     teamId: string;
+    isActive?: boolean;
+    
 }
 export interface TeamInvitation  {
     member: TeamMember,

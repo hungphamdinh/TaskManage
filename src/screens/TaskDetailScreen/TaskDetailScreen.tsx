@@ -56,6 +56,7 @@ const TaskDetailScreen = ({
   const { response } = useSelector((state: ReduxState) => state.taskLeave);
   const dispatch = useDispatch();
   const { taskId } = route.params;
+  const isInvitation = route.params.isInvitation; //Move from InvitationsScreen
   useEffect(() => {
     dispatch(
       getTaskDetail({
@@ -125,7 +126,13 @@ const TaskDetailScreen = ({
       <Background
         navigation={navigation}
         title={"Task Detail"}
-        mainComponent={<TaskDetail dispatch={dispatch} user={user} />}
+        mainComponent={
+          <TaskDetail
+            isInvitation={isInvitation}
+            dispatch={dispatch}
+            user={user}
+          />
+        }
         secondaryComponent={
           <View style={styles.secondaryComponent}>
             {taskDetail?.isAdmin ? (
@@ -140,15 +147,16 @@ const TaskDetailScreen = ({
                 />
               </TouchableOpacity>
             ) : null}
-
-            <TouchableOpacity
-              style={styles.buttonSetting}
-              onPress={_onPressShowDropdown}
-            >
-              <View style={styles.circle} />
-              <View style={styles.circle} />
-              <View style={styles.circle} />
-            </TouchableOpacity>
+            {!isInvitation ? (
+              <TouchableOpacity
+                style={styles.buttonSetting}
+                onPress={_onPressShowDropdown}
+              >
+                <View style={styles.circle} />
+                <View style={styles.circle} />
+                <View style={styles.circle} />
+              </TouchableOpacity>
+            ) : null}
           </View>
         }
       />

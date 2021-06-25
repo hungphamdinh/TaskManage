@@ -18,6 +18,7 @@ const InvitationsScreen = ({
     if (id) {
       navigation.navigate("TaskDetailScreen", {
         taskId: id,
+        isInvitation: true,
       });
     } else {
       navigation.goBack();

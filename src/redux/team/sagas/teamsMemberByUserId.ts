@@ -13,11 +13,11 @@ import TeamMemberAPI from '../../../services/api/TeamMemberAPI';
 function* getTeamMembers(action: GetTeamsAction) {
   try {
     //-------------- Request API
-    yield put(showIndicator(Colors.overlay5));
+    // yield put(showIndicator(Colors.overlay5));
     const res: Response = yield TeamMemberAPI.getTeamsMemberByUserId(
       action.params
     );
-    yield put(hideIndicator());
+    // yield put(hideIndicator());
     if(res.status === ApiResponseStatusCode.SUCCESS) {
       yield put(onSuccess(res.data));
     }
@@ -38,7 +38,7 @@ function* getTeamMembers(action: GetTeamsAction) {
         description: error.message,
         type: 'warning',
       });
-    yield put(hideIndicator());
+    // yield put(hideIndicator());
     yield put(onFailure(JSON.stringify(error)));
   }
 }
