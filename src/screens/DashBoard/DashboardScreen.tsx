@@ -27,6 +27,7 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
     if (user.role === "") {
       _onChangeModalVisible();
     }
+    console.log(user);
     dispatch(
       getInvitationByUserId({
         id: user?.id,

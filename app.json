@@ -3,6 +3,7 @@
     "name": "DemoFormik",
     "slug": "DemoFormik",
     "version": "1.0.0",
+    "scheme": "https",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

@@ -6,6 +6,8 @@ import {
 const LOGIN_REQUEST = 'login';
 const GET_USERS = 'users/getAllUsers';
 const UPDATE_ROLE = 'user/updateRole';
+const GET_GOOGLE_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
+
 const login = async (params: LoginRequest) => {
   return axios.post(LOGIN_REQUEST, params);
 };
@@ -19,8 +21,14 @@ const getUsers = async (params: GetUsersByIdRequest) => {
 const updateRole = async (params: UpdateRoleRequest) => {
   return axios.put(UPDATE_ROLE, params);
 }
+const getGoogleUserInfo = async (token: any) => {
+  return axios.get(GET_GOOGLE_USER_INFO, {
+     headers: {"Authorization" : `Bearer ${token}`} 
+  });
+}
 export default {
   login,
   getUsers,
-  updateRole
+  updateRole,
+  getGoogleUserInfo
 };

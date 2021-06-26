@@ -11,17 +11,23 @@ import { strings } from "../../languages/index";
 import { Colors, Metrics, Images, Fonts, Styles } from "../../themes";
 import { AppText, AppButton } from "../../components";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import * as Google from "expo-google-app-auth";
+// import * as Google from "expo-google-app-auth";
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "../../services/google";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { loginWithEmail } from "../../redux/user/reducer/user";
 import ReduxState from "../../redux/ReduxState";
-
+// import * as WebBrowser from 'expo-web-browser';
+import * as Google from "expo-auth-session/providers/google";
+import UserAPI from "../../services/api/UserAPI";
 const config = {
+  expoClientId:
+    "236664760197-n5ccjmtddest9e2p3dcsah2j51gulqd5.apps.googleusercontent.com",
   androidClientId: ANDROID_CLIENT_ID,
   iosClientId: IOS_CLIENT_ID,
-  scopes: ["profile", "email"],
+  webClientId:
+    "236664760197-994074nhkda8nqv52br8rshiuuamqe2u.apps.googleusercontent.com",
+  // scopes: ["profile", "email"],
 };
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
@@ -30,8 +36,16 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     (undefined as unknown) as any
   );
   const { user } = useSelector((state: ReduxState) => state.user);
-  const [isEnableRequest, setIsEnableRequest] = useState(true);
-  const [, setError] = useState("");
+  const [error, setError] = useState("");
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId:
+      "236664760197-n5ccjmtddest9e2p3dcsah2j51gulqd5.apps.googleusercontent.com",
+    androidClientId: ANDROID_CLIENT_ID,
+    iosClientId: IOS_CLIENT_ID,
+    webClientId:
+      "236664760197-994074nhkda8nqv52br8rshiuuamqe2u.apps.googleusercontent.com",
+    // scopes: ["profile", "email"],
+  });
   useLayoutEffect(() => {
     navigation.setOptions({
       //   title: strings.update_password_screen.title,
@@ -41,68 +55,38 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
   useEffect(() => {
     if (googleResult) {
-      const { user } = googleResult;
       dispatch(
         loginWithEmail({
-          userId: user.id,
-          name: user.name,
-          profile: user.photoUrl,
-          mail: user.email,
-          role: "Developer",
+          userId: googleResult.id,
+          name: googleResult.name,
+          profile: googleResult.picture,
+          mail: googleResult.email,
+          role: "",
         })
       );
     }
   }, [googleResult]);
 
-  useEffect(() => {
-    if (user?.message && isEnableRequest) {
-      const userGoogle = googleResult.user;
-      setIsEnableRequest(false);
-      dispatch(
-        loginWithEmail({
-          userId: userGoogle.id,
-          name: userGoogle.name,
-          profile: userGoogle.profile,
-          mail: userGoogle.email,
-          role: "",
-        })
-      );
-    }
-  }, [user?.message, isEnableRequest]);
-
-  const fetchUserInfo = async () => {
-    if (googleResult) {
-      let userInfoResponse = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: { Authorization: `Bearer ${googleResult.accessToken}` },
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      if (response?.type === "success") {
+        const { authentication } = response;
+        if (authentication) {
+          try {
+            let userInfoResponse = await UserAPI.getGoogleUserInfo(
+              authentication.accessToken
+            );
+            setGoogleResult(userInfoResponse);
+          } catch (error) {
+            console.log(error);
+            setError(error);
+          }
         }
-      );
-      console.log(userInfoResponse);
-    }
-  };
-  async function signInWithGoogleAsync() {
-    try {
-      const result = await Google.logInAsync(config);
-
-      if (result.type === "success") {
-        return result;
-      } else {
-        return { cancelled: true };
       }
-    } catch (e) {
-      return { error: true };
     }
-  }
+    fetchMyAPI();
+  }, [response]);
 
-  const _onPressSignInWithGoogle = async () => {
-    const result: any = await signInWithGoogleAsync();
-    if (result.error || result.cancelled) {
-      setError(result?.toString() as any);
-    } else {
-      setGoogleResult(result as any);
-    }
-  };
   return (
     <ScrollView style={Styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -123,7 +107,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           text={strings.login_screen.sub_title}
           style={styles.subTitle}
         />
-        {googleResult ? (
+        {/* {googleResult ? (
           <AppButton
             onPress={async () => {
               setGoogleResult(undefined);
@@ -134,26 +118,28 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
             }}
             text={"Log Out"}
           />
-        ) : (
-          <View style={styles.loginContainer}>
-            <TouchableOpacity
-              style={styles.buttonLoginByGoogle}
-              onPress={_onPressSignInWithGoogle}
-            >
-              <View style={styles.logoContainer}>
-                <AppText text={"Sign in with"} />
-                <Image
-                  style={styles.logoGoogle}
-                  source={Images.logoGoogle}
-                  resizeMode={"contain"}
-                />
-              </View>
-              <View style={styles.imageArrow}>
-                <Ionicons name="arrow-forward" size={20} color="#6B8CFF" />
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
+        ) : ( */}
+        <View style={styles.loginContainer}>
+          <TouchableOpacity
+            style={styles.buttonLoginByGoogle}
+            onPress={() => {
+              promptAsync();
+            }}
+          >
+            <View style={styles.logoContainer}>
+              <AppText text={"Sign in with"} />
+              <Image
+                style={styles.logoGoogle}
+                source={Images.logoGoogle}
+                resizeMode={"contain"}
+              />
+            </View>
+            <View style={styles.imageArrow}>
+              <Ionicons name="arrow-forward" size={20} color="#6B8CFF" />
+            </View>
+          </TouchableOpacity>
+        </View>
+        {/* )} */}
       </SafeAreaView>
     </ScrollView>
   );
