@@ -30,6 +30,7 @@ import postProfilePic from './team/sagas/teamProfile';
 import inviteTeamMember from './team/sagas/teamMemberInvite';
 import updateRole from './user/sagas/userRoleUpdate';
 import updateUserProfile from './user/sagas/userProfileUpdate';
+import deleteTeamInvitation from './team/sagas/teamInvitationDelete';
 
 export default function* rootSaga() {
   yield all([
@@ -62,5 +63,6 @@ export default function* rootSaga() {
     fork(inviteTeamMember),
     fork(updateRole),
     fork(updateUserProfile),
+    fork(deleteTeamInvitation),
   ]);
 }

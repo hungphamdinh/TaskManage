@@ -36,7 +36,9 @@ export interface DeleteInvitationRequest {
     userId: string; //Sender
     id: string;
 }
-
+export interface DeleteTeamInvitationRequest {
+    id: string;
+}
 export interface AcceptTeamInvitationRequest {
     id: string,
     member: TeamMember;

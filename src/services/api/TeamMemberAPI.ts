@@ -1,7 +1,7 @@
 import axios from '../axios/AxiosConfig';
 import { AddTeamMemberRequest, GetTeamDetailRequest, UpdateTeamMemberRequest, GetTeamInvitationByUserIdRequest, RejectTeamInvitationRequest, PostProfilePicRequest, TeamMember, InviteTeamMemberRequest } from '../model/request/TeamMember';
 import { GetTeamMembersRequest } from '../model/request/TeamMember';
-import { AcceptTeamInvitationRequest } from '../model/request/Invitation';
+import { AcceptTeamInvitationRequest, DeleteTeamInvitationRequest } from '../model/request/Invitation';
 
 const ADD_TEAM_MEMBER = 'team/addTeam';
 const INVITE_TEAM_MEMBER = 'team/invite';
@@ -12,6 +12,7 @@ const POST_PROFILE_PIC = 'team/upload';
 const ACCEPT_TEAM_INVITATION = 'teamInvitation/accept';
 const GET_TEAM_INVITATION = 'teamInvitation/getByUserId';
 const REJECT_TEAM_INVITATION = 'teamInvitation/reject';
+const DELETE_TEAM_INVITATION = 'teamInvitation/delete';
 const addTeamMember = async (params: AddTeamMemberRequest) => {
   return axios.post(ADD_TEAM_MEMBER, params);
 };
@@ -61,6 +62,12 @@ const postProfilePic = async (params: PostProfilePicRequest) => {
 const inviteTeamMember = (params: InviteTeamMemberRequest) => {
   return axios.post(INVITE_TEAM_MEMBER, params);
 }
+
+const deleteTeamInvitation = (params: DeleteTeamInvitationRequest) => {
+  return axios.delete(DELETE_TEAM_INVITATION, {
+    params,
+  })
+}
 export default {
   addTeamMember,
   getTeamsMemberByUserId,
@@ -71,4 +78,5 @@ export default {
   rejectTeamInvitation,
   postProfilePic,
   inviteTeamMember,
+  deleteTeamInvitation,
 };

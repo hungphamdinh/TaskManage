@@ -90,6 +90,11 @@ export default {
     work_with: 'Work with',
     settings: 'Settings',
     role: 'Role',
+    general: 'General',
+    about_app: 'About app',
+    report_bug: 'Report bugs',
+    logOut: 'Log out',
+    privacy_policy: 'Privacy Policy',
   },
   create_team_screen: {
     title: 'Create team',

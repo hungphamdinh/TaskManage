@@ -1,8 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Images from "../themes/Images";
-import BoardScreen from "../screens/BoardScreen/BoardScreen";
-import DashBoardScreen from "../screens/DashBoard/DashboardScreen";
+import BoardScreen from "../screens/task/BoardScreen/BoardScreen";
+import DashBoardScreen from "../screens/task/DashBoard/DashboardScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors, Metrics } from "../themes";
 import { SafeAreaView, Image, StyleSheet } from "react-native";
