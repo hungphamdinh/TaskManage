@@ -52,6 +52,7 @@ const EditForm = ({
     // dispatch(pushMemberLocal(taskDetail.members));
     return () => {
       dispatch(clearMemberLocal());
+      dispatch(clear());
     };
   }, []);
 
@@ -63,7 +64,6 @@ const EditForm = ({
           routes: [{ name: "HomeTabNavigation" }],
         })
       );
-      dispatch(clear());
     }
   }, [response]);
 

@@ -107,6 +107,13 @@ const TaskDetail = ({
         : 0,
     };
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearComment());
+      dispatch(clearSubTaskStatus());
+    }
+  }, [])
   useEffect(() => {
     if (commentResponse?.statusCode === 200) {
       dispatch(
@@ -114,7 +121,6 @@ const TaskDetail = ({
           taskId: taskDetail?.id,
         })
       );
-      dispatch(clearComment());
     }
   }, [commentResponse]);
   useEffect(() => {
@@ -124,7 +130,6 @@ const TaskDetail = ({
           id: taskDetail?.id,
         })
       );
-      dispatch(clearSubTaskStatus());
     }
   }, [subTaskResponse?.id, response]);
 

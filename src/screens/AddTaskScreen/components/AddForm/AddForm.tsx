@@ -67,6 +67,7 @@ const BoardForm = ({
     }
     return () => {
       dispatch(clearMemberLocal());
+      dispatch(clear());
     };
   }, []);
 
@@ -78,7 +79,6 @@ const BoardForm = ({
           routes: [{ name: "HomeTabNavigation" }],
         })
       );
-      dispatch(clear());
     }
   }, [response]);
 

@@ -13,13 +13,14 @@ import TeamMemberAPI from '../../../services/api/TeamMemberAPI';
 function* getTeamInvitationsByUserId(action: GetTeamInvitationByUserIdAction) {
   try {
     //-------------- Request API
+    console.log(action.params)
     yield put(showIndicator(Colors.overlay5));
     const res: Response = yield TeamMemberAPI.getTeamInvitation(
       action.params
     );
     //-------------- Request API Success
     yield put(hideIndicator());
-    console.log(res.status);
+    console.log(res);
     if(res.status === ApiResponseStatusCode.SUCCESS) {
       if(res.type == 'Receiver') {
         yield put(onSuccessReceiver(res.data))

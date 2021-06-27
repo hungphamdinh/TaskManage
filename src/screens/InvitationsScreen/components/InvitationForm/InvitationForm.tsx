@@ -49,19 +49,22 @@ const InvitationForm = ({
   const deleteResponse = useSelector(
     (state: ReduxState) => state.invitationDelete.response
   );
+  useEffect(() => {
+    return () => {
+      dispatch(clearInvitationSend());
+      dispatch(clearInvitationDelete());
+      dispatch(clearRejectInvitation());
+    }
+  }, [])
 
   //Send invitation
   useEffect(() => {
     if (response) {
-      onNavigate();
       dispatch(getInvitationByUserId({
         id: user?.id,
         type: 0,
       }))
     }
-    return () => {
-      dispatch(clearInvitationSend());
-    };
   }, [response]);
 
   //Refresh List and Clear Delete Response
@@ -74,7 +77,6 @@ const InvitationForm = ({
           taskId: taskDetail.id,
         })
       );
-      dispatch(clearInvitationDelete());
     }
   }, [deleteResponse, dispatch]);
 
@@ -87,7 +89,6 @@ const InvitationForm = ({
           type: InvitationsType.receiver,
         })
       );
-      dispatch(clearRejectInvitation());
     }
   }, [rejectResponse, dispatch]);
   const _onPressDetail = (item: Invitation) => {

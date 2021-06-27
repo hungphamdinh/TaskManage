@@ -44,11 +44,13 @@ const CreateTeamForm = ({
   user,
   navigation,
   isUpdate,
+  isInvite,
 }: {
   dispatch: any;
   user: User;
   navigation: any;
   isUpdate: boolean;
+  isInvite: boolean;
 }) => {
   const { usersLocal, users } = useSelector(
     (state: ReduxState) => state.usersById
@@ -84,7 +86,7 @@ const CreateTeamForm = ({
     dispatch(
       getUsers({
         id: user.id,
-        teamId: teamDetail.teamId,
+        teamId: teamDetail?.teamId,
       })
     );
     return () => {

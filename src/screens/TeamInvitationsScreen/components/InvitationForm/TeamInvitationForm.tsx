@@ -21,7 +21,7 @@ import {
   rejectInvitation,
   clearRejectInvitation,
 } from "../../../../redux/team/action/teamInvitationReject";
-import { getTeamInvitation, clearInvitationSend as clearTeamById } from "../../../../redux/team/action/teamInvitationsByUserId";
+import { getTeamInvitation, clearInvitationSend as clearTeamById, onSuccessReceiver } from "../../../../redux/team/action/teamInvitationsByUserId";
 import { getTeams } from "../../../../redux/team/action/teamsMemberByUserId";
 import { TeamInvitation } from "../../../../services/model/TeamMember";
 const invitationType = {
@@ -55,7 +55,15 @@ const InvitationForm = ({
   const deleteResponse = useSelector(
     (state: ReduxState) => state.invitationDelete.response
   );
-
+  useEffect(() => {
+    return () => {
+      dispatch(clearTeamById());
+      dispatch(clearInvitationSend());
+      dispatch(clearInvitationDelete());
+      dispatch(clearRejectInvitation());
+      // dispatch(clearTeamById());
+    };
+  }, []);
   //Send invitation
   useEffect(() => {
     if (response) {
@@ -72,11 +80,8 @@ const InvitationForm = ({
       );
       navigation.goBack();
     }
-    return () => {
-      // dispatch(clearInvitationSend());
-      // dispatch(clearTeamById());
-    };
   }, [response]);
+
 
   //Refresh List and Clear Delete Response
   useEffect(() => {
@@ -87,7 +92,6 @@ const InvitationForm = ({
           type: InvitationsType.sender,
         })
       );
-      dispatch(clearInvitationDelete());
     }
   }, [deleteResponse, dispatch]);
 
@@ -100,7 +104,6 @@ const InvitationForm = ({
           type: InvitationsType.receiver,
         })
       );
-      dispatch(clearRejectInvitation());
     }
   }, [rejectResponse, dispatch]);
   const _onPressDetail = (item: TeamInvitation) => {

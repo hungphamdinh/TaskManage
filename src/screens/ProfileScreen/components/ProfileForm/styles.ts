@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.borderRadius.medium,
   },
   taskContainer: {
-    height: Metrics.screenHeight / 3.5,
+    maxHeight: Metrics.screenHeight / 3.5,
   },
   buttonSetting: {
     flexDirection: 'row',

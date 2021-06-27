@@ -25,6 +25,7 @@ const CreateTeamScreen = ({
   );
   const dispatch = useDispatch();
   const isUpdate = route.params?.isUpdate;
+  const isInvite = route.params?.isInvite;
   const teamId = route.params?.teamId;
   const itemId = {
     invite: 0,
@@ -53,6 +54,7 @@ const CreateTeamScreen = ({
   const _onPressShowDropdown = () => {
     setIsShowModal(!isShowModal);
   };
+  console.log(invitationsSender);
   useEffect(() => {
     dispatch(onSuccessSender([]));
   }, [])
@@ -95,6 +97,7 @@ const CreateTeamScreen = ({
         mainComponent={
           <ProfileForm
             isUpdate={isUpdate}
+            isInvite={isInvite}
             navigation={navigation}
             dispatch={dispatch}
             user={user}

@@ -77,10 +77,18 @@ const AddForm = ({
         );
       }
     } else {
-      if (users.length === 0) {
+      if (!isInvite) {
         dispatch(
           getUsers({
             id: user.id,
+            // teamId: teamDetail?.teamId,
+          })
+        );
+      } else {
+        dispatch(
+          getUsers({
+            id: user.id,
+            teamId: teamDetail?.teamId,
           })
         );
       }
