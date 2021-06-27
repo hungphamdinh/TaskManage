@@ -36,11 +36,8 @@ const EditForm = ({
   );
   const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const { response } = useSelector((state: ReduxState) => state.taskUpdate);
-  const { members } = useSelector(
-    (state: ReduxState) => state.members
-  );
+  const { members } = useSelector((state: ReduxState) => state.members);
   const [name, setName] = useState(taskDetail.name);
-  const [teamItem, setTeamItem] = useState('' as any);
   const [description, setDescription] = useState(taskDetail.description);
   const [boardStatus, setBoardStatus] = useState(
     statusesDetail.map((item: any) =>
@@ -117,7 +114,6 @@ const EditForm = ({
       })
     );
   };
-  console.log(taskDetail.members[1].teamId);
 
   const _onPressAdd = () => {
     // dispatch(
@@ -157,16 +153,20 @@ const EditForm = ({
       <View style={styles.inputTask}>
         <AppText text={"TEAM MEMBER"} color={Colors.appGrayColor} />
         <View style={styles.teamContainer}>
-          {members.map((item: Member) => (
+          {members.map((item: any) => (
             <>
-              {item.isActive ? (
-                <View style={styles.imageMember}>
-                  <Image
-                    style={styles.profile}
-                    source={{ uri: item.profile }}
-                  />
-                </View>
-              ) : null}
+              {item.isAdmin ? null : (
+                <>
+                  {item.isActive ? (
+                    <View style={styles.imageMember}>
+                      <Image
+                        style={styles.profile}
+                        source={{ uri: item.profile }}
+                      />
+                    </View>
+                  ) : null}
+                </>
+              )}
             </>
           ))}
           <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>

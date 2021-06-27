@@ -34,6 +34,7 @@ import { getComments } from "../../../../redux/comment/action/comments";
 import { Comment } from "../../../../services/model/Comment";
 import { getSubTask } from "../../../../redux/task/action/subTasks";
 import { androidOS } from "../../../../helpers/Constants";
+import { TeamMemberDetail } from "../../../../services/model/TeamMember";
 const TaskDetail = ({
   dispatch,
   user,
@@ -221,13 +222,17 @@ const TaskDetail = ({
               color={Colors.appGrayColor}
             />
             <View style={styles.teamContainer}>
-              {taskDetail.members.map((item: Member, idx: number) => (
-                <View key={idx.toString()} style={styles.imageMember}>
-                  <Image
-                    style={styles.profile}
-                    source={{ uri: item.profile }}
-                  />
-                </View>
+              {taskDetail.members.map((item: any, idx: number) => (
+                <>
+                  {item.isAdmin ? null : (
+                    <View key={idx.toString()} style={styles.imageMember}>
+                      <Image
+                        style={styles.profile}
+                        source={{ uri: item.profile }}
+                      />
+                    </View>
+                  )}
+                </>
               ))}
             </View>
           </View>

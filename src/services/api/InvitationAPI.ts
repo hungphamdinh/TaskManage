@@ -1,12 +1,12 @@
 import axios from '../axios/AxiosConfig';
-import { SendInvitationRequest, GetInvitationsByUserIdRequest, AcceptInvitationRequest, DeleteInvitationRequest, RejectInvitationRequest } from '../model/request/Invitation';
+import { SendInvitationToTaskTaskRequest, GetInvitationsByUserIdRequest, AcceptInvitationRequest, DeleteInvitationRequest, RejectInvitationRequest } from '../model/request/Invitation';
 
 const SEND_INVITATION = 'invitation/send';
 const GET_INVITATIONS = 'invitation/getByUserId'
 const ACCEPT_INVITATION = 'invitation/accept';
 const REJECT_INVITATION = 'invitation/reject';
 const DELETE_INVITATION = 'invitation/delete';
-const sendInvitation = async (params: Array<SendInvitationRequest>) => {
+const sendInvitation = async (params: SendInvitationToTaskTaskRequest) => {
   return axios.post(SEND_INVITATION, params);
 };
 

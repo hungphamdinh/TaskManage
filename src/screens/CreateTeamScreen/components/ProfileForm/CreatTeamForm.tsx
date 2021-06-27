@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Image, Platform } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../services/model/User";
@@ -12,14 +12,9 @@ import { Colors, Images, Fonts } from "../../../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { clear } from "../../../../redux/task/action/task";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../redux/ReduxState";
-import {
-  getMembers,
-  clearMemberLocal,
-} from "../../../../redux/member/action/members";
-import { CommonActions } from "@react-navigation/native";
+import { clearMemberLocal } from "../../../../redux/member/action/members";
 import { strings } from "../../../../languages";
 import * as ImagePicker from "expo-image-picker";
 import {
@@ -86,13 +81,12 @@ const CreateTeamForm = ({
   }, [teamDetail, isUpdate]);
 
   useEffect(() => {
-    if (users.length == 0) {
-      dispatch(
-        getUsers({
-          id: user.id,
-        })
-      );
-    }
+    dispatch(
+      getUsers({
+        id: user.id,
+        teamId: teamDetail.teamId,
+      })
+    );
     return () => {
       dispatch(clearMemberLocal());
       dispatch(clearTeamMember());
@@ -258,13 +252,19 @@ const CreateTeamForm = ({
           />
         </TouchableOpacity>
         <AppText
-          text={strings.create_team_screen.upload}
+          text={
+            isUpdate ? teamDetail?.teamName : strings.create_team_screen.upload
+          }
           size={Fonts.size.h6}
           bold
           style={styles.title}
         />
         <AppText
-          text={strings.create_team_screen.logo_description}
+          text={
+            isUpdate
+              ? teamDetail?.admin.mail
+              : strings.create_team_screen.logo_description
+          }
           color={Colors.overlay3}
         />
       </View>

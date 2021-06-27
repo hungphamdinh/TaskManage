@@ -89,6 +89,7 @@ export default {
     team_work: 'Team you work now',
     work_with: 'Work with',
     settings: 'Settings',
+    role: 'Role',
   },
   create_team_screen: {
     title: 'Create team',

@@ -1,6 +1,6 @@
 import { TeamMember } from "./TeamMember";
 
-export interface SendInvitationRequest {
+export interface InvitationRequest {
     // content: string;
     // title: string;
     taskId: string;
@@ -12,6 +12,10 @@ export interface SendInvitationRequest {
     receiverMail: string;
 }
 
+export interface SendInvitationToTaskTaskRequest {
+    taskId: string;
+    invitations: Array<InvitationRequest>
+}
 export interface GetInvitationsByUserIdRequest {
     id: string;
     type: number; //0: Receiver, 1: Sender

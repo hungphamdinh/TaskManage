@@ -84,6 +84,22 @@ function HomeTab() {
             }}
           />
           <Tab.Screen
+            name="PlusScreen"
+            component={BoardScreen}
+            listeners={{
+              tabPress: () => {
+                // Prevent default action
+                // e.preventDefault();
+                store.dispatch(
+                  getTasksByUserId({
+                    id: user?.id,
+                  })
+                );
+              },
+            }}
+            options={{ title: "" }}
+          />
+          <Tab.Screen
             name="BoardScreen"
             listeners={{
               tabPress: () => {
@@ -101,24 +117,8 @@ function HomeTab() {
               title: "",
             }}
           />
-          <Tab.Screen
-            name="PlusScreen"
-            component={BoardScreen}
-            listeners={{
-              tabPress: () => {
-                // Prevent default action
-                // e.preventDefault();
-                store.dispatch(
-                  getTasksByUserId({
-                    id: user?.id,
-                  })
-                );
-              },
-            }}
-            options={{ title: "" }}
-          />
 
-          <Tab.Screen
+          {/* <Tab.Screen
             name="TaskScreen"
             component={BoardScreen}
             options={{ title: "" }}
@@ -128,7 +128,7 @@ function HomeTab() {
             name="MessageScreen"
             component={BoardScreen}
             options={{ title: "" }}
-          />
+          /> */}
         </Tab.Navigator>
       </LinearGradient>
 

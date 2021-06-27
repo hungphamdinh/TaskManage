@@ -94,7 +94,7 @@ const ItemBoard = ({
           />
           <AppText
             style={styles.textTime}
-            text={`${item.members.length} Persons`}
+            text={`${item.members.length - 1} Persons`}
           />
         </View>
       </View>

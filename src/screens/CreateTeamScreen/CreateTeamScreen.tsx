@@ -7,6 +7,8 @@ import { strings } from "../../languages";
 import { getTeamDetail } from "../../redux/team/action/teamDetail";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Metrics, Colors } from "../../themes";
+import { getTeamInvitation, onSuccessSender } from "../../redux/team/action/teamInvitationsByUserId";
+import { InvitationsType } from "../../helpers/Constants";
 
 const CreateTeamScreen = ({
   navigation,
@@ -18,13 +20,15 @@ const CreateTeamScreen = ({
   const { user } = useSelector((state: ReduxState) => state.user);
   const { teamDetail } = useSelector((state: ReduxState) => state.teamDetail);
   const [isShowModal, setIsShowModal] = useState(false);
-
+  const { invitationsSender } = useSelector(
+    (state: ReduxState) => state.teamInvitationsByUserId
+  );
   const dispatch = useDispatch();
   const isUpdate = route.params?.isUpdate;
   const teamId = route.params?.teamId;
   const itemId = {
     invite: 0,
-    leave: 4,
+    invitations: 4,
   };
   const dropdownData = [
     {
@@ -32,8 +36,8 @@ const CreateTeamScreen = ({
       name: "Invite member",
     },
     {
-      id: itemId.leave,
-      name: "Leave from task",
+      id: itemId.invitations,
+      name: "View Invitations",
     },
   ];
   useEffect(() => {
@@ -49,12 +53,34 @@ const CreateTeamScreen = ({
   const _onPressShowDropdown = () => {
     setIsShowModal(!isShowModal);
   };
+  useEffect(() => {
+    dispatch(onSuccessSender([]));
+  }, [])
+  useEffect(() => {
+    if (invitationsSender.length > 0) {
+      navigation.navigate("TeamInvitationsScreen", {
+        isReceiver: false,
+      });
+    }
+  }, [invitationsSender.length]);
 
   const _onPressItem = (item: any) => {
-    navigation.navigate("AddMemberScreen", {
-      isTeamMember: true,
-      isInvite: true,
-    });
+    if(item.id === itemId.invite) {
+      navigation.navigate("AddMemberScreen", {
+        isTeamMember: true,
+        isInvite: true,
+      });
+    }
+    else {
+      dispatch(
+        getTeamInvitation({
+          type: InvitationsType.sender,
+          id: user?.id,
+          teamId: teamDetail?.teamId,
+        })
+      );
+    }
+
     _onPressShowDropdown();
   };
   return (

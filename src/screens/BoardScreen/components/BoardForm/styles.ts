@@ -80,7 +80,25 @@ const styles = StyleSheet.create({
   },
   itemDropdown: {
     padding: Metrics.margin.small,
-  }
+  },
+  buttonInvitation: {
+    marginRight: Metrics.margin.huge,
+    flexDirection: 'row',
+  },
+  count: {
+    position: "absolute",
+    width: 15,
+    height: 15,
+    backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: Colors.overlay6,
+    borderRadius: Metrics.borderRadius.large,
+  },
+  headerRight: {
+    flexDirection: 'row',
+  },
 });
 
 export default styles;

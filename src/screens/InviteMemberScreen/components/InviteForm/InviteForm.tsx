@@ -24,7 +24,7 @@ import {
   sendInvitation,
   clearInvitationSend,
 } from "../../../../redux/invitation/action/invitationSend";
-import { SendInvitationRequest } from "../../../../services/model/request/Invitation";
+import { InvitationRequest } from "../../../../services/model/request/Invitation";
 
 const AddForm = ({
   dispatch,
@@ -42,13 +42,14 @@ const AddForm = ({
   const { response } = useSelector((state: ReduxState) => state.invitationSend);
   const [name, setName] = useState("");
   useEffect(() => {
-    if (users.length == 0) {
-      dispatch(
-        getUsers({
-          id: user.id,
-        })
-      );
-    }
+    // if (users.length == 0) {
+    dispatch(
+      getUsers({
+        id: user.id,
+        taskId: taskDetail?.id,
+      })
+    );
+    // }
     return () => {
       dispatch(clearInvitationSend());
       dispatch(clearLocalUser());
@@ -66,7 +67,7 @@ const AddForm = ({
   };
 
   const _onPressDone = () => {
-    let arr: Array<SendInvitationRequest> = [];
+    let arr: Array<InvitationRequest> = [];
     usersLocal.map((item: User) => {
       if (item.isActive) {
         arr.push({
@@ -80,7 +81,12 @@ const AddForm = ({
         });
       }
     });
-    dispatch(sendInvitation(arr));
+    dispatch(
+      sendInvitation({
+        taskId: taskDetail.id,
+        invitations: arr,
+      })
+    );
   };
 
   const _keyExtractor = (item: any, index: number) => index.toString();

@@ -64,11 +64,17 @@ const InvitationForm = ({
           userId: user.id,
         })
       );
+      dispatch(
+        getTeamInvitation({
+          type: InvitationsType.receiver,
+          id: user?.id,
+        })
+      );
       navigation.goBack();
     }
     return () => {
-      dispatch(clearInvitationSend());
-      dispatch(clearTeamById());
+      // dispatch(clearInvitationSend());
+      // dispatch(clearTeamById());
     };
   }, [response]);
 

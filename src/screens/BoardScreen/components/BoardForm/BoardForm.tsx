@@ -91,13 +91,18 @@ const BoardForm = ({
   user,
   dispatch,
   onNavigate,
+  navigation,
 }: {
   user: User;
   dispatch: any;
   onNavigate: Function;
+  navigation: any;
 }) => {
   const STATUS_ALL_ID = 6;
   const { tasks } = useSelector((state: ReduxState) => state.tasks);
+  const { invitationsReceiver } = useSelector(
+    (state: ReduxState) => state.invitationsByUserId
+  );
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [status, setStatus] = useState([
     {
@@ -176,6 +181,12 @@ const BoardForm = ({
       backgroundColor: status.filter((item: Item) => item.isActive)[0].color,
     };
   };
+
+  const _onPressInvitation = () => {
+    navigation.navigate("InvitationsScreen", {
+      isReceiver: true,
+    });
+  };
   return (
     <View style={styles.container}>
       {isShowFilter ? (
@@ -193,9 +204,30 @@ const BoardForm = ({
       ) : null}
       <View style={styles.header}>
         <AppText text={strings.board_screen.task} bold size={Fonts.size.h6} />
+        <View style={styles.headerRight}>
+        <TouchableOpacity
+          style={styles.buttonInvitation}
+          onPress={_onPressInvitation}
+        >
+          <Ionicons
+            name="mail-unread-outline"
+            size={25}
+            // color={Colors.appWhite}
+          />
+          <TouchableOpacity style={styles.count}>
+            <AppText
+              bold
+              color={Colors.appWhite}
+              size={Fonts.size.tiny}
+              text={invitationsReceiver.length}
+            />
+          </TouchableOpacity>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
           <Ionicons name="add-outline" size={25} color={Colors.appTextBlack} />
         </TouchableOpacity>
+        </View>
+      
       </View>
       <View style={styles.subHeader}>
         <View style={styles.date}>

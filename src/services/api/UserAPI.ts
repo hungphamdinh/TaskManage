@@ -1,11 +1,12 @@
 import axios from '../axios/AxiosConfig';
 import {
-  LoginRequest, GetUsersByIdRequest, UpdateRoleRequest
+  LoginRequest, GetUsersByIdRequest, UpdateRoleRequest, UpdateUserProfileRequest
 } from '../model/request/User';
 
 const LOGIN_REQUEST = 'login';
 const GET_USERS = 'users/getAllUsers';
 const UPDATE_ROLE = 'user/updateRole';
+const UPDATE_USER_PROFILE = 'user/updateProfile';
 const GET_GOOGLE_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
 
 const login = async (params: LoginRequest) => {
@@ -26,9 +27,23 @@ const getGoogleUserInfo = async (token: any) => {
      headers: {"Authorization" : `Bearer ${token}`} 
   });
 }
+
+const updateUserProfile = async (params: UpdateUserProfileRequest) => {
+  var photo = {
+    uri: params.profile.uri,
+    type: 'image/jpeg',
+    name: `${new Date().getTime()}.png`,
+  };
+  const data = new FormData();
+  data.append('file', photo as any);
+  data.append('role', params.role);
+  data.append('userId', params.userId);
+  return axios.put(UPDATE_USER_PROFILE, data);
+}
 export default {
   login,
   getUsers,
   updateRole,
-  getGoogleUserInfo
+  getGoogleUserInfo,
+  updateUserProfile,
 };

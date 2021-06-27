@@ -30,6 +30,7 @@ const BoardScreen = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={styles.container}>
       <RecursiveContainer
+        navigation={navigation}
         onNavigate={_onNavigate}
         dispatch={dispatch}
         user={user}

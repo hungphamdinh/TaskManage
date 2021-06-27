@@ -54,6 +54,10 @@ const InvitationForm = ({
   useEffect(() => {
     if (response) {
       onNavigate();
+      dispatch(getInvitationByUserId({
+        id: user?.id,
+        type: 0,
+      }))
     }
     return () => {
       dispatch(clearInvitationSend());

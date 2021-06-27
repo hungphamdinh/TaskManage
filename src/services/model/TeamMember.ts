@@ -1,4 +1,5 @@
 import { TeamMember } from "./request/TeamMember";
+import { User } from "./User";
 
 export interface TeamMemberByUserId  {
     teamId: string;
@@ -16,6 +17,7 @@ export interface TeamDetail {
     profile: string;
     userId: string;
     members: Array<TeamMemberDetail>;
+    admin: User;
 }
 
 export interface TeamMemberDetail {

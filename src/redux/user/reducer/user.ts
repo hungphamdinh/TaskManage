@@ -11,9 +11,11 @@ import {
   UpdateRoleAction,
   ACTION_UPDATE_ROLE,
   ACTION_CLEAR_ERROR,
+  ACTION_UPDATE_USER_PROFILE,
+  UpdateUserProfileAction,
 } from '../action/user';
 import {
-  LoginRequest, UpdateRoleRequest,
+  LoginRequest, UpdateRoleRequest, UpdateUserProfileRequest,
 } from '../../../services/model/request/User';
 import { User } from '../../../services/model/User';
 
@@ -46,6 +48,10 @@ const clearError = () => ({
   type: ACTION_CLEAR_ERROR,
 });
 
+const updateUserProfile = (params: UpdateUserProfileRequest): UpdateUserProfileAction => ({
+  type: ACTION_UPDATE_USER_PROFILE,
+  params,
+})
 //-------------- Actions
 const initialState: UserState = {
   user: (undefined as unknown) as User,
@@ -93,6 +99,11 @@ export default (
         ...state,
       }
 
+    case ACTION_UPDATE_USER_PROFILE:
+      return {
+        ...state,
+      }
+
     default:
       return state;
   }
@@ -106,4 +117,5 @@ export {
   logout,
   clearError,
   updateRole,
+  updateUserProfile,
 };

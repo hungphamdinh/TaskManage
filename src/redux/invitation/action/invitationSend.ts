@@ -1,5 +1,5 @@
 
-import { SendInvitationRequest } from "../../../services/model/request/Invitation";
+import { SendInvitationToTaskTaskRequest } from "../../../services/model/request/Invitation";
 
 const ACTION = 'SEND_INVITATION';
 const ACTION_SUCCESS = 'SEND_INVITATION_SUCCESS';
@@ -7,7 +7,7 @@ const ACTION_ERROR = 'SEND_INVITATION_ERROR';
 const ACTION_CLEAR = 'SEND_INVITATION_CLEAR';
 export interface SendInvitationAction {
   type: typeof ACTION;
-  params: Array<SendInvitationRequest>;
+  params: SendInvitationToTaskTaskRequest;
 }
 
 interface OnSuccessAction {
@@ -30,7 +30,7 @@ export type SendInvitationActionType =
   | OnFailureAction
   | ClearInvitationAction;
 
-const sendInvitation = (params: Array<SendInvitationRequest>): SendInvitationAction => ({
+const sendInvitation = (params: SendInvitationToTaskTaskRequest): SendInvitationAction => ({
   type: ACTION,
   params,
 });
