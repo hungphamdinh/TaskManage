@@ -13,6 +13,7 @@ const ACCEPT_TEAM_INVITATION = 'teamInvitation/accept';
 const GET_TEAM_INVITATION = 'teamInvitation/getByUserId';
 const REJECT_TEAM_INVITATION = 'teamInvitation/reject';
 const DELETE_TEAM_INVITATION = 'teamInvitation/delete';
+const DELETE_TEAM_MEMBER = 'teamMember/delete';
 const addTeamMember = async (params: AddTeamMemberRequest) => {
   return axios.post(ADD_TEAM_MEMBER, params);
 };
@@ -68,6 +69,12 @@ const deleteTeamInvitation = (params: DeleteTeamInvitationRequest) => {
     params,
   })
 }
+
+const deleteTeamMember = (params: DeleteTeamInvitationRequest) => {
+  return axios.delete(DELETE_TEAM_MEMBER, {
+    params,
+  })
+}
 export default {
   addTeamMember,
   getTeamsMemberByUserId,
@@ -79,4 +86,5 @@ export default {
   postProfilePic,
   inviteTeamMember,
   deleteTeamInvitation,
+  deleteTeamMember,
 };

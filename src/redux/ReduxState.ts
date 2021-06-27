@@ -168,4 +168,5 @@ export default interface ReduxState {
   teamDetail: TeamDetailState;
   teamMemberInvite: InviteTeamMemberState;
   teamInvitationDelete: DeleteInvitationState;
+  teamMemberDelete: DeleteInvitationState;
 }

@@ -7,6 +7,7 @@ import {
   AppText,
   AppButton,
   Divider,
+  AlertDialog,
 } from "../../../../../components";
 import { Colors, Images, Fonts } from "../../../../../themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -38,6 +39,12 @@ import {
   clearTeamMember as clearUpdateResponse,
 } from "../../../../../redux/team/action/teamMemberUpdate";
 import { showMessage } from "react-native-flash-message";
+import {
+  deleteTeamMember,
+  clearDeleteTeamMember,
+} from "../../../../../redux/team/action/teamMemberDelete";
+import { getTeamDetail } from "../../../../../redux/team/action/teamDetail";
+import { TeamMemberDetail } from "../../../../../services/model/TeamMember";
 
 const CreateTeamForm = ({
   dispatch,
@@ -66,7 +73,12 @@ const CreateTeamForm = ({
   const updateResponse = useSelector(
     (state: ReduxState) => state.teamMemberUpdate.response
   );
+  const teamMemberDeleteResponse = useSelector(
+    (state: ReduxState) => state.teamMemberDelete.response
+  );
+  const [isShowDialog, setIsShowDialog] = useState(false);
   const [name, setName] = useState("");
+  const [teamMemberItem, setTeamMemberItem] = useState('' as unknown as TeamMemberDetail);
 
   const isCurrentImage = teamDetail?.profile === image?.uri;
   const isAdmin = teamDetail?.isAdmin;
@@ -94,12 +106,23 @@ const CreateTeamForm = ({
       dispatch(clearTeamMember());
       dispatch(clearPostProfile());
       dispatch(clearLocalUser());
+      dispatch(clearDeleteTeamMember());
       if (teamDetail?.isAdmin) {
         dispatch(clearUpdateResponse());
       }
     };
   }, []);
 
+  useEffect(() => {
+    if (teamMemberDeleteResponse) {
+      dispatch(
+        getTeamDetail({
+          id: teamDetail.teamId,
+          userId: user?.id,
+        })
+      );
+    }
+  }, [teamMemberDeleteResponse]);
   //add success
   useEffect(() => {
     if (id) {
@@ -240,6 +263,23 @@ const CreateTeamForm = ({
     dispatch(deleteLocalUser(item));
   };
 
+  const _onPressDeleteTeamMember = (item: User) => {
+    changeModalVisible();
+    setTeamMemberItem(item as any);
+  };
+
+  const changeModalVisible = () => {
+    setIsShowDialog(!isShowDialog);
+  };
+
+  const _onPressDelete = () => {
+    dispatch(
+      deleteTeamMember({
+        id: teamMemberItem.teamMemberId,
+      })
+    );
+    changeModalVisible();
+  };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
@@ -297,7 +337,7 @@ const CreateTeamForm = ({
                   {teamDetail?.members.map((item: any) => (
                     <RenderMember
                       key={item.memberId}
-                      onPressDeleteItem={_onPressDeleteItem}
+                      onPressDeleteItem={_onPressDeleteTeamMember}
                       item={item}
                     />
                   ))}
@@ -339,6 +379,16 @@ const CreateTeamForm = ({
           <AppButton text={"Done"} onPress={_onPressDone} />
         ) : null}
       </View>
+      <AlertDialog
+        visible={isShowDialog}
+        title={strings.alert.notify}
+        content={strings.create_team_screen.delete_member}
+        textBtnAccept={strings.alert.accept}
+        textBtnOut={strings.alert.cancel}
+        onPressButtonLeft={changeModalVisible}
+        onPressOut={changeModalVisible}
+        onPressSubmit={_onPressDelete}
+      />
     </KeyboardAwareScrollView>
   );
 };

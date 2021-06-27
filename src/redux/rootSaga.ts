@@ -31,6 +31,7 @@ import inviteTeamMember from './team/sagas/teamMemberInvite';
 import updateRole from './user/sagas/userRoleUpdate';
 import updateUserProfile from './user/sagas/userProfileUpdate';
 import deleteTeamInvitation from './team/sagas/teamInvitationDelete';
+import deleteTeamMember from './team/sagas/teamMemberDelete';
 
 export default function* rootSaga() {
   yield all([
@@ -64,5 +65,6 @@ export default function* rootSaga() {
     fork(updateRole),
     fork(updateUserProfile),
     fork(deleteTeamInvitation),
+    fork(deleteTeamMember),
   ]);
 }

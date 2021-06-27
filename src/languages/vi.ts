@@ -105,5 +105,6 @@ export default {
     member: 'Member',
     select_member: 'Select member',
     create: 'Create Team',
+    delete_member: 'Do you want to delete this member',
   }
 };
