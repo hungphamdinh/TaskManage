@@ -19,6 +19,18 @@ export interface SubTask {
   timeCreated: string;
   status: number;
 }
+
+export interface TotalTask {
+  urgent: number;
+  onGoing: number;
+  running: number;
+  done: number;
+  totalTask: number;
+  urgentPercentage: number;
+  onGoingPercentage: number;
+  runningPercentage: number;
+  donePercentage: number;
+}
 export interface TaskDetail {
   id: string;
   name: string;

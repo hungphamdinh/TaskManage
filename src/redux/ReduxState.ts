@@ -1,6 +1,6 @@
 
 import { User } from '../services/model/User';
-import { Task, TaskDetail, SubTask, SubTaskStatus } from '../services/model/Task';
+import { Task, TaskDetail, SubTask, SubTaskStatus, TotalTask } from '../services/model/Task';
 import { Member } from '../services/model/Member';
 import { Comment } from '../services/model/Comment';
 import { Invitation } from '../services/model/Invitation';
@@ -25,6 +25,11 @@ export interface TasksState {
 }
 export interface TaskState {
   response: any;
+  error: string;
+}
+
+export interface TotalTaskState {
+  totalTask: TotalTask;
   error: string;
 }
 
@@ -169,4 +174,5 @@ export default interface ReduxState {
   teamMemberInvite: InviteTeamMemberState;
   teamInvitationDelete: DeleteInvitationState;
   teamMemberDelete: DeleteInvitationState;
+  totalTask: TotalTaskState;
 }

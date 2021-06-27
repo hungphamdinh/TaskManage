@@ -4,6 +4,7 @@ import { fork, all } from 'redux-saga/effects';
 import loginWithEmail from './user/sagas/user';
 import getTasksByUserId from './task/sagas/tasks';
 import addTask from './task/sagas/task';
+import getTotalTask from './task/sagas/totalTask';
 import updateTask from './task/sagas/taskUpdate';
 import addSubTask from './task/sagas/subTask';
 import getTaskDetail from './task/sagas/taskDetail';
@@ -66,5 +67,6 @@ export default function* rootSaga() {
     fork(updateUserProfile),
     fork(deleteTeamInvitation),
     fork(deleteTeamMember),
+    fork(getTotalTask),
   ]);
 }

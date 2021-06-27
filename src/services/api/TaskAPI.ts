@@ -1,5 +1,5 @@
 import axios from '../axios/AxiosConfig';
-import { GetTasksRequest, AddTaskRequest, GetTaskDetailRequest, AddSubTaskRequest, SetDoneSubTaskRequest, GetSubTaskRequest, UpdateTaskRequest, LeaveTaskRequest } from '../model/request/Task';
+import { GetTasksRequest, AddTaskRequest, GetTaskDetailRequest, AddSubTaskRequest, SetDoneSubTaskRequest, GetSubTaskRequest, UpdateTaskRequest, LeaveTaskRequest, GetTotalTaskRequest } from '../model/request/Task';
 
 const GET_TASKS_BY_ID = 'tasks/getTasksById';
 const ADD_TASK = 'task';
@@ -9,6 +9,7 @@ const DONE_SUB_TASK = 'subTask/doneTask'
 const GET_SUB_TASKS = 'subTask/getSubTaskById';
 const UPDATE_TASK = 'task/update';
 const LEAVE_TASK = 'task/leaveTask';
+const GET_TOTAL_TASK = 'task/getTotalTask';
 const getTaskByUserId = async (params: GetTasksRequest) => {
   return axios.get(GET_TASKS_BY_ID, {
     params,
@@ -44,6 +45,12 @@ const leaveTask = async (params: LeaveTaskRequest) => {
 const updateTask = async (params: UpdateTaskRequest) => {
   return axios.put(UPDATE_TASK, params);
 };
+
+const getTotalTask = async (params: GetTotalTaskRequest) => {
+  return axios.get(GET_TOTAL_TASK, {
+    params,
+  })
+}
 export default {
   getTaskByUserId,
   addTask,
@@ -53,4 +60,5 @@ export default {
   getSubTasks,
   updateTask,
   leaveTask,
+  getTotalTask,
 };

@@ -14,6 +14,10 @@ export interface AddTaskRequest {
   members: Array<AddMemberRequest>;
   description: string;
 }
+
+export interface GetTotalTaskRequest {
+  id: string;
+}
 export interface AddSubTaskRequest {
   name: string;
   parentId: string;

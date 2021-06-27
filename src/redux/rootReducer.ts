@@ -7,6 +7,7 @@ import taskDetail from './task/reducer/taskDetail';
 import task from './task/reducer/task';
 import taskUpdate from './task/reducer/taskUpdate';
 import subTask from './task/reducer/subTask';
+import totalTask from './task/reducer/totalTask';
 import subTaskStatus from './task/reducer/subTaskStatus';
 import members from './member/reducer/members';
 import comment from './comment/reducer/comment';
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
   teamMemberInvite,
   teamInvitationDelete,
   teamMemberDelete,
+  totalTask,
 });
 
 export default rootReducer;

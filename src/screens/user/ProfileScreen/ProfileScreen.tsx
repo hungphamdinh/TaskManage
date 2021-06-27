@@ -24,12 +24,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
   const [image, setImage] = useState(user?.profile);
   const dispatch = useDispatch();
 
-  const _onPressInvitation = () => {
-    navigation.navigate("TeamInvitationsScreen", {
-      isReceiver: true,
-    });
-  };
-
+  //ComponentDidMount
   useEffect(() => {
     dispatch(
       getTeamInvitation({
@@ -41,6 +36,14 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
       dispatch(clearInvitation());
     }
   }, []);
+
+
+  const _onPressInvitation = () => {
+    navigation.navigate("TeamInvitationsScreen", {
+      isReceiver: true,
+    });
+  };
+
 
   const checkPermission = async () => {
     if (Platform.OS !== "web") {
