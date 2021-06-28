@@ -9,7 +9,7 @@ const DONE_SUB_TASK = 'subTask/doneTask'
 const GET_SUB_TASKS = 'subTask/getSubTaskById';
 const UPDATE_TASK = 'task/update';
 const LEAVE_TASK = 'task/leaveTask';
-const GET_TOTAL_TASK = 'task/getTotalTask';
+const GET_TOTAL_TASK = 'task/getTotal';
 const getTaskByUserId = async (params: GetTasksRequest) => {
   return axios.get(GET_TASKS_BY_ID, {
     params,

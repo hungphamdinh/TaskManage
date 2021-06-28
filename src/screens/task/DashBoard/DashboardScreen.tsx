@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from "react-native";
 import { AppText, ModalInput } from "../../../components";
 import { Metrics, Fonts, Colors, Images } from "../../../themes";
@@ -14,20 +15,62 @@ import ReduxState from "../../../redux/ReduxState";
 import { getInvitationByUserId } from "../../../redux/invitation/action/invitationsByUserId";
 import { InvitationsType } from "../../../helpers/Constants";
 import { logout, updateRole } from "../../../redux/user/reducer/user";
+import { getTotalTask } from "../../../redux/task/action/totalTask";
+import { PieChart } from "react-native-chart-kit";
+import { ScrollView } from "react-native-gesture-handler";
+const chartSize = Metrics.screenHeight / 4;
+const chartConfig = {
+  backgroundColor: "#26872a",
+  backgroundGradientFrom: "#43a047",
+  backgroundGradientTo: "#66bb6a",
+  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  style: {
+    borderRadius: 16,
+  },
+};
 
+const graphStyle = {
+  marginVertical: 8,
+  ...chartConfig.style,
+};
 const DashboardScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: ReduxState) => state.user);
   const { invitationsReceiver } = useSelector(
     (state: ReduxState) => state.invitationsByUserId
   );
+  const width = Dimensions.get("window").width;
+  const { totalTask } = useSelector((state: ReduxState) => state.totalTask);
+  const height = Metrics.screenHeight / 4;
+  const pieChartData = [
+    {
+      name: "Urgent",
+      population: totalTask ? totalTask.urgent : 0,
+      color: Colors.sponsoredColor,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15,
+    },
+    {
+      name: "Running",
+      population: totalTask ? totalTask.running : 0,
+      color: Colors.appGreen,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15,
+    },
+    {
+      name: "Done",
+      population: totalTask ? totalTask.done : 0,
+      color: Colors.appPrimaryColor,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15,
+    },
+  ];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [role, setRole] = useState("");
   useEffect(() => {
     if (user.role === "") {
       _onChangeModalVisible();
     }
-    console.log(user);
     dispatch(
       getInvitationByUserId({
         id: user?.id,
@@ -35,7 +78,6 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
       })
     );
   }, []);
-
   const _onPress = () => {
     navigation.navigate("InvitationsScreen", {
       isReceiver: true,
@@ -100,6 +142,40 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.body}>
+        <PieChart
+          data={pieChartData}
+          height={height}
+          width={width}
+          chartConfig={chartConfig}
+          accessor="population"
+          style={graphStyle}
+          backgroundColor={Colors.appWhite}
+          paddingLeft={Metrics.margin.small as any}
+        />
+      </View>
+      <ScrollView style={styles.subBody}>
+        <Item
+          image={Images.icTotalTask}
+          text={"Total Task"}
+          count={totalTask?.totalTask}
+        />
+        <Item
+          image={Images.icPending}
+          text={"Urgent"}
+          count={totalTask?.urgent}
+        />
+        <Item
+          image={Images.icWorkingOn}
+          text={"Running"}
+          count={totalTask?.running}
+        />
+        <Item
+          image={Images.icCompletedTask}
+          text={"Done"}
+          count={totalTask?.done}
+        />
+      </ScrollView>
       <ModalInput
         visible={isModalVisible}
         data={role}
@@ -116,12 +192,13 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Metrics.margin.very_huge,
-    marginHorizontal: Metrics.margin.large,
   },
   header: {
     justifyContent: "space-between",
     flexDirection: "row",
+    paddingTop: Metrics.margin.very_huge,
+    paddingHorizontal: Metrics.margin.large,
+    backgroundColor: Colors.appWhite,
   },
   profilePicture: {
     borderRadius: 40,
@@ -159,6 +236,98 @@ const styles = StyleSheet.create({
     borderColor: Colors.overlay6,
     borderRadius: Metrics.borderRadius.large,
   },
+  body: {
+    height: Metrics.screenHeight / 3,
+    backgroundColor: Colors.appWhite,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  subBody: {
+    marginTop: Metrics.margin.large,
+  },
+  itemContainer: {
+    marginHorizontal: Metrics.margin.large,
+    marginTop: Metrics.margin.large,
+    flexDirection: "row",
+    backgroundColor: Colors.appWhite,
+    borderRadius: Metrics.borderRadius.regular,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  imageBackground: {
+    width: 40,
+    backgroundColor: Colors.appGrayBackground,
+    borderRadius: Metrics.borderRadius.regular,
+    margin: Metrics.margin.large,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    width: 20,
+    height: 20,
+  },
+  textItem: {
+    marginLeft: Metrics.margin.regular,
+  },
+  itemHalfChildContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  textTotalTask: {
+    marginRight: Metrics.margin.large,
+  },
+  dashBoardChart: {
+    height: chartSize,
+    width: chartSize,
+    backgroundColor: Colors.appBlue,
+    borderRadius: 150,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    // borderWidth: 40,
+    borderColor: Colors.appSecondaryColor,
+  },
+  circleCenter: {
+    width: Metrics.screenHeight / 10,
+    height: Metrics.screenHeight / 10,
+    borderRadius: Metrics.borderRadius.h5,
+    backgroundColor: Colors.appSecondaryColor,
+  },
+  percentageElement: {
+    // width: "50%",
+    // height: "50%",
+    borderRadius: Metrics.borderRadius.h5,
+    backgroundColor: "red",
+  },
 });
 
 export default DashboardScreen;
+
+const Item = ({
+  count,
+  text,
+  image,
+}: {
+  count: number;
+  text: string;
+  image: any;
+}) => {
+  return (
+    <View style={styles.itemContainer}>
+      <View style={styles.itemHalfChildContainer}>
+        <View style={styles.imageBackground}>
+          <Image source={image} style={styles.image} />
+        </View>
+        <AppText size={Fonts.size.large} text={text} style={styles.textItem} />
+      </View>
+      <AppText
+        size={Fonts.size.large}
+        color={Colors.overlay3}
+        style={styles.textTotalTask}
+        text={count}
+      />
+    </View>
+  );
+};

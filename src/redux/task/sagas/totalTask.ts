@@ -20,7 +20,7 @@ function* getTotalTask(action: GetTotalTaskAction) {
     // console.log(res);
     //-------------- Request API Success
     yield put(hideIndicator());
-    yield put(onSuccess(res));
+    yield put(onSuccess(res.data));
   } catch (error) {
     //-------------- Request API Failure
       showMessage({

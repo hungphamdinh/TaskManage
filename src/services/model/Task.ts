@@ -27,7 +27,7 @@ export interface TotalTask {
   done: number;
   totalTask: number;
   urgentPercentage: number;
-  onGoingPercentage: number;
+  // onGoingPercentage: number;
   runningPercentage: number;
   donePercentage: number;
 }

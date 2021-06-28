@@ -10,6 +10,7 @@ import { store } from "../redux/configureStore";
 import { getTasksByUserId } from "../redux/task/action/tasks";
 import { useSelector } from "react-redux";
 import ReduxState from "../redux/ReduxState";
+import { getTotalTask } from "../redux/task/action/totalTask";
 
 const Tab = createBottomTabNavigator();
 
@@ -82,6 +83,18 @@ function HomeTab() {
             options={{
               title: "",
             }}
+            listeners={{
+              tabPress: () => {
+                // Prevent default action
+                // e.preventDefault();
+                store.dispatch(
+                  getTotalTask({
+                    id: user?.id,
+                  })
+                );
+              },
+            }}
+           
           />
           <Tab.Screen
             name="PlusScreen"

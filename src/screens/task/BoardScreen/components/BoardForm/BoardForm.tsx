@@ -117,12 +117,12 @@ const BoardForm = ({
       isActive: false,
       color: Colors.sponsoredColor,
     },
-    {
-      id: statusType.ongoing,
-      name: "OnGoing",
-      isActive: false,
-      color: Colors.appPrimaryColor,
-    },
+    // {
+    //   id: statusType.ongoing,
+    //   name: "OnGoing",
+    //   isActive: false,
+    //   color: Colors.appPrimaryColor,
+    // },
     {
       id: statusType.running,
       name: "Running",

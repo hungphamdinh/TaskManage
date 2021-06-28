@@ -28,10 +28,10 @@ const ItemBoard = ({
       color = Colors.appGreen;
       break;
 
-    case statusType.ongoing:
-      status = "Onggoing";
-      color = Colors.appPrimaryColor;
-      break;
+    // case statusType.ongoing:
+    //   status = "Onggoing";
+    //   color = Colors.appPrimaryColor;
+    //   break;
 
     case statusType.done:
       status = "Done";

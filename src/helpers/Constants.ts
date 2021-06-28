@@ -44,13 +44,13 @@ const statuses = [
     textColor: Colors.appWhite,
     isActive: false,
   },
-  {
-    id: statusType.ongoing,
-    name: 'OnGoing',
-    color: '#d2d1f0',
-    textColor: Colors.appPrimaryColor,
-    isActive: false,
-  }
+  // {
+  //   id: statusType.ongoing,
+  //   name: 'OnGoing',
+  //   color: '#d2d1f0',
+  //   textColor: Colors.appPrimaryColor,
+  //   isActive: false,
+  // }
 ]
 
 const statusesDetail = [
@@ -68,13 +68,13 @@ const statusesDetail = [
     textColor: Colors.appWhite,
     isActive: false,
   },
-  {
-    id: statusType.ongoing,
-    name: 'OnGoing',
-    color: '#d2d1f0',
-    textColor: Colors.appPrimaryColor,
-    isActive: false,
-  },
+  // {
+  //   id: statusType.ongoing,
+  //   name: 'OnGoing',
+  //   color: '#d2d1f0',
+  //   textColor: Colors.appPrimaryColor,
+  //   isActive: false,
+  // },
   {
     id: statusType.done,
     name: 'Done',

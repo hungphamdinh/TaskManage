@@ -16,6 +16,10 @@ const Images = {
   icNoti: require('../../assets/ic-noti.png'),
   icUpload: require('../../assets/ic-upload.png'),
   icSetting: require('../../assets/ic-setting.png'),
+  icTotalTask: require('../../assets/ic-total.png'),
+  icCompletedTask: require('../../assets/ic-complete.png'),
+  icWorkingOn: require('../../assets/ic-working-on.png'),
+  icPending: require('../../assets/ic-pending.png'),
   bg: require('../../assets/bg.png'),
 };
 

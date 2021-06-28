@@ -21,10 +21,10 @@ const ItemBoard = ({ item }: { item: Task; index: number }) => {
       color = Colors.appGreen;
       break;
 
-    case statusType.ongoing:
-      status = "Onggoing";
-      color = Colors.appPrimaryColor;
-      break;
+    // case statusType.ongoing:
+    //   status = "Onggoing";
+    //   color = Colors.appPrimaryColor;
+    //   break;
 
     default:
       break;
