@@ -1,10 +1,11 @@
 import axios from '../axios/AxiosConfig';
-import { GetTasksRequest, AddTaskRequest, GetTaskDetailRequest, AddSubTaskRequest, SetDoneSubTaskRequest, GetSubTaskRequest, UpdateTaskRequest, LeaveTaskRequest, GetTotalTaskRequest } from '../model/request/Task';
+import { GetTasksRequest, AddTaskRequest, GetTaskDetailRequest, AddSubTaskRequest, SetDoneSubTaskRequest, GetSubTaskRequest, UpdateTaskRequest, LeaveTaskRequest, GetTotalTaskRequest, DeleteSubTaskRequest } from '../model/request/Task';
 
 const GET_TASKS_BY_ID = 'tasks/getTasksById';
 const ADD_TASK = 'task';
 const GET_TASK_DETAIL = 'task/getDetail';
 const ADD_SUB_TASK = 'subTask';
+const DELETE_SUB_TASK = 'subTask/delete';
 const DONE_SUB_TASK = 'subTask/doneTask'
 const GET_SUB_TASKS = 'subTask/getSubTaskById';
 const UPDATE_TASK = 'task/update';
@@ -33,6 +34,11 @@ const addSubTask = async (params: AddSubTaskRequest) => {
   return axios.post(ADD_SUB_TASK, params);
 }
 
+const deleteSubTask = async (params: DeleteSubTaskRequest) => {
+  return axios.delete(DELETE_SUB_TASK, {
+    params
+  });
+}
 const getSubTasks = async (params: GetSubTaskRequest) => {
   return axios.get(GET_SUB_TASKS, {
     params,
@@ -61,4 +67,5 @@ export default {
   updateTask,
   leaveTask,
   getTotalTask,
+  deleteSubTask,
 };

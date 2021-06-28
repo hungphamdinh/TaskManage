@@ -35,6 +35,10 @@ import { Comment } from "../../../../../services/model/Comment";
 import { getSubTask } from "../../../../../redux/task/action/subTasks";
 import { androidOS } from "../../../../../helpers/Constants";
 import { TeamMemberDetail } from "../../../../../services/model/TeamMember";
+import {
+  deleteSubTask,
+  clearDeleteSubTaskResponse,
+} from "../../../../../redux/task/action/subTaskDelete";
 const TaskDetail = ({
   dispatch,
   user,
@@ -47,6 +51,9 @@ const TaskDetail = ({
   const { taskDetail } = useSelector((state: ReduxState) => state.taskDetail);
   const { subTaskResponse } = useSelector(
     (state: ReduxState) => state.subTaskStatus
+  );
+  const subTaskDeleteResponse = useSelector(
+    (state: ReduxState) => state.subTaskDelete.response
   );
   const { response } = useSelector((state: ReduxState) => state.subTask);
   const { subTasks } = useSelector((state: ReduxState) => state.subTasks);
@@ -64,7 +71,12 @@ const TaskDetail = ({
   };
   const _keyExtractor = (item: any) => item.id;
   const _renderItem = ({ item, index }: { item: SubTask; index: number }) => (
-    <Item onPressItem={_onPressItemSubTask} item={item} index={index} />
+    <Item
+      onPressDelete={_onPressDeleteSubTask}
+      onPressItem={_onPressItemSubTask}
+      item={item}
+      index={index}
+    />
   );
   const _renderComment = ({
     item,
@@ -94,6 +106,13 @@ const TaskDetail = ({
     setPusFooter(false);
   };
 
+  const _onPressDeleteSubTask = (item: SubTask) => {
+    dispatch(
+      deleteSubTask({
+        id: item.id,
+      })
+    );
+  };
   const keyboardDidShow = () => {
     setPusFooter(true);
   };
@@ -112,8 +131,9 @@ const TaskDetail = ({
     return () => {
       dispatch(clearComment());
       dispatch(clearSubTaskStatus());
-    }
-  }, [])
+      dispatch(clearDeleteSubTaskResponse());
+    };
+  }, []);
   useEffect(() => {
     if (commentResponse?.statusCode === 200) {
       dispatch(
@@ -124,14 +144,14 @@ const TaskDetail = ({
     }
   }, [commentResponse]);
   useEffect(() => {
-    if (subTaskResponse?.id || response) {
+    if (subTaskResponse?.id || response || subTaskDeleteResponse) {
       dispatch(
         getSubTask({
           id: taskDetail?.id,
         })
       );
     }
-  }, [subTaskResponse?.id, response]);
+  }, [subTaskResponse?.id, response, subTaskDeleteResponse]);
 
   useEffect(() => {
     if (taskDetail) {

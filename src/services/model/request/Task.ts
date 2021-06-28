@@ -18,6 +18,10 @@ export interface AddTaskRequest {
 export interface GetTotalTaskRequest {
   id: string;
 }
+
+export interface DeleteSubTaskRequest {
+  id: string;
+}
 export interface AddSubTaskRequest {
   name: string;
   parentId: string;

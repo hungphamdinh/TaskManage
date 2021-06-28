@@ -77,6 +77,11 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
         type: InvitationsType.receiver,
       })
     );
+    dispatch(
+      getTotalTask({
+        id: user?.id,
+      })
+    );
   }, []);
   const _onPress = () => {
     navigation.navigate("InvitationsScreen", {
@@ -106,92 +111,98 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
     _onChangeModalVisible();
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <AppText
-          size={Fonts.size.h6}
-          bold
-          text={strings.dashboard_screen.title}
-        />
+    <>
+      <SafeAreaView style={styles.headerView} />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <AppText
+            size={Fonts.size.h6}
+            bold
+            text={strings.dashboard_screen.title}
+          />
 
-        <View style={styles.headerRightContainer}>
-          <TouchableOpacity style={styles.buttonNoti} onPress={_onPress}>
-            <Image
-              source={Images.icNoti}
-              style={[styles.notification, { tintColor: Colors.overlay6 }]}
-              resizeMode={"contain"}
-            />
-            <TouchableOpacity style={styles.count}>
-              <AppText
-                bold
-                color={Colors.appWhite}
-                size={Fonts.size.tiny}
-                text={invitationsReceiver.length}
+          <View style={styles.headerRightContainer}>
+            {/* <TouchableOpacity style={styles.buttonNoti} onPress={_onPress}>
+              <Image
+                source={Images.icNoti}
+                style={[styles.notification, { tintColor: Colors.overlay6 }]}
+                resizeMode={"contain"}
+              />
+              <TouchableOpacity style={styles.count}>
+                <AppText
+                  bold
+                  color={Colors.appWhite}
+                  size={Fonts.size.tiny}
+                  text={invitationsReceiver.length}
+                />
+              </TouchableOpacity>
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              style={styles.profilePicture}
+              onPress={_onPressProfile}
+            >
+              <Image
+                source={{ uri: user?.profile }}
+                style={styles.avatar}
+                resizeMode={"contain"}
               />
             </TouchableOpacity>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.profilePicture}
-            onPress={_onPressProfile}
-          >
-            <Image
-              source={{ uri: user?.profile }}
-              style={styles.avatar}
-              resizeMode={"contain"}
-            />
-          </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.body}>
-        <PieChart
-          data={pieChartData}
-          height={height}
-          width={width}
-          chartConfig={chartConfig}
-          accessor="population"
-          style={graphStyle}
-          backgroundColor={Colors.appWhite}
-          paddingLeft={Metrics.margin.small as any}
+        <View style={styles.body}>
+          <PieChart
+            data={pieChartData}
+            height={height}
+            width={width}
+            chartConfig={chartConfig}
+            accessor="population"
+            style={graphStyle}
+            backgroundColor={Colors.appWhite}
+            paddingLeft={Metrics.margin.small as any}
+          />
+        </View>
+        <ScrollView style={styles.subBody}>
+          <Item
+            image={Images.icTotalTask}
+            text={"Total Task"}
+            count={totalTask?.totalTask}
+          />
+          <Item
+            image={Images.icPending}
+            text={"Urgent"}
+            count={totalTask?.urgent}
+          />
+          <Item
+            image={Images.icWorkingOn}
+            text={"Running"}
+            count={totalTask?.running}
+          />
+          <Item
+            image={Images.icCompletedTask}
+            text={"Done"}
+            count={totalTask?.done}
+          />
+        </ScrollView>
+        <ModalInput
+          visible={isModalVisible}
+          data={role}
+          onPressOut={_onChangeModalVisible}
+          title={"Complete Info"}
+          textInputTitle={"Your role"}
+          onPressSubmit={_onPressSubmitRole}
+          onChangeData={_onChangeRole}
         />
-      </View>
-      <ScrollView style={styles.subBody}>
-        <Item
-          image={Images.icTotalTask}
-          text={"Total Task"}
-          count={totalTask?.totalTask}
-        />
-        <Item
-          image={Images.icPending}
-          text={"Urgent"}
-          count={totalTask?.urgent}
-        />
-        <Item
-          image={Images.icWorkingOn}
-          text={"Running"}
-          count={totalTask?.running}
-        />
-        <Item
-          image={Images.icCompletedTask}
-          text={"Done"}
-          count={totalTask?.done}
-        />
-      </ScrollView>
-      <ModalInput
-        visible={isModalVisible}
-        data={role}
-        onPressOut={_onChangeModalVisible}
-        title={"Complete Info"}
-        textInputTitle={"Your role"}
-        onPressSubmit={_onPressSubmitRole}
-        onChangeData={_onChangeRole}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  headerView: {
+    flex: 0,
   },
   header: {
     justifyContent: "space-between",

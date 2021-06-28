@@ -13,10 +13,12 @@ const status = {
 const ItemBoard = ({
   item,
   onPressItem,
+  onPressDelete,
 }: {
   item: SubTask;
   index: number;
   onPressItem: Function;
+  onPressDelete: Function;
 }) => {
   const checkBox = () => {
     return {
@@ -30,18 +32,26 @@ const ItemBoard = ({
   const _onPressItem = () => {
     onPressItem(item);
   };
+
+  const _onPressDelete = () => {
+    onPressDelete(item);
+  }
   return (
     <View style={styles.itemContainer}>
       <View style={styles.body}>
-        <TouchableOpacity style={checkBox()} onPress={_onPressItem}>
+        <View style={styles.titleContainer}>
+          <TouchableOpacity style={checkBox()} onPress={_onPressItem}>
+            <Ionicons name="checkmark" size={15} color={Colors.appWhite} />
+          </TouchableOpacity>
+          <AppText style={styles.textName} text={item.name} />
+        </View>
+        <TouchableOpacity onPress={_onPressDelete}>
           <Ionicons
-            name="checkmark"
-            size={15}
-            color={Colors.appWhite}
+            name="close-outline"
+            size={20}
+            color={Colors.appGrayColor}
           />
         </TouchableOpacity>
-
-        <AppText style={styles.textName} text={item.name} />
       </View>
     </View>
   );

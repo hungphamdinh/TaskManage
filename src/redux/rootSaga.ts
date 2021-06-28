@@ -13,6 +13,7 @@ import setDoneSubTask from './task/sagas/subTaskStatus';
 import getComments from './comment/sagas/comments';
 import addComment from './comment/sagas/comment';
 import getSubTasks from './task/sagas/subTasks';
+import deleteSubTask from './task/sagas/subTaskDelete';
 import sendInvitation from './invitation/sagas/invitationSend';
 import getInvitationsByUserId from './invitation/sagas/invitationByUserId';
 import deleteInvitation from './invitation/sagas/invitationDelete';
@@ -68,5 +69,6 @@ export default function* rootSaga() {
     fork(deleteTeamInvitation),
     fork(deleteTeamMember),
     fork(getTotalTask),
+    fork(deleteSubTask),
   ]);
 }

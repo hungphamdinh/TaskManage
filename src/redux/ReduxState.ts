@@ -175,4 +175,5 @@ export default interface ReduxState {
   teamInvitationDelete: DeleteInvitationState;
   teamMemberDelete: DeleteInvitationState;
   totalTask: TotalTaskState;
+  subTaskDelete: SubTaskState;
 }

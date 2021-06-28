@@ -30,6 +30,8 @@ import BottomModal from "./BottomModal";
 import { getTeams } from "../../../../../redux/team/action/teamsMemberByUserId";
 import { TeamMemberByUserId } from "../../../../../services/model/TeamMember";
 import { onSuccess } from "../../../../../redux/team/action/teamDetail";
+import { showMessage } from "react-native-flash-message";
+import { strings } from "../../../../../languages";
 
 const BoardForm = ({
   dispatch,
@@ -51,6 +53,7 @@ const BoardForm = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTeam, setIsTeam] = useState(false);
   const [teamItem, setTeamItem] = useState("" as any);
+  const [isErrorDate, setIsErrorDate] = useState(false);
   // const [startTime, setStartTime] = useState(new Date());
   // const [isStartTimeVisible, setIsStartTimeVisible] = useState(false);
   // const [endTime, setEndTIme] = useState(new Date());
@@ -70,6 +73,16 @@ const BoardForm = ({
       dispatch(clear());
     };
   }, []);
+
+  //checkDate
+  useEffect(() => {
+    if (date.getTime() - new Date().getTime() < 0) {
+      setIsErrorDate(true);
+    }
+    else {
+      setIsErrorDate(false);
+    }
+  }, [date]);
 
   useEffect(() => {
     if (response) {
@@ -125,7 +138,11 @@ const BoardForm = ({
   const check = (item: any) => {
     return {
       ...styles.check,
-      backgroundColor: item.isActive ? Colors.appGreen : Colors.appWhite,
+      backgroundColor: item.isActive
+        ? Colors.appGreen
+        : Colors.appSecondaryColor,
+      borderColor: Colors.appWhite,
+      borderWidth: item.isActive ? 1 : 0,
       zIndex: item.isActive ? 1 : 0,
     };
   };
@@ -141,17 +158,25 @@ const BoardForm = ({
   };
 
   const _onPressDone = () => {
-    const param: AddTaskRequest = {
-      userId: user?.id,
-      name: name,
-      status: boardStatus.filter((item: any) => item.isActive)[0].id,
-      date: date,
-      timeStart: moment(new Date()).format("LT"),
-      timeEnd: moment(new Date()).format("LT"),
-      members: members.filter((item: Member) => item.isActive),
-      description: description,
-    };
-    dispatch(addTask(param));
+    if (name === "" || description === "" || isErrorDate) {
+      showMessage({
+        message: strings.warning.not_full_fill,
+        description: "Please check your information",
+        type: "warning",
+      });
+    } else {
+      const param: AddTaskRequest = {
+        userId: user?.id,
+        name: name,
+        status: boardStatus.filter((item: any) => item.isActive)[0].id,
+        date: date,
+        timeStart: moment(new Date()).format("LT"),
+        timeEnd: moment(new Date()).format("LT"),
+        members: members.filter((item: Member) => item.isActive),
+        description: description,
+      };
+      dispatch(addTask(param));
+    }
   };
 
   const _onPressAdd = () => {
@@ -176,7 +201,7 @@ const BoardForm = ({
     if (teamItem?.teamId !== item.teamId) {
       setTeamItem(item);
       dispatch(clearMemberLocal());
-      dispatch(onSuccess(undefined as any));//clear Team Detail
+      dispatch(onSuccess(undefined as any)); //clear Team Detail
     }
   };
   return (
@@ -237,8 +262,12 @@ const BoardForm = ({
             />
           </View>
         ) : null}
-
-        <Divider />
+        <View style={styles.marginBottomSmall}>
+          <Divider />
+        </View>
+        {isErrorDate ? (
+          <AppText text={"Error Date"} color={Colors.appColor} />
+        ) : null}
       </View>
       {/* <View style={[styles.inputTask, styles.timeContainer]}>
         <View style={styles.startTimeContainer}>

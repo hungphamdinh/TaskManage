@@ -17,7 +17,7 @@ import { InvitationsType } from "../../../helpers/Constants";
 const itemId = {
   invite: 0,
   edit: 1,
-  history: 2,
+  invitations: 2,
   share: 3,
   leave: 4,
 };
@@ -31,8 +31,8 @@ const dropdownData = [
     name: "Edit task",
   },
   {
-    id: itemId.history,
-    name: "History",
+    id: itemId.invitations,
+    name: "View Invitations",
   },
   {
     id: itemId.share,
@@ -105,22 +105,21 @@ const TaskDetailScreen = ({
           taskId: taskDetail?.id,
         })
       );
+    } else if (item.id === itemId.invitations) {
+      dispatch(
+        getInvitationByUserId({
+          type: InvitationsType.sender,
+          id: user.id,
+          taskId: taskDetail.id,
+        })
+      );
+      navigation.navigate("InvitationsScreen", {
+        isReceiver: false,
+      });
     }
     _onPressShowDropdown();
   };
 
-  const _onPressInvitation = () => {
-    dispatch(
-      getInvitationByUserId({
-        type: InvitationsType.sender,
-        id: user.id,
-        taskId: taskDetail.id,
-      })
-    );
-    navigation.navigate("InvitationsScreen", {
-      isReceiver: false,
-    });
-  };
   return (
     <>
       <Background
@@ -135,18 +134,6 @@ const TaskDetailScreen = ({
         }
         secondaryComponent={
           <View style={styles.secondaryComponent}>
-            {taskDetail?.isAdmin ? (
-              <TouchableOpacity
-                style={styles.buttonInvitation}
-                onPress={_onPressInvitation}
-              >
-                <Ionicons
-                  name="mail-unread-outline"
-                  size={20}
-                  color={Colors.appWhite}
-                />
-              </TouchableOpacity>
-            ) : null}
             {!isInvitation ? (
               <TouchableOpacity
                 style={styles.buttonSetting}

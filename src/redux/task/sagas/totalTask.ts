@@ -14,12 +14,12 @@ function* getTotalTask(action: GetTotalTaskAction) {
   try {
     //-------------- Request API
     // console.log(action)
-    yield put(showIndicator(Colors.overlay5));
-    yield sleep(1000);
+    // yield put(showIndicator(Colors.overlay5));
+    // yield sleep(1000);
     const res = yield TaskAPI.getTotalTask(action.params);
     // console.log(res);
     //-------------- Request API Success
-    yield put(hideIndicator());
+    // yield put(hideIndicator());
     yield put(onSuccess(res.data));
   } catch (error) {
     //-------------- Request API Failure

@@ -3,33 +3,24 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
 
 import { Colors } from '../../../themes';
-import { onSuccess, onFailure } from '../reducer/user';
-import { ACTION, loginWithEmailAction } from '../action/user';
 import { showIndicator, hideIndicator } from '../../app';
-import UserAPI from '../../../services/api/UserAPI';
 import { strings } from '../../../languages';
 import { _saveStorage } from '../../../utilities/Utils';
-import {Response} from '../../../services/model/Response';
-import { ApiResponseStatusCode } from '../../../helpers/Constants';
+import TaskAPI from '../../../services/api/TaskAPI';
+import { DeleteSubTaskAction, onSuccess, onFailure, ACTION } from '../action/subTaskDelete';
 
-function* loginWithEmail(action: loginWithEmailAction) {
+function* deleteSubTask(action: DeleteSubTaskAction) {
   try {
     //-------------- Request API
-    // console.log('action')
-    // console.log(action)
     yield put(showIndicator(Colors.overlay5));
-    // yield sleep(1000);
-    const res: Response = yield UserAPI.login(
-      action.params
-    );
+    yield sleep(1000);
+    const res = yield TaskAPI.deleteSubTask(action.params);
+    // console.log(res);
     //-------------- Request API Success
     yield put(hideIndicator());
-    if(res.status == ApiResponseStatusCode.SUCCESS) {
-        yield put(onSuccess(res.data));
-    }
+    yield put(onSuccess(res));
   } catch (error) {
     //-------------- Request API Failure
-
       showMessage({
         message: strings.warning_api.login_failed,
         description: error.message,
@@ -41,7 +32,7 @@ function* loginWithEmail(action: loginWithEmailAction) {
 }
 
 export default function* saga() {
-  yield takeEvery(ACTION, loginWithEmail);
+  yield takeEvery(ACTION, deleteSubTask);
 }
 
 function* sleep(time: Number) {
