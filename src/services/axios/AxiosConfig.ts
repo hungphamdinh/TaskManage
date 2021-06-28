@@ -4,7 +4,7 @@ import BuildConfig, { Environments } from '../../config/BuildConfig';
 import { _getStorage } from '../../utilities/Utils';
 const api = axios.create({
   baseURL:
-    BuildConfig == Environments.DEVELOPMENT
+    BuildConfig == Environments.PRODUCTION
       ? 'https://taskmanage998.herokuapp.com/api'
       : 'http://localhost:8080/api/',
 });
@@ -13,7 +13,7 @@ api.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if (error.response) {
-      // console.log(error);
+      console.log(error);
       const message =
         _.get(error, 'response.data.error.common') ||
         _.get(error, 'response.data.message') ||

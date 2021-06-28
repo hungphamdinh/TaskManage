@@ -15,13 +15,15 @@ import { ApiResponseStatusCode } from '../../../helpers/Constants';
 function* loginWithEmail(action: loginWithEmailAction) {
   try {
     //-------------- Request API
-    // console.log('action')
-    // console.log(action)
+    console.log('action')
+    console.log(action)
     yield put(showIndicator(Colors.overlay5));
     // yield sleep(1000);
     const res: Response = yield UserAPI.login(
       action.params
     );
+    console.log("res");
+    console.log(res);
     //-------------- Request API Success
     yield put(hideIndicator());
     if(res.status == ApiResponseStatusCode.SUCCESS) {
@@ -29,7 +31,7 @@ function* loginWithEmail(action: loginWithEmailAction) {
     }
   } catch (error) {
     //-------------- Request API Failure
-
+      console.log(error);
       showMessage({
         message: strings.warning_api.login_failed,
         description: error.message,

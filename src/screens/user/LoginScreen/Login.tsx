@@ -36,6 +36,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     (undefined as unknown) as any
   );
   const { user } = useSelector((state: ReduxState) => state.user);
+  console.log(user);
   const [error, setError] = useState("");
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -54,6 +55,8 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   });
 
   useEffect(() => {
+    console.log('Google result');
+    console.log(googleResult)
     if (googleResult) {
       dispatch(
         loginWithEmail({
