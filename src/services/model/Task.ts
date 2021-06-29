@@ -10,6 +10,7 @@ export interface Task  {
   description: string,
   timeEnd: any;
   timeStart: any;
+  isAdmin: boolean;
   date: any;
 }
 export interface SubTask {

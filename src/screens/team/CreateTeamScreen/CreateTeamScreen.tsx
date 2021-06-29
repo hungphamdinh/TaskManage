@@ -54,7 +54,6 @@ const CreateTeamScreen = ({
   const _onPressShowDropdown = () => {
     setIsShowModal(!isShowModal);
   };
-  console.log(invitationsSender);
   useEffect(() => {
     dispatch(onSuccessSender([]));
   }, [])

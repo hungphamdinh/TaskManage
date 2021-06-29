@@ -31,8 +31,8 @@ function HomeTab() {
         <Tab.Navigator
           tabBarOptions={{
             tabStyle: {
-              height: Metrics.screenHeight / 7,
-              marginTop: -Metrics.screenHeight / 20,
+              // height: Metrics.screenHeight / 7,
+              marginTop: -10,
             },
             keyboardHidesTabBar: true,
             inactiveBackgroundColor: Colors.appPrimaryColor,

@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
     height: 18,
   },
   listContainer: {flexGrow: 1},
+  sideHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });
 
 export default styles;

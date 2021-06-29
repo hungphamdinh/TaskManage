@@ -47,8 +47,8 @@ const ItemBoard = ({
           {item.isAdmin ? (
             <View>
               <Ionicons
-                name="person-outline"
-                size={20}
+                name="star-half-outline"
+                size={15}
                 color={Colors.overlay4}
               />
             </View>

@@ -7,6 +7,9 @@ import { Task } from "../../../../../../services/model/Task";
 import { statusType } from "../../../../../../helpers/Constants";
 import moment from "moment";
 import { TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import ReduxState from "../../../../../../redux/ReduxState";
 
 const ItemBoard = ({
   item,
@@ -15,6 +18,7 @@ const ItemBoard = ({
   item: Task;
   onPressItem: Function;
 }) => {
+  const { user } = useSelector((state: ReduxState) => state.user);
   let status = "";
   let color = "";
   switch (item.status) {
@@ -52,7 +56,12 @@ const ItemBoard = ({
   };
   return (
     <TouchableOpacity style={styles.itemContainer} onPress={_onPressItem}>
-      <AppText color={color} text={status.toUpperCase()} />
+      <View style={styles.sideHeader}>
+        <AppText color={color} text={status.toUpperCase()} />
+        {item.userId === user?.id ? (
+          <Ionicons name="star-half-outline" size={15} color={color} />
+        ) : null}
+      </View>
       <View style={styles.marginVertical}>
         <Divider />
       </View>
