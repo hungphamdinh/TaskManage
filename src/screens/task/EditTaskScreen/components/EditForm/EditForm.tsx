@@ -53,7 +53,10 @@ const EditForm = ({
       dispatch(clearMemberLocal());
       dispatch(clear());
     };
+    
   }, []);
+
+  console.log(members.length);
 
   useEffect(() => {
     if (response) {

@@ -22,6 +22,7 @@ import {
   addMember,
   pushMemberLocal,
   clearMemberLocal,
+  searchMember,
 } from "../../../../../redux/member/action/members";
 import { TeamMemberDetail } from "../../../../../services/model/TeamMember";
 
@@ -41,7 +42,7 @@ const AddForm = ({
   const { response } = useSelector(
     (state: ReduxState) => state.teamMemberInvite
   );
-  const { members, editFlag } = useSelector(
+  const { members, editFlag, membersLocal } = useSelector(
     (state: ReduxState) => state.members
   );
   const [name, setName] = useState("");
@@ -93,7 +94,7 @@ const AddForm = ({
 
   const _onChangeTaskName = (value: any) => {
     setName(value);
-    // isTeamMember ? dispatch(searchUsers(value)) : dispatch(searchMember(value));
+    dispatch(searchMember(value));
   };
 
   const _keyExtractor = (item: any, index: number) => index.toString();
@@ -123,7 +124,7 @@ const AddForm = ({
       </View>
       <View style={styles.teamContainer}>
         <FlatList
-          data={members}
+          data={name !== "" ? membersLocal : members}
           renderItem={_renderItem}
           keyExtractor={_keyExtractor}
         />

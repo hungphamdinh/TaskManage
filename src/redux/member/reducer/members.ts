@@ -50,13 +50,13 @@ export default (
     case ACTION_SEARCH_MEMBER:
       return {
         ...state,
-        members: findItemData(action.name, state.members)
+        membersLocal: findItemData(action.name, state.members)
       }
 
     case ACTION_ADD_MEMBER:
       return {
         ...state,
-        members: checkMember(state.members, action.member)
+        membersLocal: checkMember(state.membersLocal.length > 0 ? state.membersLocal : state.members, action.member)
       }
 
     case ACTION_CLEAR_LOCAL:
@@ -79,6 +79,7 @@ export default (
      case ACTION_PUSH_MEMBER_LOCAL:
        return {
          ...state,
+         membersLocal: state.members.concat(action.members),
          members: state.members.concat(action.members),
          editFlag: action.editFlag ? action.editFlag : 0,
        }

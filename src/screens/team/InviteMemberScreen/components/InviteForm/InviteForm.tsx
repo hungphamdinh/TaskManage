@@ -69,7 +69,7 @@ const AddForm = ({
 
   const _onPressDone = () => {
     let arr: Array<InvitationRequest> = [];
-    usersLocal.map((item: User) => {
+    users.map((item: User) => {
       if (item.isActive) {
         arr.push({
           userId: user.id,
