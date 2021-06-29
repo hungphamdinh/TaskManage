@@ -9,6 +9,7 @@ import {
 import { Colors, Images, Metrics, Fonts } from "../../themes";
 import { AppText } from "..";
 import { Ionicons } from "@expo/vector-icons";
+import { androidOS } from "../../helpers/Constants";
 
 const Background = ({
   mainComponent,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: Colors.appSecondaryColor,
+    marginTop: androidOS ? 20 : 0,
   },
   bg: {
     position: "absolute",

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Image } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  FlatList,
+} from "react-native";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
 import { AppText } from "../../../../../components";
 import { Colors, Fonts } from "../../../../../themes";
-import {
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-} from "react-native-gesture-handler";
+
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSelector } from "react-redux";
@@ -93,7 +95,6 @@ const AddForm = ({
     setName(value);
     // isTeamMember ? dispatch(searchUsers(value)) : dispatch(searchMember(value));
   };
-
 
   const _keyExtractor = (item: any, index: number) => index.toString();
 

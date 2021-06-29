@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
 import {
@@ -9,7 +9,6 @@ import {
   AppButton,
 } from "../../../../../components";
 import { Colors, Images } from "../../../../../themes";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";

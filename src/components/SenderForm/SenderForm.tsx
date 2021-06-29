@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { AppText, Divider, AlertDialog } from "../index";
 import { Colors, Fonts } from "../../themes";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Invitation } from "../../services/model/Invitation";
 import { invitationStatus } from "../../helpers/Constants";
 import { Ionicons } from "@expo/vector-icons";
 import { strings } from "../../languages";

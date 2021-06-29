@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Image } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  FlatList,
+} from "react-native";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
 import { AppText, AppButton } from "../../../../../components";
 import { Colors, Fonts } from "../../../../../themes";
-import {
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-} from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSelector } from "react-redux";

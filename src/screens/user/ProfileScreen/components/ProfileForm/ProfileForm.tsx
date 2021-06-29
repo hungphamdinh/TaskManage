@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { AppText } from "../../../../../components";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity, FlatList } from "react-native";
 import { strings } from "../../../../../languages";
 import { Fonts, Colors, Images } from "../../../../../themes";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
-import { TouchableOpacity, FlatList } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import ReduxState from "../../../../../redux/ReduxState";
@@ -149,27 +148,21 @@ const TaskDetail = ({
             size={Fonts.size.large}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonSetting}
-        >
+        <TouchableOpacity style={styles.buttonSetting}>
           <AppText
             text={strings.profile_screen.about_app}
             color={Colors.appGrayColor}
             size={Fonts.size.large - 2}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonSetting}
-        >
+        <TouchableOpacity style={styles.buttonSetting}>
           <AppText
             text={strings.profile_screen.report_bug}
             size={Fonts.size.large - 2}
             color={Colors.appGrayColor}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonSetting}
-        >
+        <TouchableOpacity style={styles.buttonSetting}>
           <AppText
             text={strings.profile_screen.privacy_policy}
             size={Fonts.size.large - 2}

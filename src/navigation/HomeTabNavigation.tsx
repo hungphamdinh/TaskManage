@@ -5,12 +5,14 @@ import BoardScreen from "../screens/task/BoardScreen/BoardScreen";
 import DashBoardScreen from "../screens/task/DashBoard/DashboardScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors, Metrics } from "../themes";
-import { SafeAreaView, Image, StyleSheet } from "react-native";
+import { SafeAreaView, Image, StyleSheet, StatusBar } from "react-native";
 import { store } from "../redux/configureStore";
 import { getTasksByUserId } from "../redux/task/action/tasks";
 import { useSelector } from "react-redux";
 import ReduxState from "../redux/ReduxState";
 import { getTotalTask } from "../redux/task/action/totalTask";
+import { getInvitationByUserId } from "../redux/invitation/action/invitationsByUserId";
+import { InvitationsType } from "../helpers/Constants";
 
 const Tab = createBottomTabNavigator();
 
@@ -96,7 +98,7 @@ function HomeTab() {
             }}
            
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="PlusScreen"
             component={BoardScreen}
             listeners={{
@@ -111,7 +113,7 @@ function HomeTab() {
               },
             }}
             options={{ title: "" }}
-          />
+          /> */}
           <Tab.Screen
             name="BoardScreen"
             listeners={{
@@ -121,6 +123,12 @@ function HomeTab() {
                 store.dispatch(
                   getTasksByUserId({
                     id: user?.id,
+                  })
+                );
+                store.dispatch(
+                  getInvitationByUserId({
+                    id: user?.id,
+                    type: InvitationsType.receiver,
                   })
                 );
               },

@@ -7,7 +7,7 @@ import {
   Text,
   StatusBar,
   TextInput,
-  Button,
+  TouchableOpacity,
   Image,
 } from "react-native";
 import { Formik } from "formik";
@@ -15,7 +15,6 @@ import * as yup from "yup";
 import { strings } from "../../../languages/index";
 import { Colors, Metrics, Images, Fonts, Styles } from "../../../themes";
 import { AppText, TextInputForm, AppButton } from "../../../components";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Google from "expo-google-app-auth";
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "../../../services/google";
 import { useSelector } from "react-redux";

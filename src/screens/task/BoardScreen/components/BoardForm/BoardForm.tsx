@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Divider, AppText } from "../../../../../components";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, TouchableOpacity, FlatList } from "react-native";
 import { strings } from "../../../../../languages";
 import { Fonts, Colors, Metrics, Images } from "../../../../../themes";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
-import { TouchableOpacity, FlatList } from "react-native-gesture-handler";
 import { logout } from "../../../../../redux/user/reducer/user";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";

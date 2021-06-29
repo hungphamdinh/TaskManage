@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
 import { TextInputForm, AppText, AppButton } from "../../../../../components";
 import { Colors } from "../../../../../themes";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { statusesDetail } from "../../../../../helpers/Constants";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

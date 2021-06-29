@@ -6,11 +6,11 @@ import {
   View,
   StatusBar,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { strings } from "../../../languages/index";
 import { Colors, Metrics, Images, Fonts, Styles } from "../../../themes";
 import { AppText, AppButton } from "../../../components";
-import { TouchableOpacity } from "react-native-gesture-handler";
 // import * as Google from "expo-google-app-auth";
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "../../../services/google";
 import { Ionicons } from "@expo/vector-icons";
@@ -69,19 +69,22 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
   React.useEffect(() => {
     async function fetchMyAPI() {
-      if (response?.type === "success") {
-        const { authentication } = response;
-        if (authentication) {
-          try {
-            let userInfoResponse = await UserAPI.getGoogleUserInfo(
-              authentication.accessToken
-            );
-            setGoogleResult(userInfoResponse);
-          } catch (error) {
-            console.log(error);
-            setError(error);
+      try {
+        if (response?.type === "success") {
+          const { authentication } = response;
+          if (authentication) {
+            try {
+              let userInfoResponse = await UserAPI.getGoogleUserInfo(
+                authentication.accessToken
+              );
+              setGoogleResult(userInfoResponse);
+            } catch (error) {
+              setError(error);
+            }
           }
         }
+      } catch (error) {
+        console.log(error);
       }
     }
     fetchMyAPI();
@@ -89,7 +92,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
 
   return (
     <ScrollView style={Styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar backgroundColor='transparent' barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <Image
           style={styles.logo}

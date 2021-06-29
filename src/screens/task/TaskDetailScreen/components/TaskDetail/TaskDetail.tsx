@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { AppText } from "../../../../../components";
-import { View, Image, Keyboard, Text } from "react-native";
+import {
+  View,
+  Image,
+  Keyboard,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  TextInput,
+} from "react-native";
 import { strings } from "../../../../../languages";
 import { Fonts, Colors, Images, Metrics } from "../../../../../themes";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
-import {
-  TouchableOpacity,
-  FlatList,
-  TextInput,
-} from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import { useSelector } from "react-redux";

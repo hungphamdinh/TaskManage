@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, Platform } from "react-native";
+import { View, Image, Platform, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { User } from "../../../../../services/model/User";
 import {
@@ -10,7 +10,6 @@ import {
   AlertDialog,
 } from "../../../../../components";
 import { Colors, Images, Fonts } from "../../../../../themes";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSelector } from "react-redux";

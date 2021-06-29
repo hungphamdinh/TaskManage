@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Metrics, Colors, Styles } from '../../../../../themes';
+import { androidOS } from '../../../../../helpers/Constants';
+import { Scale } from '../../../../../utilities/Utils';
 
 const styles = StyleSheet.create({
   header: {
@@ -14,7 +16,8 @@ const styles = StyleSheet.create({
   },
   container: {
       marginHorizontal: Metrics.margin.large,
-      marginBottom: Metrics.screenHeight / 2,
+      marginBottom: Scale(250),
+      marginTop: androidOS ? Scale(Metrics.margin.huge) : 1,
   },
   profilePicture: {
       borderRadius: 40,
@@ -55,6 +58,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flexGrow: 1,
+    marginBottom: Metrics.screenHeight / 8,
   },
   buttonShowDropdown: {
     flexDirection: 'row',
@@ -93,6 +97,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
+    top: 0,
+    right: -8,
     borderColor: Colors.overlay6,
     borderRadius: Metrics.borderRadius.large,
   },

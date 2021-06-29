@@ -3,8 +3,7 @@ import ProfileForm from "./components/ProfileForm/ProfileForm";
 import { useSelector, useDispatch } from "react-redux";
 import ReduxState from "../../../redux/ReduxState";
 import { Background, AppText } from "../../../components";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors, Metrics, Fonts } from "../../../themes";
 import { InvitationsType } from "../../../helpers/Constants";
@@ -13,6 +12,7 @@ import { getTeamInvitation, clearInvitationSend as clearInvitation } from "../..
 import UpdateModal from "./UpdateModal";
 import * as ImagePicker from "expo-image-picker";
 import { updateUserProfile } from "../../../redux/user/reducer/user";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ProfileScreen = ({ navigation }: { navigation: any }) => {
   const { user } = useSelector((state: ReduxState) => state.user);
@@ -161,6 +161,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 15,
     height: 15,
+    top: 0,
+    right: -8,
     backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",

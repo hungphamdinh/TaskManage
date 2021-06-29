@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { View, PanResponder } from "react-native";
+import { View, PanResponder, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { AppText, AlertDialog } from "../../components";
 import { Colors, Fonts } from "../../themes";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Invitation } from "../../services/model/Invitation";
 import { strings } from "../../languages";
+import { setSpringAnimation, easeInEaseOutAnimation } from "../../utilities/Utils";
 
 const Item = ({
   item,
@@ -51,6 +51,7 @@ const Item = ({
     },
     onPanResponderEnd: (e, gestureState) => {
       if (recognizeDrag(gestureState)) {
+        easeInEaseOutAnimation();
         setIsVisible(true);
       }
       return true;

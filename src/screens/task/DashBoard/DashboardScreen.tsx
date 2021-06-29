@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   StyleSheet,
   View,
+  ScrollView,
   TouchableOpacity,
   Image,
   Dimensions,
@@ -17,7 +18,6 @@ import { InvitationsType } from "../../../helpers/Constants";
 import { logout, updateRole } from "../../../redux/user/reducer/user";
 import { getTotalTask } from "../../../redux/task/action/totalTask";
 import { PieChart } from "react-native-chart-kit";
-import { ScrollView } from "react-native-gesture-handler";
 const chartSize = Metrics.screenHeight / 4;
 const chartConfig = {
   backgroundColor: "#26872a",
@@ -71,12 +71,6 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
     if (user.role === "") {
       _onChangeModalVisible();
     }
-    dispatch(
-      getInvitationByUserId({
-        id: user?.id,
-        type: InvitationsType.receiver,
-      })
-    );
     dispatch(
       getTotalTask({
         id: user?.id,
@@ -255,6 +249,7 @@ const styles = StyleSheet.create({
   },
   subBody: {
     marginTop: Metrics.margin.large,
+    marginBottom: 40,
   },
   itemContainer: {
     marginHorizontal: Metrics.margin.large,

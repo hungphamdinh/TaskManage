@@ -62,7 +62,7 @@ const InvitationForm = ({
   );
   useEffect(() => {
     return () => {
-      dispatch(clearTeamById());
+      // dispatch(clearTeamById());
       dispatch(clearInvitationSend());
       dispatch(clearInvitationDelete());
       dispatch(clearRejectInvitation());

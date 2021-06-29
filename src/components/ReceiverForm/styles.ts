@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Metrics, Colors } from '../../themes';
+import { androidOS } from '../../helpers/Constants';
 
 const styles = StyleSheet.create({
   itemContainer: {
@@ -24,17 +25,20 @@ const styles = StyleSheet.create({
     flex: 0.45,
     flexDirection: 'row',
     alignItems: 'center',
+    height: androidOS ? '100%' : undefined,
     justifyContent: 'flex-end',
   },
   buttonAccept: {
     paddingHorizontal: Metrics.margin.regular,
     backgroundColor: 'green',
     flex: 1,
+    height: androidOS ? 100 : undefined,
     justifyContent: 'center',
   },
   buttonCancel: {
     paddingHorizontal: Metrics.margin.regular,
     justifyContent: 'center',
+    height: androidOS ? 100 : undefined,
     flex: 1,
     backgroundColor: 'red',
     borderTopRightRadius: Metrics.borderRadius.regular,
