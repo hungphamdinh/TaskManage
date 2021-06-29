@@ -73,16 +73,6 @@ const BoardForm = ({
     };
   }, []);
 
-  //checkDate
-  useEffect(() => {
-    if (date.getTime() - new Date().getTime() < 0) {
-      setIsErrorDate(true);
-    }
-    else {
-      setIsErrorDate(false);
-    }
-  }, [date]);
-
   useEffect(() => {
     if (response) {
       navigation.dispatch(
@@ -116,6 +106,11 @@ const BoardForm = ({
   const _onChangeDate = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
+    if (currentDate.getTime() > new Date().getTime()) {
+      setIsErrorDate(false);
+    } else {
+      setIsErrorDate(true);
+    }
   };
 
   // const _onChangeStartTime = (event: any, selectedDate: any) => {
@@ -157,7 +152,12 @@ const BoardForm = ({
   };
 
   const _onPressDone = () => {
-    if (name === "" || description === "" || isErrorDate) {
+    if (
+      name === "" ||
+      description === "" ||
+      isErrorDate ||
+      members.filter((item: Member) => item.isActive).length == 0
+    ) {
       showMessage({
         message: strings.warning.not_full_fill,
         description: "Please check your information",

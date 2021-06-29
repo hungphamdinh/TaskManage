@@ -100,6 +100,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: Metrics.margin.large,
+  },
+  adminInfo: {
+    marginBottom: Metrics.margin.regular,
+  },
+  textAdmin: {
+    marginTop: Metrics.margin.large,
+    marginBottom: Metrics.margin.regular,
   }
 });
 

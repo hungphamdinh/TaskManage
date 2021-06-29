@@ -242,6 +242,22 @@ const TaskDetail = ({
             />
           )}
         </View>
+        <View style={styles.adminInfo}>
+          <AppText
+            text={strings.detail_screen.admin.toUpperCase()}
+            bold
+            color={Colors.appGrayColor}
+          />
+          <TouchableOpacity>
+          <AppText
+            style={styles.textAdmin}
+            text={taskDetail?.admin.name}
+            color={Colors.appPrimaryColor}
+          />
+          </TouchableOpacity>
+          
+        </View>
+
         <View style={styles.mainInfoContainer}>
           <View style={styles.team}>
             <AppText

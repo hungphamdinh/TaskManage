@@ -70,6 +70,7 @@ const AddForm = ({
 
   useEffect(() => {
     if (!isTeamMember) {
+      //Task
       if (members.length == 0) {
         dispatch(
           getMembers({
@@ -78,20 +79,26 @@ const AddForm = ({
         );
       }
     } else {
+      //TeamMember
+      // dispatch(clearLocalUser());
       if (!isInvite) {
-        dispatch(
-          getUsers({
-            id: user.id,
-            // teamId: teamDetail?.teamId,
-          })
-        );
+        if (users.length === 0) {
+          dispatch(
+            getUsers({
+              id: user.id,
+              // teamId: teamDetail?.teamId,
+            })
+          );
+        }
       } else {
-        dispatch(
-          getUsers({
-            id: user.id,
-            teamId: teamDetail?.teamId,
-          })
-        );
+        if (users.length === 0) {
+          dispatch(
+            getUsers({
+              id: user.id,
+              teamId: teamDetail?.teamId,
+            })
+          );
+        }
       }
     }
     setMounted(true);
@@ -116,7 +123,7 @@ const AddForm = ({
   const _onPressDone = () => {
     if (isInvite) {
       let data = [] as Array<TeamMember>;
-      usersLocal.map((item: User) => {
+      users.map((item: User) => {
         if (item.isActive && !item.isDisable) {
           data.push({
             googleUserId: item.googleUserId,

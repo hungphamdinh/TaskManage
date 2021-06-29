@@ -28,6 +28,7 @@ export default ({
 
   const _onPressItem = () => {
     onPressAdd(name);
+    setName('');
   };
 
   const _onChangeTaskName = (value: any) => {

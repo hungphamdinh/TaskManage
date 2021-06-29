@@ -104,7 +104,7 @@ const InvitationForm = ({
   useEffect(() => {
     if (rejectResponse) {
       dispatch(
-        getInvitationByUserId({
+        getTeamInvitation({
           id: user?.id,
           type: InvitationsType.receiver,
         })

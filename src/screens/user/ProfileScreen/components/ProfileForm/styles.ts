@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Metrics, Colors } from '../../../../../themes';
+import { Scale } from '../../../../../utilities/Utils';
 
 const styles = StyleSheet.create({
   header: {
@@ -8,6 +9,7 @@ const styles = StyleSheet.create({
   },
   container: {
       marginHorizontal: Metrics.margin.huge,
+      marginBottom: Scale(100),
       // backgroundColor: 'red',
   },
   avatar: {
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
   },
   textSetting: {
     marginLeft: Metrics.margin.regular,
-  }
+  },
 });
 
 export default styles;

@@ -164,7 +164,7 @@ const TaskDetailScreen = ({
                 </>
               ) : (
                 <>
-                  {item.id > itemId.edit ? (
+                  {item.id > itemId.edit && item.id !== itemId.invitations ? (
                     <TouchableOpacity
                       onPress={() => _onPressItem(item)}
                       style={styles.buttonItem}

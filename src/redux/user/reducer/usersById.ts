@@ -105,14 +105,14 @@ export default (
       case ACTION_ADD_USER:
         return {
           ...state,
-          usersLocal: checkMember(state.users, action.user)
+          usersLocal: checkMember(state.usersLocal.length > 0 ? state.usersLocal : state.users, action.user)
         }
   
       case ACTION_CLEAR_LOCAL:
         return {
           ...state,
           usersLocal: [],
-          users: setIsActive(state.users),
+          users: [],
         }
   
       case ACTION_DELETE_USER_LOCAL:

@@ -75,6 +75,7 @@ export default {
     add_task: 'Add Task',
     write_comment: 'Write Comment',
     more: 'Xem thêm',
+    admin: 'Admin'
   },
   dashboard_screen: {
     title: 'Dashboard',

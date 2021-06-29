@@ -94,12 +94,12 @@ const CreateTeamForm = ({
   }, [teamDetail, isUpdate]);
 
   useEffect(() => {
-    dispatch(
-      getUsers({
-        id: user.id,
-        teamId: teamDetail?.teamId,
-      })
-    );
+    // dispatch(
+    //   getUsers({
+    //     id: user.id,
+    //     teamId: teamDetail?.teamId,
+    //   })
+    // );
     return () => {
       dispatch(clearMemberLocal());
       dispatch(clearTeamMember());
@@ -199,14 +199,14 @@ const CreateTeamForm = ({
     } else {
       if (
         name === "" ||
-        usersLocal.filter((item: User) => item.isActive).length === 0
+        users.filter((item: User) => item.isActive).length === 0
       ) {
         showMessage({
           message: strings.warning.not_full_fill,
           type: "warning",
         });
       } else {
-        usersLocal.map((item: User) => {
+        users.map((item: User) => {
           if (item.isActive) {
             members.push({
               googleUserId: item.googleUserId,
@@ -323,7 +323,7 @@ const CreateTeamForm = ({
           color={Colors.appGrayColor}
         />
         <View style={styles.selectContainer}>
-          {usersLocal.length > 0 || teamDetail?.members.length > 0 ? null : (
+          {users.length > 0 || teamDetail?.members.length > 0 ? null : (
             <AppText
               size={Fonts.size.large}
               text={strings.create_team_screen.select_member}
@@ -343,7 +343,7 @@ const CreateTeamForm = ({
                 </>
               ) : (
                 <>
-                  {usersLocal.map((item: User) => (
+                  {users.map((item: User) => (
                     <>
                       {item.isActive ? (
                         <RenderMember

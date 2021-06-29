@@ -45,6 +45,10 @@ export interface TaskDetail {
   comments: Array<any>;
   subTasks: Array<SubTask>;
   date: any;
+  admin: {
+    email: string;
+    name: string;
+  }
 }
 
 
