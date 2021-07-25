@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Invite Form InviteForm renders correctly 1`] = `
+<KeyboardAwareScrollView
+  contentContainerStyle={
+    Object {
+      "flexGrow": 1,
+      "marginHorizontal": 25,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderRadius": 10,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginTop": 20,
+        "padding": 15,
+      }
+    }
+  >
+    <Component
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      placeholder="Search..."
+      rejectResponderTermination={true}
+      testID="searchInput"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#F0F4FD",
+          "borderRadius": 7.5,
+          "height": 30,
+          "justifyContent": "center",
+          "width": 30,
+        }
+      }
+    >
+      <Icon
+        allowFontScaling={false}
+        color="#919BB3"
+        name="search-outline"
+        size={20}
+      />
+    </View>
+  </View>
+  <View
+    style={Object {}}
+  >
+    <FlatList
+      data={
+        Array [
+          Object {
+            "googleUserId": "0",
+            "id": "0",
+            "mail": "abc@gmail.com",
+            "members": Array [],
+            "name": "Phạm Đình HƯng",
+            "profile": "",
+            "role": "Deb",
+          },
+          Object {
+            "googleUserId": "0",
+            "id": "1",
+            "mail": "abc@gmail.com",
+            "members": Array [],
+            "name": "Hello",
+            "profile": "",
+            "role": "Deb",
+          },
+          Object {
+            "googleUserId": "0",
+            "id": "2",
+            "mail": "abc@gmail.com",
+            "members": Array [],
+            "name": "Hihi",
+            "profile": "",
+            "role": "Deb",
+          },
+        ]
+      }
+      disableVirtualization={false}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "flexGrow": 1,
+        "justifyContent": "flex-end",
+      }
+    }
+  >
+    <AppButton
+      onPress={[Function]}
+      text="Done"
+    />
+  </View>
+</KeyboardAwareScrollView>
+`;

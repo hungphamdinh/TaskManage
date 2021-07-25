@@ -6,21 +6,35 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
+    "test": "jest",
     "lint": "eslint ."
   },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ]
+  },
   "dependencies": {
+    "@logrocket/react-native": "^0.13.0",
     "@react-native-community/datetimepicker": "3.0.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
+    "@testing-library/react": "^12.0.0",
     "axios": "^0.21.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "enzyme-to-json": "^3.6.2",
     "expo": "~40.0.0",
     "expo-application": "^3.1.2",
     "expo-auth-session": "^3.2.3",
+    "expo-constants": "^11.0.1",
     "expo-google-app-auth": "^8.1.7",
     "expo-image-picker": "~9.2.0",
+    "expo-notifications": "^0.12.3",
     "expo-random": "^11.1.2",
     "expo-status-bar": "~1.0.3",
     "firebase": "^8.3.2",
@@ -50,14 +64,17 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@testing-library/react-native": "^7.2.0",
     "@types/react": "~16.9.35",
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
-    "typescript": "~4.0.0",
-    "typescript-eslint-plugin": "1.2.1",
-    "prettier": "2.2.1",
+    "babel-eslint": "^10.1.0",
     "eslint": "^6.5.1",
-    "babel-eslint": "^10.1.0"
+    "jest-expo": "^42.0.1",
+    "prettier": "2.2.1",
+    "react-test-renderer": "^17.0.2",
+    "typescript": "~4.0.0",
+    "typescript-eslint-plugin": "1.2.1"
   },
   "private": true
 }

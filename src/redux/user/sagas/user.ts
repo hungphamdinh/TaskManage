@@ -12,7 +12,7 @@ import { _saveStorage } from '../../../utilities/Utils';
 import {Response} from '../../../services/model/Response';
 import { ApiResponseStatusCode } from '../../../helpers/Constants';
 
-function* loginWithEmail(action: loginWithEmailAction) {
+export function* login(action: loginWithEmailAction) {
   try {
     //-------------- Request API
     // console.log('action')
@@ -41,7 +41,7 @@ function* loginWithEmail(action: loginWithEmailAction) {
 }
 
 export default function* saga() {
-  yield takeEvery(ACTION, loginWithEmail);
+  yield takeEvery(ACTION, login);
 }
 
 function* sleep(time: Number) {

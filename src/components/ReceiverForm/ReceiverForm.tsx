@@ -6,6 +6,7 @@ import { Colors, Fonts } from "../../themes";
 import { Invitation } from "../../services/model/Invitation";
 import { strings } from "../../languages";
 import { setSpringAnimation, easeInEaseOutAnimation } from "../../utilities/Utils";
+import { useVisible } from "../../hoc/useVisible";
 
 const Item = ({
   item,
@@ -23,7 +24,7 @@ const Item = ({
   isTeam?: boolean;
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isShowDialog, setIsShowDialog] = useState(false);
+  const [isShowDialog, onChangeVisible] = useVisible();
   const _onPressAccept = () => {
     onPress(item, index);
   };
@@ -68,7 +69,7 @@ const Item = ({
   };
 
   const changeModalVisible = () => {
-    setIsShowDialog(!isShowDialog);
+    onChangeVisible()
   };
   return (
     <View {...panResponder.panHandlers} style={styles.itemContainer}>

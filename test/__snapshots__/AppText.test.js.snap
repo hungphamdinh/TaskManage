@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Text
+  allowFontScaling={true}
+  style={
+    Array [
+      Object {
+        "color": "#000",
+        "fontSize": 13,
+        "fontStyle": "normal",
+        "fontWeight": "400",
+        "textAlign": "left",
+      },
+      undefined,
+    ]
+  }
+  text="Hellozzz3232z"
+>
+  Hellozzz3232z
+</Text>
+`;

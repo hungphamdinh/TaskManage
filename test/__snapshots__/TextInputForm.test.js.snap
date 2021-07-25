@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextInputForm renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "borderBottomColor": "rgba(0,0,0,0.1)",
+      "borderBottomWidth": 1,
+      "marginBottom": 5,
+      "marginTop": 15,
+      "paddingBottom": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#919BB3",
+        "marginBottom": 5,
+      }
+    }
+  >
+    <Text
+      allowFontScaling={true}
+      color="#919BB3"
+      style={
+        Array [
+          Object {
+            "color": "#919BB3",
+            "fontSize": 13,
+            "fontStyle": "normal",
+            "fontWeight": "400",
+            "textAlign": "left",
+          },
+          undefined,
+        ]
+      }
+    />
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    editable={true}
+    onBlur={[Function]}
+    onFocus={[Function]}
+    rejectResponderTermination={true}
+    selectTextOnFocus={true}
+    style={
+      Object {
+        "fontSize": 16,
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+</View>
+`;

@@ -113,7 +113,7 @@ const InvitationForm = ({
           onPressReject={_onPressReject}
         />
       ) : (
-        <SenderForm index={index} item={item} onPress={_onPressItem} />
+        <SenderForm  index={index} item={item} onPress={_onPressItem} />
       )}
     </>
   );

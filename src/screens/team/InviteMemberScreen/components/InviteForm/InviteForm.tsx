@@ -27,7 +27,7 @@ import {
 } from "../../../../../redux/invitation/action/invitationSend";
 import { InvitationRequest } from "../../../../../services/model/request/Invitation";
 
-const AddForm = ({
+const InviteForm = ({
   dispatch,
   user,
   onNavigate,
@@ -103,6 +103,7 @@ const AddForm = ({
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <View style={styles.inputTask}>
         <TextInput
+          testID='searchInput'
           value={name}
           onChangeText={_onChangeTaskName}
           placeholder={strings.add_member_screen.search}
@@ -130,7 +131,7 @@ const AddForm = ({
   );
 };
 
-export default AddForm;
+export default InviteForm;
 
 const Item = ({
   item,

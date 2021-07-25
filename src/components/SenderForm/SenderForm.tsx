@@ -6,19 +6,23 @@ import { Colors, Fonts } from "../../themes";
 import { invitationStatus } from "../../helpers/Constants";
 import { Ionicons } from "@expo/vector-icons";
 import { strings } from "../../languages";
+import { withVisible } from "../../hoc/withVisible";
 
 const Item = ({
   item,
   index,
   isTeam,
   onPress,
+  visible,
+  onChangeVisible,
 }: {
   item: any;
   index: number;
   isTeam?: boolean;
   onPress: Function;
+  visible: boolean;
+  onChangeVisible: Function;
 }) => {
-  const [isShowDialog, setIsShowDialog] = useState(false);
   let color = "";
   let name = "";
   switch (item.status) {
@@ -44,7 +48,7 @@ const Item = ({
   };
 
   const changeModalVisible = () => {
-    setIsShowDialog(!isShowDialog);
+    onChangeVisible(!visible);
   };
 
   const verticalBar = () => {
@@ -114,7 +118,7 @@ const Item = ({
         </View>
       </View>
       <AlertDialog
-        visible={isShowDialog}
+        visible={visible}
         title={strings.alert.notify}
         content={strings.invite_member_screen.delete}
         textBtnAccept={strings.alert.accept}
@@ -126,4 +130,5 @@ const Item = ({
     </View>
   );
 };
-export default Item;
+const ItemWithVisible = withVisible(Item);
+export default ItemWithVisible;

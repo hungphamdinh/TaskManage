@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "scheme": "com.phamdinhhung.demoformik",
     "orientation": "portrait",
+    "plugins": ["@logrocket/react-native"],
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -25,7 +26,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.phamdinhhung.demoformik"
+      "package": "com.phamdinhhung.demoformik",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
