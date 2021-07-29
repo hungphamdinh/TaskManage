@@ -21,7 +21,6 @@ import { AddTaskRequest } from "../../../../../services/model/request/Task";
 import {
   getMembers,
   clearMemberLocal,
-  resetFlag,
 } from "../../../../../redux/member/action/members";
 import { Member } from "../../../../../services/model/Member";
 import { CommonActions } from "@react-navigation/native";
@@ -31,6 +30,24 @@ import { TeamMemberByUserId } from "../../../../../services/model/TeamMember";
 import { onSuccess } from "../../../../../redux/team/action/teamDetail";
 import { showMessage } from "react-native-flash-message";
 import { strings } from "../../../../../languages";
+import { useFormik } from "formik";
+import * as yup from "yup";
+const addFormValidationSchema = yup.object().shape({
+  name: yup.string().required("Task name is Required"),
+  description: yup
+    .string()
+    .min(
+      20,
+      ({ min }) =>
+        `${strings.warning.at_least} ${min} ${strings.common.characters}`
+    )
+    .required(strings.common.description + " is " + strings.warning.required),
+  date: yup.date().min(moment(new Date()).format("LL")).required(),
+  isModalVisible: yup.bool(),
+  boardStatus: yup.array(),
+  isTeam: yup.bool(),
+  teamItem: yup.object(),
+});
 
 const BoardForm = ({
   dispatch,
@@ -41,23 +58,45 @@ const BoardForm = ({
   user: User;
   navigation: any;
 }) => {
+  const formik = useFormik({
+    // validateOnMount: true,
+    validationSchema: addFormValidationSchema,
+    initialValues: {
+      name: "",
+      description: "",
+      date: new Date(),
+      isModalVisible: false,
+      boardStatus: statuses,
+      isTeam: false,
+      teamItem: "" as any,
+    },
+    onSubmit: (values) => console.log(values),
+  });
+
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    errors,
+    values,
+    setFieldValue,
+  } = formik;
+  const {
+    name,
+    description,
+    date,
+    boardStatus,
+    isTeam,
+    teamItem,
+    isModalVisible
+  } = formik.values;
+
   const { members } = useSelector((state: ReduxState) => state.members);
   const { teamMembers } = useSelector(
     (state: ReduxState) => state.teamsMemberByUserId
   );
   const { response } = useSelector((state: ReduxState) => state.task);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isTeam, setIsTeam] = useState(false);
-  const [teamItem, setTeamItem] = useState("" as any);
-  const [isErrorDate, setIsErrorDate] = useState(false);
-  // const [startTime, setStartTime] = useState(new Date());
-  // const [isStartTimeVisible, setIsStartTimeVisible] = useState(false);
-  // const [endTime, setEndTIme] = useState(new Date());
-  // const [isEndTimeVisible, setIsEndTimeVisible] = useState(false);
-  const [boardStatus, setBoardStatus] = useState(statuses);
   useEffect(() => {
     // dispatch(onSuccess([]));
     if (members.length == 0) {
@@ -84,44 +123,10 @@ const BoardForm = ({
     }
   }, [response]);
 
-  const _onChangeTaskName = (value: any) => {
-    setName(value);
-  };
-
-  const _onChangeDescription = (value: any) => {
-    setDescription(value);
-  };
-
-  const _onPressModalVisible = () => {
-    setIsModalVisible(!isModalVisible);
-  };
-
-  // const _onPressStartTImeVisible = () => {
-  //   setIsStartTimeVisible(!isStartTimeVisible);
-  // };
-
-  // const _onPressEndTimeVisible = () => {
-  //   setIsEndTimeVisible(!isEndTimeVisible);
-  // };
   const _onChangeDate = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
-    setDate(currentDate);
-    if (currentDate.getTime() > new Date().getTime()) {
-      setIsErrorDate(false);
-    } else {
-      setIsErrorDate(true);
-    }
+    setFieldValue("date", currentDate);
   };
-
-  // const _onChangeStartTime = (event: any, selectedDate: any) => {
-  //   const currentDate = selectedDate || startTime;
-  //   setStartTime(currentDate);
-  // };
-
-  // const _onChangeEndTime = (event: any, selectedDate: any) => {
-  //   const currentDate = selectedDate || endTime;
-  //   setEndTIme(currentDate);
-  // };
 
   const board = (item: any) => {
     return {
@@ -142,7 +147,8 @@ const BoardForm = ({
   };
 
   const _onPressBoardStatus = (item: any) => {
-    setBoardStatus(
+    setFieldValue(
+      "boardStatus",
       boardStatus.map((value: any) =>
         value.id === item.id
           ? { ...value, isActive: true }
@@ -153,9 +159,9 @@ const BoardForm = ({
 
   const _onPressDone = () => {
     if (
-      name === "" ||
-      description === "" ||
-      isErrorDate ||
+      errors.name ||
+      errors.description ||
+      errors.date ||
       members.filter((item: Member) => item.isActive).length == 0
     ) {
       showMessage({
@@ -185,20 +191,20 @@ const BoardForm = ({
         isAdminTeams: true,
       })
     );
-    setIsTeam(true);
+    setFieldValue("isTeam", true);
   };
 
   const _onPressOut = () => {
-    setIsTeam(false);
+    setFieldValue("isTeam", false);
   };
 
   const _onPressTeamId = (item: TeamMemberByUserId) => {
-    setIsTeam(false);
+    setFieldValue("isTeam", false);
     navigation.navigate("AddMemberToTaskScreen", {
       teamId: item.teamId,
     });
     if (teamItem?.teamId !== item.teamId) {
-      setTeamItem(item);
+      setFieldValue("teamItem", item);
       dispatch(clearMemberLocal());
       dispatch(onSuccess(undefined as any)); //clear Team Detail
     }
@@ -208,156 +214,109 @@ const BoardForm = ({
       <View style={styles.inputTask}>
         <TextInputForm
           label={"Task name".toUpperCase()}
+          onChangeText={handleChange("name")}
+          onBlur={handleBlur("name")}
           value={name}
-          onChangeText={_onChangeTaskName}
         />
-      </View>
-      <View style={styles.inputTask}>
-        <AppText text={"TEAM MEMBER"} color={Colors.appGrayColor} />
-        <View style={styles.teamContainer}>
-          {members.map((item: Member) => (
-            <>
-              {item.isActive ? (
-                <View style={styles.imageMember}>
-                  <Image
-                    style={styles.profile}
-                    source={{ uri: item.profile }}
-                  />
-                </View>
-              ) : null}
-            </>
-          ))}
-          <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
-            <Ionicons
-              name="add-outline"
-              size={30}
-              color={Colors.appPrimaryColor}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.inputTask}>
-        <AppText text={"DATE"} color={Colors.appGrayColor} />
-        <TouchableOpacity
-          style={styles.dateContainer}
-          onPress={_onPressModalVisible}
-        >
-          <AppText text={moment(date).format("LL").toUpperCase()} />
-          <Image
-            resizeMode={"contain"}
-            style={styles.icDate}
-            source={Images.icDate}
+        {errors.name && touched.name && (
+          <AppText color={Colors.appColor} text={errors.name} />
+        )}
+        <View style={styles.inputTask}>
+          <TextInputForm
+            label={"Description".toUpperCase()}
+            onBlur={handleBlur("description")}
+            onChangeText={handleChange("description")}
+            value={description}
           />
-        </TouchableOpacity>
-        {isModalVisible ? (
-          <View style={styles.marginBottomSmall}>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={"datetime"}
-              // is24Hour={true}
-              display="default"
-              onChange={_onChangeDate}
-            />
+        </View>
+        {errors.description && touched.description && (
+          <AppText color={Colors.appColor} text={errors.description} />
+        )}
+        <View style={styles.inputTask}>
+          <AppText text={"TEAM MEMBER"} color={Colors.appGrayColor} />
+          <View style={styles.teamContainer}>
+            {members.map((item: Member) => (
+              <>
+                {item.isActive ? (
+                  <View key={item.userId} style={styles.imageMember}>
+                    <Image
+                      style={styles.profile}
+                      source={{ uri: item.profile }}
+                    />
+                  </View>
+                ) : null}
+              </>
+            ))}
+            <TouchableOpacity style={styles.buttonAdd} onPress={_onPressAdd}>
+              <Ionicons
+                name="add-outline"
+                size={30}
+                color={Colors.appPrimaryColor}
+              />
+            </TouchableOpacity>
           </View>
-        ) : null}
-        <View style={styles.marginBottomSmall}>
-          <Divider />
         </View>
-        {isErrorDate ? (
-          <AppText text={"Error Date"} color={Colors.appColor} />
-        ) : null}
-      </View>
-      {/* <View style={[styles.inputTask, styles.timeContainer]}>
-        <View style={styles.startTimeContainer}>
-          <AppText text={"START TIME"} color={Colors.appGrayColor} />
+        <View style={styles.inputTask}>
+          <AppText text={"DATE"} color={Colors.appGrayColor} />
           <TouchableOpacity
             style={styles.dateContainer}
-            onPress={_onPressStartTImeVisible}
+            onPress={() =>
+              setFieldValue("isModalVisible", !isModalVisible)
+            }
           >
-            <AppText text={moment(startTime).format("LT").toUpperCase()} />
+            <AppText text={moment(date).format("LL").toUpperCase()} />
             <Image
               resizeMode={"contain"}
               style={styles.icDate}
               source={Images.icDate}
             />
           </TouchableOpacity>
-          {isStartTimeVisible ? (
+          {isModalVisible ? (
             <View style={styles.marginBottomSmall}>
               <DateTimePicker
                 testID="dateTimePicker"
-                value={startTime}
-                mode={"time"}
+                value={date}
+                mode={"datetime"}
+                // is24Hour={true}
                 display="default"
-                onChange={_onChangeStartTime}
+                onChange={_onChangeDate}
               />
             </View>
           ) : null}
-
-          <Divider />
+          <View style={styles.marginBottomSmall}>
+            <Divider />
+          </View>
+          {errors.date && (
+            <AppText text={errors.date} color={Colors.appColor} />
+          )}
         </View>
-        <View style={styles.endTimeContainer}>
-          <AppText text={"END TIME"} color={Colors.appGrayColor} />
-          <TouchableOpacity
-            style={styles.dateContainer}
-            onPress={_onPressEndTimeVisible}
-          >
-            <AppText text={moment(endTime).format("LT").toUpperCase()} />
-            <Image
-              resizeMode={"contain"}
-              style={styles.icDate}
-              source={Images.icDate}
-            />
-          </TouchableOpacity>
-          {isEndTimeVisible ? (
-            <View style={styles.marginBottomSmall}>
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={endTime}
-                mode={"time"}
-                is24Hour={true}
-                display="default"
-                onChange={_onChangeEndTime}
-              />
-            </View>
-          ) : null}
-
-          <Divider />
-        </View>
-      </View> */}
-      <View style={styles.inputTask}>
-        <TextInputForm
-          label={"Description".toUpperCase()}
-          value={description}
-          onChangeText={_onChangeDescription}
-        />
-      </View>
-      <View style={styles.inputTask}>
-        <AppText text={"BOARD"} color={Colors.appGrayColor} />
-        <View style={styles.boardContainer}>
-          {boardStatus.map((item: any) => (
-            <>
-              <View style={styles.boardView}>
-                <View style={check(item)}>
-                  <Ionicons
-                    name="checkmark-sharp"
-                    size={10}
-                    color={Colors.appWhite}
-                  />
+        <View style={styles.inputTask}>
+          <AppText text={"BOARD"} color={Colors.appGrayColor} />
+          <View style={styles.boardContainer}>
+            {boardStatus.map((item: any) => (
+              <>
+                <View key={item.id} style={styles.boardView}>
+                  <View style={check(item)}>
+                    <Ionicons
+                      name="checkmark-sharp"
+                      size={10}
+                      color={Colors.appWhite}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    style={board(item)}
+                    onPress={() => _onPressBoardStatus(item)}
+                  >
+                    <AppText
+                      color={item.textColor}
+                      text={item.name.toUpperCase()}
+                    />
+                  </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                  style={board(item)}
-                  onPress={() => _onPressBoardStatus(item)}
-                >
-                  <AppText
-                    color={item.textColor}
-                    text={item.name.toUpperCase()}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.marginRight} />
-            </>
-          ))}
+                <View style={styles.marginRight} />
+              </>
+            ))}
+          </View>
         </View>
       </View>
       <View style={styles.buttonDone}>
@@ -366,6 +325,7 @@ const BoardForm = ({
       <BottomModal
         visible={isTeam}
         data={teamMembers}
+        setFieldValues={setFieldValue}
         onPressOut={_onPressOut}
         onPressAdd={_onPressTeamId}
       />

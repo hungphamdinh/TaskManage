@@ -5,6 +5,7 @@ import InviteForm from "../src/screens/team/InviteMemberScreen/components/Invite
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import toJson from "enzyme-to-json";
+import { AppButton } from "../src/components";
 
 jest.mock("react-native-keyboard-aware-scroll-view", () => {
   const KeyboardAwareScrollView = ({ children }) => children;
@@ -58,21 +59,14 @@ const mockUsers = [
     members: [],
   },
 ];
-const userAction = {
-  params: {
-    id: "abc",
-    taskId: "abcd12312312",
-  },
-  type: "GET_USERS",
+const sendInvitationAction = {
+  taskId: "",
+  invitations: [],
 };
 
 const userActionSearchMember = {
-  params: {
-    id: "abc",
-    taskId: "abcd12312312",
-  },
   name: "somenewpassword",
-  type: "GET_USERS_ACTION_SEARCH_MEMBER"
+  type: "GET_USERS_ACTION_SEARCH_MEMBER",
 };
 const dummyDispatch = jest.fn();
 useDispatchMock.mockReturnValue(dummyDispatch);
@@ -115,7 +109,14 @@ describe("Invite Form", () => {
     );
     expect(dummyDispatch).toHaveBeenCalledTimes(1);
     expect(dummyDispatch).toHaveBeenCalledWith(userActionSearchMember);
+  });
 
+  it("should press done", () => {
+    const mockFunc = jest.fn();
+    const button = shallow(<AppButton onPress={mockFunc}/>);
+    button.dive().simulate('press');
+
+    expect(mockFunc).toHaveBeenCalledTimes(1);
   });
 
   it("should flatlist render Correct", () => {

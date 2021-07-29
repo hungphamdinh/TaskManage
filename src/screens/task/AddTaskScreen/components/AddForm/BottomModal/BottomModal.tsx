@@ -14,18 +14,20 @@ export default ({
   onPressOut = () => {},
   onPressAdd,
   data,
+  setFieldValues,
 }: {
   visible: boolean;
   onPressOut: Function;
   onPressAdd: Function;
   data: Array<TeamMemberByUserId>;
+  setFieldValues: any;
 }) => {
   const _onPressOut = () => {
     onPressOut();
   };
 
   const _onPressItem = (item: TeamMemberByUserId) => {
-    onPressAdd(item);
+    onPressAdd(item, setFieldValues);
   };
 
   const _renderItem = ({

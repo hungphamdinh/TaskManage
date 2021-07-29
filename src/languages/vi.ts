@@ -24,6 +24,9 @@ export default {
     home: 'Trang chủ',
     contract: 'Hợp đồng',
     search: 'Tìm kiếm',
+    characters: 'Characters',
+    description: 'Description',
+    task: 'Task'
   },
   auth_info: {
     email: 'Email',
@@ -53,6 +56,8 @@ export default {
   },
   warning: {
     not_full_fill: 'Please fill all of your information',
+    at_least: 'At least',
+    required: 'Required'
   },
   login_screen: {
     title: 'Manage\nYour task easily',
