@@ -25,7 +25,7 @@ export default ({
   const _onPressOut = () => {
     onPressOut();
   };
-  //
+  
   const _onPressItem = (item: TeamMemberByUserId) => {
     onPressAdd(item, setFieldValues);
   };
