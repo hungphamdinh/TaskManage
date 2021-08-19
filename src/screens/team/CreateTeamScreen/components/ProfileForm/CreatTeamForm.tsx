@@ -58,7 +58,7 @@ const CreateTeamForm = ({
   isUpdate: boolean;
   isInvite: boolean;
 }) => {
-  const { usersLocal, users } = useSelector(
+  const { users } = useSelector(
     (state: ReduxState) => state.usersById
   );
   const [image, setImage] = useState("" as any);

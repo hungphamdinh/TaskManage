@@ -20,7 +20,7 @@ export default ({
   onPressOut: Function;
   onPressAdd: Function;
   data: Array<TeamMemberByUserId>;
-  setFieldValues: any;
+  setFieldValues?: any;
 }) => {
   const _onPressOut = () => {
     onPressOut();
