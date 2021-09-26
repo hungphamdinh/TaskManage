@@ -5,24 +5,32 @@ import styles from "./styles";
 import AppText from "../AppText";
 import { Colors } from "../../themes";
 
-const AppButton = (props: any) => {
-  const {
+const AppButton = (
+  {
+    text = "",
+    onPress,
     secondaryStyles,
-    disabled,
-    text,
     textColor = Colors.appWhite,
     color = Colors.appPrimaryColor,
-  } = props;
-
+  }: {
+    text: string;
+    onPress: Function;
+    secondaryStyles?: any;
+    textColor?: any;
+    color?: any;
+  },
+  props: any
+) => {
   return (
     <TouchableOpacity
-      testId="appButton" 
+      testId="appButton"
       {...props}
+      onPress={onPress}
       style={[
         styles.container,
         secondaryStyles,
         {
-          backgroundColor: disabled ? Colors.appGrayColor : color,
+          backgroundColor: props.disabled ? Colors.appGrayColor : color,
         },
       ]}
     >

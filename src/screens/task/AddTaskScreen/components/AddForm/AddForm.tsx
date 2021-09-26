@@ -70,7 +70,7 @@ const BoardForm = ({
       isTeam: false,
       teamItem: "" as any,
     },
-    onSubmit: (values) => console.log(values),
+    onSubmit: (values, errors) => _onPressDone(values, errors),
   });
 
   const {
@@ -79,7 +79,6 @@ const BoardForm = ({
     handleSubmit,
     touched,
     errors,
-    values,
     setFieldValue,
   } = formik;
   const {
@@ -157,7 +156,7 @@ const BoardForm = ({
     );
   };
 
-  const _onPressDone = () => {
+  const _onPressDone = (values: any, errors: any) => {
     if (
       errors.name ||
       errors.description ||
@@ -172,13 +171,13 @@ const BoardForm = ({
     } else {
       const param: AddTaskRequest = {
         userId: user?.id,
-        name: name,
-        status: boardStatus.filter((item: any) => item.isActive)[0].id,
-        date: date,
+        name: values.name,
+        status: values.boardStatus.filter((item: any) => item.isActive)[0].id,
+        date:values. date,
         timeStart: moment(new Date()).format("LT"),
         timeEnd: moment(new Date()).format("LT"),
-        members: members.filter((item: Member) => item.isActive),
-        description: description,
+        members: values.members.filter((item: Member) => item.isActive),
+        description: values.description,
       };
       dispatch(addTask(param));
     }
@@ -320,7 +319,7 @@ const BoardForm = ({
         </View>
       </View>
       <View style={styles.buttonDone}>
-        <AppButton text={"Done"} onPress={_onPressDone} />
+        <AppButton text={"Done"} onPress={handleSubmit} />
       </View>
       <BottomModal
         visible={isTeam}
